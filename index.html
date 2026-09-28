@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - KOMPLETT VERSION (BILD 1 UI + BILD 2 LOGG/FIGURER + BILD 3 POLISFYS-TIMER) -->
+<!-- FRONTLINE FIT - KOMPLETT VERSION MED FIXAD VIKTRUTA & RÄTT EXAM-PASS -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -18,6 +18,10 @@
       color: #f4f4f5;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+    }
+    input {
+      -webkit-user-select: text !important;
+      user-select: text !important;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -73,7 +77,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen pb-28 select-none">
+<body class="min-h-screen pb-28">
 
   <!-- ================= HUVUDCONTAINER (BILD 1 UI) ================= -->
   <div class="max-w-md mx-auto px-4 pt-5 space-y-4">
@@ -120,7 +124,7 @@
         </div>
         <p class="text-[11px] text-zinc-400 mt-0.5">Sänker vikter med 15% & byter ut max-rusningar mot tempo.</p>
       </div>
-      <button onclick="toggleNightMode()" id="nightToggleBtn" class="w-14 h-8 rounded-full bg-zinc-700 p-1 transition-colors duration-200 flex items-center">
+      <button onclick="toggleNightMode()" id="nightToggleBtn" class="w-14 h-8 rounded-full bg-zinc-700 p-1 transition-colors duration-200 flex items-center shrink-0">
         <div id="nightToggleKnob" class="w-6 h-6 rounded-full bg-zinc-200 shadow-md transform transition-transform duration-200"></div>
       </button>
     </div>
@@ -128,7 +132,6 @@
     <!-- 8-VECKORS PROGRESSIONSPiller (BILD 1: V1 EXAM -> V8 EXAM) -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
-      <!-- Pass-väljare under veckan (Exam / Dag 1-4 + Löpning) -->
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
     </div>
 
@@ -162,7 +165,6 @@
         VILA TILL NÄSTA SET
       </div>
 
-      <!-- Cirkulär Blå Progress-ring med 01:27 i mitten -->
       <div class="relative w-48 h-48 flex items-center justify-center">
         <svg class="w-48 h-48" viewBox="0 0 180 180">
           <circle cx="90" cy="90" r="76" fill="none" stroke="#1e293b" stroke-width="12" />
@@ -230,7 +232,6 @@
         <button onclick="closeModal('breathModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
 
-      <!-- Box Breathing 4-4-4-4 -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-zinc-800 text-center space-y-4">
         <div class="text-xs font-bold uppercase text-blue-400 tracking-wider">Box Breathing (4-4-4-4)</div>
         <div class="py-4 flex justify-center">
@@ -244,7 +245,6 @@
         </button>
       </div>
 
-      <!-- HLR 110 BPM -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-red-900/50 text-center space-y-3">
         <div class="text-xs font-bold uppercase text-red-400 tracking-wider">❤️ HLR-Metronom (30:2 • 110 BPM)</div>
         <div id="hlrTimeText" class="text-3xl font-mono font-black text-white">02:00</div>
@@ -270,17 +270,16 @@
       <div class="grid grid-cols-2 gap-3">
         <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
           <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Kroppsvikt (kg)</label>
-          <input type="number" id="profWeightInput" value="70" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
+          <input type="text" inputmode="decimal" id="profWeightInput" value="70" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
         </div>
         <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
           <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Längd (cm)</label>
-          <input type="number" id="profHeightInput" value="167" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
+          <input type="text" inputmode="decimal" id="profHeightInput" value="167" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
         </div>
       </div>
 
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
 
-      <!-- Kostplan 2650 kcal -->
       <div class="space-y-2 text-xs">
         <div class="font-black text-orange-400 uppercase tracking-wider">Dagsmeny Träningsdag (~2 650 kcal / 161g Protein)</div>
         <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>1. Frukost (600 kcal | 32g P):</strong> 80g havregryn, 2 dl mjölk, 2 ägg, 15g jordnötssmör, bär.</div>
@@ -305,61 +304,86 @@
   <script>
     // ================= 1. 8-VECKORS PROGRESSION & PASSDATA =================
     const weeksConfig = [
-      { id: 1, label: 'V1 EXAM', mult: 1.0, desc: 'Kapacitetstest & Baslinje (1RM / Maxtest)' },
-      { id: 2, label: 'VECKA 2', mult: 0.82, desc: 'Uppbyggnadsfas – Volym & Teknik (82%)' },
-      { id: 3, label: 'VECKA 3', mult: 0.87, desc: 'Styrkeökning & Explosivitet (87%)' },
-      { id: 4, label: 'VECKA 4', mult: 0.75, desc: 'Deload & Återhämtning (75%)' },
-      { id: 5, label: 'VECKA 5', mult: 0.90, desc: 'Taktisk Intensifiering (90%)' },
-      { id: 6, label: 'VECKA 6', mult: 0.93, desc: 'Tung Belastning & Säck/Väst (93%)' },
-      { id: 7, label: 'VECKA 7', mult: 0.96, desc: 'Peak Power & Sprint (96%)' },
-      { id: 8, label: 'V8 EXAM', mult: 1.05, desc: 'Slutexamen – Nytt Maxtest (105% mål)' }
+      { id: 1, label: 'V1 EXAM', mult: 1.0 },
+      { id: 2, label: 'VECKA 2', mult: 0.82 },
+      { id: 3, label: 'VECKA 3', mult: 0.87 },
+      { id: 4, label: 'VECKA 4', mult: 0.75 },
+      { id: 5, label: 'VECKA 5', mult: 0.90 },
+      { id: 6, label: 'VECKA 6', mult: 0.93 },
+      { id: 7, label: 'VECKA 7', mult: 0.96 },
+      { id: 8, label: 'V8 EXAM', mult: 1.02 }
     ];
 
-    // Alla pass inkl. V1/V8 EXAM (exakt som Bild 1) + de 4 ordinarie passen med alla 12 Dylan Shannon-varianter
+    // Exam-passet är nu återställt till: 1. Trap Bar Marklyft (2x kv), 2. Sprint 100 m (16 sek), 3. Boxhopp (50% av längd)
     const workoutTemplates = {
       exam: {
         name: 'EXAM / TESTPASS',
         exercises: [
-          { id: 'ex_exam1', std: 'Trap Bar Marklyft', var: 'Deadlifts (Konventionell)', goalFactor: 2.0, goalText: 'Mål: {kg} kg (2x kv).', sets: [{ kgFactor: 2.0, reps: '1RM' }, { kgFactor: 1.8, reps: '3 REPS' }], rest: 120 },
-          { id: 'ex_exam2', std: 'Push Press', var: 'BB OHP (Militärpress)', goalFactor: 1.0, goalText: 'Mål: {kg} kg (1x kv).', sets: [{ kgFactor: 1.0, reps: '1RM' }, { kgFactor: 0.85, reps: '5 REPS' }], rest: 120 },
-          { id: 'ex_exam3', std: 'Weighted Pull-ups', var: 'Handduks-Pullups', goalFactor: 0.25, goalText: 'Mål: +{kg} kg extra vikt.', sets: [{ kgFactor: 0.25, reps: 'MAX' }, { kgFactor: 0, reps: 'MAX KV' }], rest: 90 },
-          { id: 'ex_exam4', std: 'Back Squats', var: 'Pin Squats', goalFactor: 1.5, goalText: 'Mål: {kg} kg (1.5x kv).', sets: [{ kgFactor: 1.5, reps: '1RM' }, { kgFactor: 1.3, reps: '5 REPS' }], rest: 120 },
-          { id: 'ex_exam5', std: 'Reaktiv Sprint / 2km', var: 'Triple Broad Jumps', goalFactor: 0, goalText: 'Maximal explosivitet & tidtagning.', sets: [{ kgFactor: 0, reps: 'TEST' }], rest: 90 }
+          {
+            id: 'ex_exam1',
+            std: 'Trap Bar Marklyft',
+            var: 'Deadlifts (Konventionell)',
+            mode: 'weight',
+            goalFactor: 2.0,
+            goalText: 'Mål: {val} kg (2x kv).',
+            sets: [{ factor: 2.0, reps: '1RM' }],
+            rest: 150
+          },
+          {
+            id: 'ex_exam2',
+            std: 'Sprint 100 m',
+            var: 'Triple Broad Jumps',
+            mode: 'sprint',
+            goalFactor: 16,
+            goalText: 'Mål: 100 meter på {val} sek.',
+            sets: [{ fixedVal: 16, reps: '16 SEK' }],
+            rest: 120
+          },
+          {
+            id: 'ex_exam3',
+            std: 'Boxhopp',
+            var: 'Kneeling Jumps',
+            mode: 'height50',
+            goalFactor: 0.5,
+            goalText: 'Mål: {val} cm (50% av din längd).',
+            sets: [{ heightFactor: 0.5, reps: '50% LÄNGD' }],
+            rest: 90
+          }
         ]
       },
       day1: {
         name: 'PASS 1: UNDERKROPP',
         exercises: [
-          { id: 'd1_1', std: 'Pin Squats', var: 'Back Squats', goalFactor: 1.25, goalText: 'Explodera rakt upp ur bottenläget ({kg} kg).', sets: [{ kgFactor: 1.25, reps: '5 REPS' }, { kgFactor: 1.25, reps: '5 REPS' }, { kgFactor: 1.25, reps: '5 REPS' }, { kgFactor: 1.25, reps: '5 REPS' }], rest: 120 },
-          { id: 'd1_2', std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', goalFactor: 0, goalText: 'Maximal höftsträckning på signal.', sets: [{ kgFactor: 0, reps: '3 REPS' }, { kgFactor: 0, reps: '3 REPS' }, { kgFactor: 0, reps: '3 REPS' }, { kgFactor: 0, reps: '3 REPS' }], rest: 75 },
-          { id: 'd1_3', std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', goalFactor: 0.4, goalText: 'Kontrollerad excentrisk fas ({kg} kg).', sets: [{ kgFactor: 0.4, reps: '8 REPS' }, { kgFactor: 0.4, reps: '8 REPS' }, { kgFactor: 0.4, reps: '8 REPS' }], rest: 90 },
-          { id: 'd1_4', std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', goalFactor: 0, goalText: '3 obrutna maxlängdhopp el. 30s sprint.', sets: [{ kgFactor: 0, reps: '3 HOPP' }, { kgFactor: 0, reps: '3 HOPP' }, { kgFactor: 0, reps: '3 HOPP' }], rest: 90 }
+          { id: 'd1_1', std: 'Pin Squats', var: 'Back Squats', mode: 'weight', goalFactor: 1.25, goalText: 'Explodera rakt upp ur bottenläget ({val} kg).', sets: [{ factor: 1.25, reps: '5 REPS' }, { factor: 1.25, reps: '5 REPS' }, { factor: 1.25, reps: '5 REPS' }, { factor: 1.25, reps: '5 REPS' }], rest: 120 },
+          { id: 'd1_2', std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', mode: 'bw', goalFactor: 0, goalText: 'Maximal höftsträckning på signal.', sets: [{ factor: 0, reps: '3 REPS' }, { factor: 0, reps: '3 REPS' }, { factor: 0, reps: '3 REPS' }, { factor: 0, reps: '3 REPS' }], rest: 75 },
+          { id: 'd1_3', std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', mode: 'weight', goalFactor: 0.4, goalText: 'Kontrollerad excentrisk fas ({val} kg).', sets: [{ factor: 0.4, reps: '8 REPS' }, { factor: 0.4, reps: '8 REPS' }, { factor: 0.4, reps: '8 REPS' }], rest: 90 },
+          { id: 'd1_4', std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', mode: 'bw', goalFactor: 0, goalText: '3 obrutna maxlängdhopp el. 30s sprint.', sets: [{ factor: 0, reps: '3 HOPP' }, { factor: 0, reps: '3 HOPP' }, { factor: 0, reps: '3 HOPP' }], rest: 90 }
         ]
       },
       day2: {
         name: 'PASS 2: ÖVERKROPP',
         exercises: [
-          { id: 'd2_1', std: 'Push Press', var: 'BB OHP', goalFactor: 0.8, goalText: 'Stabil bål, driv kraftfullt över huvudet ({kg} kg).', sets: [{ kgFactor: 0.8, reps: '5 REPS' }, { kgFactor: 0.8, reps: '5 REPS' }, { kgFactor: 0.8, reps: '5 REPS' }, { kgFactor: 0.8, reps: '5 REPS' }], rest: 120 },
-          { id: 'd2_2', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', goalFactor: 0.2, goalText: 'Taktisk greppstyrka / viktbälte (+{kg} kg).', sets: [{ kgFactor: 0.2, reps: '6 REPS' }, { kgFactor: 0.2, reps: '6 REPS' }, { kgFactor: 0.2, reps: '6 REPS' }, { kgFactor: 0.2, reps: '6 REPS' }], rest: 120 },
-          { id: 'd2_3', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', goalFactor: 0.25, goalText: 'Fullt djup med kontrollerad press (+{kg} kg).', sets: [{ kgFactor: 0.25, reps: '8 REPS' }, { kgFactor: 0.25, reps: '8 REPS' }, { kgFactor: 0.25, reps: '8 REPS' }], rest: 90 },
-          { id: 'd2_4', std: 'Cable Cross / Flyes', var: 'Bench Press', goalFactor: 1.0, goalText: 'Tung horisontell press ({kg} kg).', sets: [{ kgFactor: 1.0, reps: '6 REPS' }, { kgFactor: 1.0, reps: '6 REPS' }, { kgFactor: 1.0, reps: '6 REPS' }], rest: 120 },
-          { id: 'd2_5', std: 'Seated Good Mornings', var: 'BB Rows', goalFactor: 0.85, goalText: 'Stark bröstrygg och ländrygg ({kg} kg).', sets: [{ kgFactor: 0.85, reps: '8 REPS' }, { kgFactor: 0.85, reps: '8 REPS' }, { kgFactor: 0.85, reps: '8 REPS' }], rest: 90 }
+          { id: 'd2_1', std: 'Push Press', var: 'BB OHP', mode: 'weight', goalFactor: 0.8, goalText: 'Stabil bål, driv kraftfullt över huvudet ({val} kg).', sets: [{ factor: 0.8, reps: '5 REPS' }, { factor: 0.8, reps: '5 REPS' }, { factor: 0.8, reps: '5 REPS' }, { factor: 0.8, reps: '5 REPS' }], rest: 120 },
+          { id: 'd2_2', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', mode: 'weight', goalFactor: 0.2, goalText: 'Taktisk greppstyrka / viktbälte (+{val} kg).', sets: [{ factor: 0.2, reps: '6 REPS' }, { factor: 0.2, reps: '6 REPS' }, { factor: 0.2, reps: '6 REPS' }, { factor: 0.2, reps: '6 REPS' }], rest: 120 },
+          { id: 'd2_3', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', mode: 'weight', goalFactor: 0.25, goalText: 'Fullt djup med kontrollerad press (+{val} kg).', sets: [{ factor: 0.25, reps: '8 REPS' }, { factor: 0.25, reps: '8 REPS' }, { factor: 0.25, reps: '8 REPS' }], rest: 90 },
+          { id: 'd2_4', std: 'Cable Cross / Flyes', var: 'Bench Press', mode: 'weight', goalFactor: 1.0, goalText: 'Tung horisontell press ({val} kg).', sets: [{ factor: 1.0, reps: '6 REPS' }, { factor: 1.0, reps: '6 REPS' }, { factor: 1.0, reps: '6 REPS' }], rest: 120 },
+          { id: 'd2_5', std: 'Seated Good Mornings', var: 'BB Rows', mode: 'weight', goalFactor: 0.85, goalText: 'Stark bröstrygg och ländrygg ({val} kg).', sets: [{ factor: 0.85, reps: '8 REPS' }, { factor: 0.85, reps: '8 REPS' }, { factor: 0.85, reps: '8 REPS' }], rest: 90 }
         ]
       },
       day3: {
         name: 'PASS 3: VO2 & BACKE',
         exercises: [
-          { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Maxrusning)', goalFactor: 0.15, goalText: 'Backintervaller med {kg} kg utrustning.', sets: [{ kgFactor: 0.15, reps: '45 SEK' }, { kgFactor: 0.15, reps: '45 SEK' }, { kgFactor: 0.15, reps: '45 SEK' }, { kgFactor: 0.15, reps: '45 SEK' }, { kgFactor: 0.15, reps: '45 SEK' }], rest: 90 },
-          { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervaller', goalFactor: 0, goalText: 'Håll jämnt måltempo med 90s vila.', sets: [{ kgFactor: 0, reps: '800M' }, { kgFactor: 0, reps: '800M' }, { kgFactor: 0, reps: '800M' }, { kgFactor: 0, reps: '800M' }], rest: 90 },
-          { id: 'd3_3', std: 'Cardiac Output (Bear Hug)', var: 'Rucking (Tung Säck)', goalFactor: 0.3, goalText: '30 min konstant arbete med {kg} kg säck.', sets: [{ kgFactor: 0.3, reps: '30 MIN' }], rest: 60 }
+          { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Maxrusning)', mode: 'weight', goalFactor: 0.15, goalText: 'Backintervaller med {val} kg utrustning.', sets: [{ factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }], rest: 90 },
+          { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervaller', mode: 'bw', goalFactor: 0, goalText: 'Håll jämnt måltempo med 90s vila.', sets: [{ factor: 0, reps: '800M' }, { factor: 0, reps: '800M' }, { factor: 0, reps: '800M' }, { factor: 0, reps: '800M' }], rest: 90 },
+          { id: 'd3_3', std: 'Cardiac Output (Bear Hug)', var: 'Rucking (Tung Säck)', mode: 'weight', goalFactor: 0.3, goalText: '30 min konstant arbete med {val} kg säck.', sets: [{ factor: 0.3, reps: '30 MIN' }], rest: 60 }
         ]
       },
       day4: {
         name: 'PASS 4: 911STRONG',
         exercises: [
-          { id: 'd4_1', std: 'Trap Bar Marklyft', var: 'Deadlifts (Konventionell)', goalFactor: 1.75, goalText: 'Tungt baslyft från golvet ({kg} kg).', sets: [{ kgFactor: 1.75, reps: '5 REPS' }, { kgFactor: 1.75, reps: '5 REPS' }, { kgFactor: 1.75, reps: '5 REPS' }, { kgFactor: 1.75, reps: '5 REPS' }], rest: 150 },
-          { id: 'd4_2', std: 'Mixed Modality (EMOM)', var: 'Power Cleans', goalFactor: 0.9, goalText: 'Explosiv frivändning ({kg} kg).', sets: [{ kgFactor: 0.9, reps: '3 REPS' }, { kgFactor: 0.9, reps: '3 REPS' }, { kgFactor: 0.9, reps: '3 REPS' }, { kgFactor: 0.9, reps: '3 REPS' }], rest: 120 },
-          { id: 'd4_3', std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', goalFactor: 0.45, goalText: '40m tung bärning ({kg} kg/hand).', sets: [{ kgFactor: 0.45, reps: '40M' }, { kgFactor: 0.45, reps: '40M' }, { kgFactor: 0.45, reps: '40M' }], rest: 90 }
+          { id: 'd4_1', std: 'Trap Bar Marklyft', var: 'Deadlifts (Konventionell)', mode: 'weight', goalFactor: 1.75, goalText: 'Tungt baslyft från golvet ({val} kg).', sets: [{ factor: 1.75, reps: '5 REPS' }, { factor: 1.75, reps: '5 REPS' }, { factor: 1.75, reps: '5 REPS' }, { factor: 1.75, reps: '5 REPS' }], rest: 150 },
+          { id: 'd4_2', std: 'Mixed Modality (EMOM)', var: 'Power Cleans', mode: 'weight', goalFactor: 0.9, goalText: 'Explosiv frivändning ({val} kg).', sets: [{ factor: 0.9, reps: '3 REPS' }, { factor: 0.9, reps: '3 REPS' }, { factor: 0.9, reps: '3 REPS' }, { factor: 0.9, reps: '3 REPS' }], rest: 120 },
+          { id: 'd4_3', std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', mode: 'weight', goalFactor: 0.45, goalText: '40m tung bärning ({val} kg/hand).', sets: [{ factor: 0.45, reps: '40M' }, { factor: 0.45, reps: '40M' }, { factor: 0.45, reps: '40M' }], rest: 90 }
         ]
       }
     };
@@ -387,7 +411,7 @@
 
     // ================= 2. APP STATE =================
     let currentWeek = 1;
-    let currentDayKey = 'exam'; // Defaultar till V1 EXAM precis som på Bild 1
+    let currentDayKey = 'exam';
     let activeExerciseIdx = 0;
     let nightMode = false;
     let passRunning = false;
@@ -396,8 +420,9 @@
 
     let activeVariants = JSON.parse(localStorage.getItem('ff_variants') || '{}');
     let checkedSets = JSON.parse(localStorage.getItem('ff_checked_sets') || '{}');
+    let customInputs = JSON.parse(localStorage.getItem('ff_custom_inputs') || '{}');
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
-    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Deadlifts (Konventionell)","Back Squats","Push Press"]');
+    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Sprint 100 m","Boxhopp","Back Squats"]');
     let chartInstance = null;
 
     // Polisfys Timer State
@@ -415,7 +440,7 @@
       renderMobilityModal();
     });
 
-    // ================= 4. LJUD & RÖST =================
+    // ================= 4. LJUD =================
     function playBeep(freq = 880, dur = 0.12) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -429,7 +454,7 @@
       } catch (e) {}
     }
 
-    // ================= 5. RENDERING AV VECKOR, PASS & ÖVNINGAR (BILD 1) =================
+    // ================= 5. RENDERING AV VECKOR, PASS & ÖVNINGAR =================
     function renderWeekPills() {
       const container = document.getElementById('weekPillsContainer');
       container.innerHTML = weeksConfig.map(w => {
@@ -488,10 +513,10 @@
       const btn = document.getElementById('nightToggleBtn');
       const knob = document.getElementById('nightToggleKnob');
       if (nightMode) {
-        btn.className = 'w-14 h-8 rounded-full bg-orange-500 p-1 transition-colors duration-200 flex items-center';
+        btn.className = 'w-14 h-8 rounded-full bg-orange-500 p-1 transition-colors duration-200 flex items-center shrink-0';
         knob.className = 'w-6 h-6 rounded-full bg-zinc-950 shadow-md transform translate-x-6 transition-transform duration-200';
       } else {
-        btn.className = 'w-14 h-8 rounded-full bg-zinc-700 p-1 transition-colors duration-200 flex items-center';
+        btn.className = 'w-14 h-8 rounded-full bg-zinc-700 p-1 transition-colors duration-200 flex items-center shrink-0';
         knob.className = 'w-6 h-6 rounded-full bg-zinc-200 shadow-md transform translate-x-0 transition-transform duration-200';
       }
       renderExercises();
@@ -504,8 +529,33 @@
       renderExercises();
     }
 
+    // Sparar direkt när man skriver i rutan utan att rita om DOM eller tappa fokus
+    function saveTypedInput(setKey, val) {
+      customInputs[setKey] = val;
+      localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs));
+    }
+
+    // Byter endast CSS-ram när man klickar på ett kort eller en viktruta (ingen DOM-omritning!)
+    function highlightCardOnly(idx) {
+      activeExerciseIdx = idx;
+      const list = workoutTemplates[currentDayKey].exercises;
+      list.forEach((_, i) => {
+        const card = document.getElementById('ex-card-' + i);
+        const dot = document.getElementById('ex-dot-' + i);
+        if (!card) return;
+        if (i === idx) {
+          card.className = 'ff-card-active p-4 space-y-3.5 relative transition';
+          if (dot) dot.classList.remove('hidden');
+        } else {
+          card.className = 'ff-panel p-4 space-y-3.5 relative transition';
+          if (dot) dot.classList.add('hidden');
+        }
+      });
+    }
+
     function renderExercises() {
       const weight = parseFloat(localStorage.getItem('ff_weight') || '70');
+      const height = parseFloat(localStorage.getItem('ff_height') || '167');
       const weekObj = weeksConfig.find(w => w.id === currentWeek) || weeksConfig[0];
       const nightMult = nightMode ? 0.85 : 1.0;
       const list = workoutTemplates[currentDayKey].exercises;
@@ -517,36 +567,54 @@
         const title = isVar ? ex.var : ex.std;
         const altTitle = isVar ? ex.std : ex.var;
 
-        const targetKg = ex.goalFactor > 0
-          ? Math.round((weight * ex.goalFactor * weekObj.mult * nightMult) / 2.5) * 2.5
-          : 0;
-        const goalLine = ex.goalText.replace('{kg}', targetKg);
+        let targetVal = 0;
+        if (ex.mode === 'height50') {
+          targetVal = Math.round(height * ex.goalFactor);
+        } else if (ex.mode === 'sprint') {
+          targetVal = nightMode ? 18 : ex.goalFactor;
+        } else if (ex.goalFactor > 0) {
+          targetVal = Math.round((weight * ex.goalFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
+        }
+        const goalLine = ex.goalText.replace('{val}', targetVal);
 
         const setsHtml = ex.sets.map((sObj, sIdx) => {
           const setNum = sIdx + 1;
           const setKey = `w${currentWeek}_${currentDayKey}_${ex.id}_s${setNum}_${title}`;
           const isChecked = !!checkedSets[setKey];
-          const calcKg = sObj.kgFactor > 0
-            ? Math.round((weight * sObj.kgFactor * weekObj.mult * nightMult) / 2.5) * 2.5
-            : 0;
-          const savedHist = logs[title] || [];
-          const defaultKg = savedHist.length > 0 && calcKg > 0 ? calcKg : calcKg;
-          const repLabel = nightMode && sObj.reps === '1RM' ? 'TEMPO' : sObj.reps;
+
+          let calcDefault = 0;
+          if (sObj.heightFactor) {
+            calcDefault = Math.round(height * sObj.heightFactor);
+          } else if (sObj.fixedVal) {
+            calcDefault = nightMode ? 18 : sObj.fixedVal;
+          } else if (sObj.factor > 0) {
+            calcDefault = Math.round((weight * sObj.factor * weekObj.mult * nightMult) / 2.5) * 2.5;
+          }
+
+          const displayVal = customInputs[setKey] !== undefined ? customInputs[setKey] : calcDefault;
+          const repLabel = nightMode && (sObj.reps === '1RM' || sObj.reps === '16 SEK') ? 'TEMPO' : sObj.reps;
 
           return `
             <div class="ff-set-row px-3.5 py-3 flex items-center justify-between gap-2">
               <span class="text-xs font-bold uppercase text-zinc-400 w-14">SET ${setNum}</span>
 
               <div class="flex items-center gap-2">
-                <input type="number" id="input-${setKey}" value="${defaultKg}"
-                  class="w-20 h-11 rounded-lg bg-[#18181f] border border-zinc-700 text-white font-bold text-sm text-center focus:outline-none focus:border-orange-500">
+                <input
+                  type="text"
+                  inputmode="decimal"
+                  id="input-${setKey}"
+                  value="${displayVal}"
+                  onclick="event.stopPropagation(); highlightCardOnly(${idx})"
+                  onfocus="highlightCardOnly(${idx})"
+                  oninput="saveTypedInput('${setKey}', this.value)"
+                  class="w-20 h-11 rounded-lg bg-[#18181f] border border-zinc-700 text-white font-bold text-sm text-center focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
 
-                <div class="px-3.5 h-11 rounded-lg bg-[#18181f] border border-orange-500/70 text-zinc-200 font-bold text-xs flex items-center justify-center min-w-[68px]">
+                <div class="px-3.5 h-11 rounded-lg bg-[#18181f] border border-orange-500/70 text-zinc-200 font-bold text-xs flex items-center justify-center min-w-[74px]">
                   ${repLabel}
                 </div>
               </div>
 
-              <button onclick="toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx})"
+              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx})"
                 class="ff-check-box ${isChecked ? 'checked' : ''}" aria-label="Logga set">
                 ${isChecked ? '<span class="text-lg font-black">✓</span>' : ''}
               </button>
@@ -555,8 +623,8 @@
         }).join('');
 
         return `
-          <div id="ex-card-${idx}" onclick="setActiveExercise(${idx})" class="${isCurrent ? 'ff-card-active' : 'ff-panel'} p-4 space-y-3.5 relative transition">
-            ${isCurrent ? '<span class="w-3.5 h-3.5 rounded-full bg-orange-500/80 absolute -top-1.5 -right-1.5 border-2 border-[#0a0a0c]"></span>' : ''}
+          <div id="ex-card-${idx}" onclick="highlightCardOnly(${idx})" class="${isCurrent ? 'ff-card-active' : 'ff-panel'} p-4 space-y-3.5 relative transition">
+            <span id="ex-dot-${idx}" class="${isCurrent ? '' : 'hidden'} w-3.5 h-3.5 rounded-full bg-orange-500/80 absolute -top-1.5 -right-1.5 border-2 border-[#0a0a0c]"></span>
 
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-black uppercase tracking-wider text-[#f97316]">ÖVNING ${idx + 1}</span>
@@ -582,16 +650,17 @@
       }).join('');
     }
 
-    function setActiveExercise(idx) {
-      activeExerciseIdx = idx;
-      renderExercises();
-    }
-
     // ================= 6. LOGGNING + POLISFYS NEDRÄKNINGSTIMER (BILD 3) =================
     function toggleSetComplete(setKey, exTitle, restSec, cardIdx) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
-      const kgVal = parseFloat(inputEl ? inputEl.value : 0) || 0;
+      const rawText = inputEl ? String(inputEl.value).replace(',', '.') : '0';
+      const numericVal = parseFloat(rawText) || 0;
+
+      if (inputEl) {
+        customInputs[setKey] = inputEl.value;
+        localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs));
+      }
 
       checkedSets[setKey] = !checkedSets[setKey];
       localStorage.setItem('ff_checked_sets', JSON.stringify(checkedSets));
@@ -599,7 +668,7 @@
       if (checkedSets[setKey]) {
         if (!logs[exTitle]) logs[exTitle] = [];
         const today = new Date().toISOString().slice(5, 10);
-        logs[exTitle].push({ date: today, kg: kgVal });
+        logs[exTitle].push({ date: today, kg: numericVal });
         localStorage.setItem('ff_logs', JSON.stringify(logs));
 
         if (!chartSelected.includes(exTitle) && chartSelected.length < 5) {
@@ -621,7 +690,7 @@
       } else {
         activeExerciseIdx = 0;
       }
-      renderExercises();
+      highlightCardOnly(activeExerciseIdx);
       const card = document.getElementById('ex-card-' + activeExerciseIdx);
       if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       playBeep(740, 0.12);
@@ -680,7 +749,7 @@
           passElapsedSec++;
           const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
           const s = String(passElapsedSec % 60).padStart(2, '0');
-          btnText.textContent = `PASS PÅGÅR (${m}:${s}) – TRYCK FÖR ATT AVSLUTA`;
+          btnText.textContent = `PASS PÅGÅR (${m}:${s}) – AVSLUTA`;
         }, 1000);
       } else {
         clearInterval(passInterval);
@@ -779,7 +848,7 @@
     }
 
     function exportCSV() {
-      let csv = 'Ovning,Datum,Vikt_kg\n';
+      let csv = 'Ovning,Datum,Varde\n';
       Object.keys(logs).forEach(k => logs[k].forEach(r => { csv += `"${k}",${r.date},${r.kg}\n`; }));
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
@@ -857,8 +926,8 @@
     }
 
     function saveProfile() {
-      const w = parseFloat(document.getElementById('profWeightInput').value) || 70;
-      const h = parseFloat(document.getElementById('profHeightInput').value) || 167;
+      const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
+      const h = parseFloat(String(document.getElementById('profHeightInput').value).replace(',', '.')) || 167;
       localStorage.setItem('ff_weight', w);
       localStorage.setItem('ff_height', h);
       document.getElementById('headerWeightHeight').textContent = `${w} KG | ${h} CM`;
