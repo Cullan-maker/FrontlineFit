@@ -1,5 +1,4 @@
-
-<!-- FRONTLINE FIT - KOMPLETT APP - SPARA SOM index.html -->
+<!-- FRONTLINE FIT - ORIGINAL UI MED ALLA FUNKTIONER - SPARA SOM index.html -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -14,399 +13,379 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --bg-dark: #09090b;
-      --card-bg: #121318;
-      --card-border: #27272a;
-      --accent-orange: #f97316;
-      --accent-green: #10b981;
-      --accent-blue: #3b82f6;
-      --accent-gold: #eab308;
-    }
     body {
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #09090b 60%);
+      background-color: #09090b;
+      background-image: radial-gradient(circle at 50% -10%, #1e293b 0%, #09090b 65%);
       color: #f4f4f5;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-    .tactical-card {
-      background: linear-gradient(145deg, rgba(24,24,27,0.95), rgba(15,15,18,0.98));
-      border: 1px solid rgba(63,63,70,0.6);
+    .glass-card {
+      background: rgba(24, 24, 27, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(63, 63, 70, 0.65);
       border-radius: 1rem;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.7);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.75);
     }
-    .tactical-card-active {
-      border-color: #f97316;
-      box-shadow: 0 0 20px rgba(249,115,22,0.15);
-    }
-    .nav-btn.active {
+    .nav-item.active {
       color: #f97316;
-    }
-    .nav-btn.active svg {
-      stroke: #f97316;
-      filter: drop-shadow(0 0 6px rgba(249,115,22,0.5));
-    }
-    .breath-circle {
-      transition: transform 4s ease-in-out, border-color 0.5s ease;
+      border-color: #f97316;
+      background: rgba(249, 115, 22, 0.12);
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes pulse-red {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-      50% { transform: scale(1.06); box-shadow: 0 0 20px 6px rgba(239, 68, 68, 0); }
+    .breath-ring { transition: transform 4s ease-in-out, border-color 0.4s ease; }
+    @keyframes hlrPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
-    .hlr-pulse { animation: pulse-red 0.545s infinite; }
+    .hlr-beat { animation: hlrPulse 0.545s infinite; }
   </style>
 </head>
-<body class="min-h-screen pb-28 select-none">
+<body class="min-h-screen pb-28">
 
-  <!-- TOP TACTICAL BAR -->
-  <header class="sticky top-0 z-40 bg-zinc-950/85 backdrop-blur-md border-b border-zinc-800/80 px-4 py-3">
-    <div class="max-w-2xl mx-auto flex items-center justify-between">
+  <!-- TOP HEADER -->
+  <header class="sticky top-0 z-40 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800 px-4 py-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
       <div class="flex items-center gap-3">
-        <canvas id="headerIconCanvas" width="128" height="128" class="w-10 h-10 rounded-xl border border-yellow-500/50 shadow-lg"></canvas>
+        <canvas id="headerLogoCanvas" width="128" height="128" class="w-10 h-10 rounded-xl border border-yellow-500/50 shadow-md"></canvas>
         <div>
-          <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-            <h1 class="text-base font-black tracking-widest uppercase text-white">Frontline <span class="text-orange-500">Fit</span></h1>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-black tracking-wider uppercase text-white">FRONTLINE <span class="text-orange-500">FIT</span></h1>
+            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold">911Strong</span>
           </div>
-          <p id="headerProfileBadge" class="text-[11px] font-mono text-zinc-400">70 KG | 167 CM | REDO</p>
+          <p id="headerSubText" class="text-xs text-zinc-400 font-mono">70 kg • 167 cm • 2 650 kcal/dag</p>
         </div>
       </div>
 
+      <!-- Quick Tactical Action Buttons -->
       <div class="flex items-center gap-1.5">
-        <button onclick="openModal('breathModal')" class="p-2 rounded-xl bg-blue-950/60 border border-blue-700/50 text-blue-400 hover:bg-blue-900/50" title="Box Breathing">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8M8 12h8"/></svg>
+        <button onclick="openModal('breathModal')" class="px-2.5 py-1.5 rounded-xl bg-blue-950/70 border border-blue-700/50 text-blue-300 text-xs font-bold hover:bg-blue-900/60">
+          🌬️ Andning
         </button>
-        <button onclick="openModal('hlrModal')" class="px-2.5 py-2 rounded-xl bg-red-950/70 border border-red-700/60 text-red-400 font-black text-xs flex items-center gap-1" title="HLR Protokoll">
-          <span>❤️ HLR</span>
+        <button onclick="openModal('hlrModal')" class="px-2.5 py-1.5 rounded-xl bg-red-950/80 border border-red-700/60 text-red-300 text-xs font-black hover:bg-red-900/60">
+          ❤️ HLR
         </button>
-        <button onclick="toggleNightShift()" id="nightShiftBtn" class="px-2.5 py-2 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs font-bold">
-          🌙 Natt
+        <button onclick="toggleNightShift()" id="nightShiftBtn" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs font-bold">
+          🌙 Nattpass
         </button>
       </div>
     </div>
   </header>
 
-  <!-- ACTIVE WORKOUT FLOATING BANNER (WHEN WORKOUT IS RUNNING) -->
-  <div id="activeWorkoutBar" class="hidden sticky top-[65px] z-30 bg-gradient-to-r from-orange-600 to-amber-600 text-zinc-950 px-4 py-2.5 shadow-lg">
-    <div class="max-w-2xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="font-black text-xs uppercase tracking-wider bg-zinc-950 text-orange-400 px-2 py-0.5 rounded">Pågående Pass</span>
-        <span id="activeWorkoutTimer" class="font-mono font-black text-sm">00:00</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="toggleVoiceCoach()" id="voiceToggleBtn" class="text-xs bg-zinc-950/20 px-2 py-1 rounded font-bold">🔊 Röst: PÅ</button>
-        <button onclick="finishWorkout()" class="text-xs bg-zinc-950 text-white px-3 py-1 rounded-lg font-black uppercase">Avsluta Pass</button>
-      </div>
+  <!-- MAIN NAVIGATION PILLS -->
+  <div class="sticky top-[65px] z-30 bg-zinc-950/85 backdrop-blur border-b border-zinc-800/80 px-4 py-2">
+    <div class="max-w-4xl mx-auto flex gap-2 overflow-x-auto no-scrollbar">
+      <button onclick="switchMainView('dashboard')" id="tab-dashboard" class="nav-item active px-3.5 py-1.5 rounded-xl border border-zinc-800 text-xs font-black uppercase tracking-wider whitespace-nowrap">
+        🏋️ Träningspass
+      </button>
+      <button onclick="switchMainView('running')" id="tab-running" class="nav-item px-3.5 py-1.5 rounded-xl border border-zinc-800 text-xs font-black uppercase tracking-wider text-zinc-400 whitespace-nowrap">
+        🏃 Löpning (6v)
+      </button>
+      <button onclick="switchMainView('mobility')" id="tab-mobility" class="nav-item px-3.5 py-1.5 rounded-xl border border-zinc-800 text-xs font-black uppercase tracking-wider text-zinc-400 whitespace-nowrap">
+        🧘 Pre-Shift Mobility
+      </button>
+      <button onclick="switchMainView('stats')" id="tab-stats" class="nav-item px-3.5 py-1.5 rounded-xl border border-zinc-800 text-xs font-black uppercase tracking-wider text-zinc-400 whitespace-nowrap">
+        📈 Statistik & Graf
+      </button>
+      <button onclick="switchMainView('nutrition')" id="tab-nutrition" class="nav-item px-3.5 py-1.5 rounded-xl border border-zinc-800 text-xs font-black uppercase tracking-wider text-zinc-400 whitespace-nowrap">
+        🥩 Kost, Profil & Ikon
+      </button>
     </div>
   </div>
 
-  <!-- REST TIMER OVERLAY BAR -->
-  <div id="restTimerBar" class="hidden fixed bottom-20 left-4 right-4 z-40 max-w-2xl mx-auto bg-zinc-900/95 backdrop-blur-md border-2 border-orange-500 rounded-2xl p-3 shadow-2xl">
-    <div class="flex items-center justify-between">
-      <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-orange-400">Vilotimer Aktiv</div>
-        <div id="restTimerCountdown" class="text-2xl font-mono font-black text-white">01:30</div>
-      </div>
-      <div class="flex items-center gap-1.5">
-        <button onclick="adjustRest(-15)" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 text-xs font-bold">-15s</button>
-        <button onclick="adjustRest(15)" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 text-xs font-bold">+15s</button>
-        <button onclick="stopRestTimer()" class="px-3 py-1.5 rounded-lg bg-orange-500 text-zinc-950 text-xs font-black uppercase">Hoppa över</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT AREA -->
-  <main class="max-w-2xl mx-auto p-4 space-y-5">
+  <!-- MAIN CONTENT WRAPPER -->
+  <main class="max-w-4xl mx-auto p-4 space-y-6">
 
     <!-- NIGHT SHIFT BANNER -->
-    <div id="nightShiftBanner" class="hidden tactical-card border-indigo-500/60 bg-indigo-950/30 p-3.5 flex items-center justify-between">
+    <div id="nightShiftAlert" class="hidden glass-card border-indigo-500/60 bg-indigo-950/30 p-4 flex items-center justify-between">
       <div class="text-xs text-indigo-200">
-        <strong class="text-indigo-400 uppercase block">🌙 Nattpass-protokoll aktivt</strong>
-        Volymen är sänkt med 1 set per övning och max RPE är låst till 7.5 för centrala nervsystemets återhämtning.
+        <strong class="text-indigo-400 uppercase block text-sm">🌙 Nattpass-anpassning aktiverad</strong>
+        Volymen sänks automatiskt med 1 set per övning och max RPE begränsas till 7.5 för att skydda återhämtningen under skiftgång.
       </div>
-      <span class="text-xs font-mono font-bold bg-indigo-900/70 text-indigo-200 px-2 py-1 rounded">RPE ≤ 7.5</span>
+      <span class="font-mono text-xs font-black bg-indigo-900/80 text-indigo-200 px-2.5 py-1 rounded-lg">RPE ≤ 7.5</span>
     </div>
 
-    <!-- ==================== VIEW 1: WORKOUTS ==================== -->
-    <section id="view-workouts" class="space-y-4">
-      <!-- Quick Status Strip -->
-      <div class="grid grid-cols-3 gap-2.5">
-        <div class="tactical-card p-3 text-center">
-          <div class="text-[10px] text-zinc-400 uppercase font-bold">Målkalorier</div>
-          <div id="dashKcal" class="text-base font-black text-orange-400 mt-0.5">2 650 kcal</div>
+    <!-- ================= VIEW 1: DASHBOARD & WORKOUTS ================= -->
+    <section id="view-dashboard" class="space-y-5">
+
+      <!-- Top Summary Metrics -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="glass-card p-3.5 border-l-4 border-l-orange-500">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Aktivt Fokus</div>
+          <div id="metricDayName" class="text-sm font-black text-white mt-0.5">Dag 1: Underkropp</div>
         </div>
-        <div class="tactical-card p-3 text-center">
-          <div class="text-[10px] text-zinc-400 uppercase font-bold">Målprotein</div>
-          <div id="dashProtein" class="text-base font-black text-emerald-400 mt-0.5">160 g</div>
+        <div class="glass-card p-3.5 border-l-4 border-l-emerald-500">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Kalorimål (Träning)</div>
+          <div id="metricKcal" class="text-sm font-black text-emerald-400 mt-0.5">2 650 kcal</div>
         </div>
-        <div class="tactical-card p-3 text-center">
-          <div class="text-[10px] text-zinc-400 uppercase font-bold">Loggade Set</div>
-          <div id="dashLoggedSets" class="text-base font-black text-blue-400 mt-0.5">0 st</div>
+        <div class="glass-card p-3.5 border-l-4 border-l-blue-500">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Proteinmål</div>
+          <div id="metricProtein" class="text-sm font-black text-blue-400 mt-0.5">160 g / dag</div>
+        </div>
+        <div class="glass-card p-3.5 border-l-4 border-l-yellow-500">
+          <div class="text-[10px] font-mono uppercase text-zinc-400">Loggade Set</div>
+          <div id="metricTotalSets" class="text-sm font-black text-yellow-400 mt-0.5">0 set</div>
         </div>
       </div>
 
-      <!-- Day Selector Pills -->
-      <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="daySelector"></div>
+      <!-- Day Selector Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="daySelectorGrid"></div>
 
-      <!-- Selected Day Header Card -->
-      <div class="tactical-card p-4 border-l-4 border-l-orange-500 flex items-center justify-between">
-        <div>
-          <span id="dayTag" class="text-[10px] font-mono uppercase tracking-widest text-orange-400 font-bold">STYRKA & EXPLOSIVITET</span>
-          <h2 id="dayTitle" class="text-lg font-black text-white">Dag 1: Underkropp Explosiv</h2>
-          <p id="dayFocus" class="text-xs text-zinc-400">Benstyrka, knästabilitet & reaktiv sprint</p>
-        </div>
-        <button onclick="startWorkoutSession()" id="startWorkoutBtn" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-zinc-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/20 whitespace-nowrap">
-          ▶ Starta Pass
-        </button>
-      </div>
-
-      <!-- Exercise Cards Container -->
-      <div id="workoutExercisesContainer" class="space-y-3.5"></div>
-    </section>
-
-    <!-- ==================== VIEW 2: RUNNING (6 WEEKS) ==================== -->
-    <section id="view-running" class="hidden space-y-4">
-      <div class="tactical-card p-4 border-l-4 border-l-blue-500">
-        <span class="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold">6-VECKORS PROGRESSION</span>
-        <h2 class="text-lg font-black text-white mt-0.5">Taktisk Löpning & VO2-Max</h2>
-        <p class="text-xs text-zinc-400 mt-1">Bocka av dina genomförda pass. Kombinerar Yxbacken med väst/säck, Yasso 800m och Cardiac Output.</p>
-      </div>
-      <div id="runningWeeksContainer" class="space-y-3"></div>
-    </section>
-
-    <!-- ==================== VIEW 3: PRE-SHIFT MOBILITY ==================== -->
-    <section id="view-mobility" class="hidden space-y-4">
-      <div class="tactical-card p-4 border-l-4 border-l-emerald-500">
-        <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">10 MIN PROTOKOLL</span>
-        <h2 class="text-lg font-black text-white mt-0.5">Pre-Shift Mobility</h2>
-        <p class="text-xs text-zinc-400 mt-1">Utvecklat för att öppna höftböjare, bröstrygg och säte före och efter skift i bil och utrustningsbälte.</p>
-      </div>
-
-      <div id="mobilityDrillsContainer" class="space-y-4"></div>
-    </section>
-
-    <!-- ==================== VIEW 4: STATS & CHART ==================== -->
-    <section id="view-stats" class="hidden space-y-4">
-      <div class="tactical-card p-4 space-y-4">
-        <div class="flex items-center justify-between">
+      <!-- Selected Workout Preview & Start Card -->
+      <div class="glass-card p-5 space-y-4 border-orange-500/40">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-4">
           <div>
-            <span class="text-[10px] font-mono uppercase tracking-widest text-orange-400 font-bold">PRESTATIONSANALYS</span>
-            <h2 class="text-lg font-black text-white">Styrke- & Variantgraf</h2>
-            <p class="text-xs text-zinc-400">Välj upp till 5 övningar eller varianter samtidigt.</p>
+            <span id="previewTag" class="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded bg-orange-500/20 text-orange-400 font-bold">EXPLOSIVITET & BASSTYRKA</span>
+            <h2 id="previewTitle" class="text-xl font-black text-white mt-1">Dag 1: Underkropp Explosiv</h2>
+            <p id="previewDesc" class="text-xs text-zinc-400">Klicka på "⇄ Byt" på valfritt kort för att växla mellan ordinarie övning och dess variant.</p>
           </div>
-          <button onclick="exportCSV()" class="px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-xs font-bold text-zinc-200">
-            ⬇️ CSV-Export
+          <button onclick="openActiveWorkoutModal()" class="px-5 py-3 rounded-xl bg-orange-500 hover:bg-orange-400 text-zinc-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-500/25 whitespace-nowrap">
+            ▶ Starta Aktivt Pass
           </button>
         </div>
 
-        <!-- Filter Pills -->
-        <div id="chartFilterPills" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2.5 bg-zinc-950/70 rounded-xl border border-zinc-800"></div>
+        <!-- Exercise List (Preview + Direct Logging + Variant Switch) -->
+        <div id="previewExercisesList" class="space-y-3"></div>
+      </div>
+    </section>
 
-        <!-- Chart Canvas -->
-        <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800/90">
-          <canvas id="progressChart" height="230"></canvas>
+    <!-- ================= VIEW 2: 6-WEEK RUNNING ================= -->
+    <section id="view-running" class="hidden space-y-4">
+      <div class="glass-card p-5 border-l-4 border-l-blue-500">
+        <span class="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold">TAKTISK KONDITION</span>
+        <h2 class="text-xl font-black text-white mt-1">6-Veckors Löpprogression (Yxbacken & Yasso 800m)</h2>
+        <p class="text-xs text-zinc-400 mt-1">Bocka för varje genomfört pass. Bygger syreupptagning (VO2-max) och uthållighet med viktväst/Bulgarian Bag.</p>
+      </div>
+      <div id="runningGrid" class="grid sm:grid-cols-2 gap-4"></div>
+    </section>
+
+    <!-- ================= VIEW 3: PRE-SHIFT MOBILITY ================= -->
+    <section id="view-mobility" class="hidden space-y-4">
+      <div class="glass-card p-5 border-l-4 border-l-emerald-500">
+        <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">SKADEFÖREBYGGANDE • 10 MIN</span>
+        <h2 class="text-xl font-black text-white mt-1">Pre-Shift Mobility (Före/Efter Skift)</h2>
+        <p class="text-xs text-zinc-400 mt-1">Motverkar stela höftböjare och låst bröstrygg från utrustningsbälte, väst och bilkörning.</p>
+      </div>
+      <div id="mobilityCardsContainer" class="grid sm:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- ================= VIEW 4: STATS & DYNAMIC GRAPH ================= -->
+    <section id="view-stats" class="hidden space-y-4">
+      <div class="glass-card p-5 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-orange-400 font-bold">PRESTATIONSUTVECKLING</span>
+            <h2 class="text-xl font-black text-white">Dynamisk Styrkegraf (Upp till 5 valbara övningar)</h2>
+            <p class="text-xs text-zinc-400">Klicka på övningsknapparna nedan för att tända eller släcka linjer i grafen.</p>
+          </div>
+          <button onclick="exportLogsCSV()" class="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-xs font-bold text-zinc-200">
+            ⬇️ Exportera CSV
+          </button>
+        </div>
+
+        <div id="chartSelectorPills" class="flex flex-wrap gap-1.5 p-3 bg-zinc-950/80 rounded-xl border border-zinc-800 max-h-40 overflow-y-auto"></div>
+
+        <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800">
+          <canvas id="strengthChartCanvas" height="240"></canvas>
         </div>
       </div>
     </section>
 
-    <!-- ==================== VIEW 5: KOST, PROFIL & IKON ==================== -->
-    <section id="view-profile" class="hidden space-y-4">
-      <!-- Profile & Calorie Calculator -->
-      <div class="tactical-card p-4 space-y-4 border-l-4 border-l-orange-500">
+    <!-- ================= VIEW 5: NUTRITION, PROFILE & ICON ================= -->
+    <section id="view-nutrition" class="hidden space-y-5">
+      <!-- Profile Settings -->
+      <div class="glass-card p-5 space-y-4 border-l-4 border-l-orange-500">
         <div>
-          <span class="text-[10px] font-mono uppercase tracking-widest text-orange-400 font-bold">OPERATÖRSPROFIL</span>
-          <h2 class="text-lg font-black text-white">Fysik & Kalorikalkylator</h2>
-          <p class="text-xs text-zinc-400">Riktvikter i passen och ditt dagliga energibehov skalas automatiskt.</p>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-orange-400 font-bold">ANVÄNDARPROFIL</span>
+          <h2 class="text-xl font-black text-white">Fysik, Riktvikter & Kaloribehov</h2>
+          <p class="text-xs text-zinc-400">Ändrar du kroppsvikt uppdateras både övningarnas riktvikter och ditt dagliga kaloribehov automatiskt.</p>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="bg-zinc-900/90 p-3 rounded-xl border border-zinc-800">
-            <label class="block text-[11px] text-zinc-400 uppercase font-bold mb-1">Kroppsvikt (kg)</label>
-            <input type="number" id="profWeight" value="70" onchange="saveProfile()" class="w-full bg-zinc-950 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-zinc-900 p-3.5 rounded-xl border border-zinc-800">
+            <label class="block text-xs text-zinc-400 uppercase font-bold mb-1">Kroppsvikt (kg)</label>
+            <input type="number" id="inputProfileWeight" value="70" onchange="updateProfileData()" class="w-full bg-zinc-950 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
           </div>
-          <div class="bg-zinc-900/90 p-3 rounded-xl border border-zinc-800">
-            <label class="block text-[11px] text-zinc-400 uppercase font-bold mb-1">Längd (cm)</label>
-            <input type="number" id="profHeight" value="167" onchange="saveProfile()" class="w-full bg-zinc-950 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
+          <div class="bg-zinc-900 p-3.5 rounded-xl border border-zinc-800">
+            <label class="block text-xs text-zinc-400 uppercase font-bold mb-1">Längd (cm)</label>
+            <input type="number" id="inputProfileHeight" value="167" onchange="updateProfileData()" class="w-full bg-zinc-950 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
           </div>
         </div>
-        <div id="macroBreakdownCards" class="grid grid-cols-3 gap-2 text-center"></div>
+        <div id="calorieSummaryGrid" class="grid grid-cols-3 gap-3 text-center"></div>
       </div>
 
-      <!-- Complete Meal Plan (2650 kcal) -->
-      <div class="tactical-card p-4 space-y-3">
+      <!-- Daily Meal Plan (2650 kcal / 160g Protein) -->
+      <div class="glass-card p-5 space-y-4 border-l-4 border-l-emerald-500">
         <div class="flex items-center justify-between">
           <div>
-            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">KOSTPROTOKOLL</span>
-            <h3 class="text-base font-black text-white">Dagsmeny (Träningsdag ~2 650 kcal)</h3>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">KOSTSCHEMA FÖR SKIFT & TRÄNING</span>
+            <h3 class="text-lg font-black text-white">Dagsmeny (2 650 kcal • 161 g Protein)</h3>
           </div>
-          <span class="text-xs font-mono bg-emerald-950 text-emerald-300 border border-emerald-700/50 px-2.5 py-1 rounded-lg font-bold">161g Protein</span>
+          <span class="text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-700/50 px-3 py-1 rounded-lg">325g Kolh • 75g Fett</span>
         </div>
 
-        <div class="space-y-2.5 text-xs">
-          <div class="p-3 bg-zinc-900/80 rounded-xl border border-zinc-800 flex justify-between items-start gap-2">
+        <div class="grid gap-2.5 text-xs">
+          <div class="p-3.5 bg-zinc-900/90 rounded-xl border border-zinc-800 flex justify-between items-center gap-3">
             <div>
-              <div class="font-black text-orange-400 uppercase">1. Frukost (Långsam energi)</div>
-              <div class="text-zinc-300 mt-0.5">80g havregryn, 2 dl mjölk (1,5%), 2 kokta ägg, 15g jordnötssmör, 1 dl bär</div>
+              <div class="font-black text-orange-400 uppercase">1. Frukost</div>
+              <div class="text-zinc-300 mt-0.5">80 g havregryn, 2 dl mjölk (1,5 %), 2 kokta ägg, 15 g jordnötssmör, 1 dl bär</div>
             </div>
-            <span class="font-mono font-bold text-zinc-400 whitespace-nowrap">600 kcal | 32g P</span>
+            <div class="font-mono font-bold text-right text-zinc-300 whitespace-nowrap">600 kcal<br><span class="text-emerald-400">32 g P</span></div>
           </div>
-          <div class="p-3 bg-zinc-900/80 rounded-xl border border-zinc-800 flex justify-between items-start gap-2">
+          <div class="p-3.5 bg-zinc-900/90 rounded-xl border border-zinc-800 flex justify-between items-center gap-3">
             <div>
               <div class="font-black text-orange-400 uppercase">2. Lunch (Matlåda)</div>
-              <div class="text-zinc-300 mt-0.5">150g kycklingfilé, 85g ris (okokt), 150g broccoli/grönt, 1 msk olivolja</div>
+              <div class="text-zinc-300 mt-0.5">150 g kycklingfilé, 85 g ris (okokt vikt), 150 g broccoli/grönsaker, 1 msk olivolja</div>
             </div>
-            <span class="font-mono font-bold text-zinc-400 whitespace-nowrap">680 kcal | 42g P</span>
+            <div class="font-mono font-bold text-right text-zinc-300 whitespace-nowrap">680 kcal<br><span class="text-emerald-400">42 g P</span></div>
           </div>
-          <div class="p-3 bg-zinc-900/80 rounded-xl border border-zinc-800 flex justify-between items-start gap-2">
+          <div class="p-3.5 bg-zinc-900/90 rounded-xl border border-zinc-800 flex justify-between items-center gap-3">
             <div>
-              <div class="font-black text-emerald-400 uppercase">3. Mellanmål (1–1,5h före pass)</div>
-              <div class="text-zinc-300 mt-0.5">250g kvarg (utan tillsatt socker), 1 banan, 2 riskakor (Fältbyte: Shake + banan + kringlor)</div>
+              <div class="font-black text-emerald-400 uppercase">3. Mellanmål (1–1,5 h före pass)</div>
+              <div class="text-zinc-300 mt-0.5">250 g kvarg, 1 banan, 2 riskakor (I bil/fält: 1 proteinshake + 1 banan + salta kringlor)</div>
             </div>
-            <span class="font-mono font-bold text-zinc-400 whitespace-nowrap">350 kcal | 27g P</span>
+            <div class="font-mono font-bold text-right text-zinc-300 whitespace-nowrap">350 kcal<br><span class="text-emerald-400">27 g P</span></div>
           </div>
-          <div class="p-3 bg-zinc-900/80 rounded-xl border border-zinc-800 flex justify-between items-start gap-2">
+          <div class="p-3.5 bg-zinc-900/90 rounded-xl border border-zinc-800 flex justify-between items-center gap-3">
             <div>
-              <div class="font-black text-orange-400 uppercase">4. Middag (Post-pass återhämtning)</div>
-              <div class="text-zinc-300 mt-0.5">150g nötfärs (10%), 90g pasta (okokt), krossade tomater, lök & vitlök</div>
+              <div class="font-black text-orange-400 uppercase">4. Middag (Post-pass)</div>
+              <div class="text-zinc-300 mt-0.5">150 g nötfärs (10 %), 90 g pasta (okokt vikt), krossade tomater, lök/vitlök</div>
             </div>
-            <span class="font-mono font-bold text-zinc-400 whitespace-nowrap">670 kcal | 40g P</span>
+            <div class="font-mono font-bold text-right text-zinc-300 whitespace-nowrap">670 kcal<br><span class="text-emerald-400">40 g P</span></div>
           </div>
-          <div class="p-3 bg-zinc-900/80 rounded-xl border border-zinc-800 flex justify-between items-start gap-2">
+          <div class="p-3.5 bg-zinc-900/90 rounded-xl border border-zinc-800 flex justify-between items-center gap-3">
             <div>
-              <div class="font-black text-blue-400 uppercase">5. Kvällsmål (Nattlig reparation)</div>
-              <div class="text-zinc-300 mt-0.5">2 skivor grovt rågbröd, 150g keso (4%), 4 skivor kalkonbröst, gurka</div>
+              <div class="font-black text-blue-400 uppercase">5. Kvällsmål</div>
+              <div class="text-zinc-300 mt-0.5">2 skivor grovt rågbröd, 150 g keso (4 %), 4 skivor kalkonbröst, gurka</div>
             </div>
-            <span class="font-mono font-bold text-zinc-400 whitespace-nowrap">350 kcal | 20g P</span>
+            <div class="font-mono font-bold text-right text-zinc-300 whitespace-nowrap">350 kcal<br><span class="text-emerald-400">20 g P</span></div>
           </div>
         </div>
       </div>
 
-      <!-- App Icon Generator & Downloader -->
-      <div class="tactical-card p-4 flex items-center justify-between gap-4">
-        <div class="space-y-1">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-yellow-400 font-bold">GITHUB PAGES DEPLOYMENT</span>
-          <h3 class="text-sm font-black text-white">Officiell App-Ikon (1024×1024 PNG)</h3>
-          <p class="text-xs text-zinc-400">Sparar ner <code>icon.png</code> redo att läggas i samma mapp som <code>index.html</code>.</p>
+      <!-- Icon Export Card -->
+      <div class="glass-card p-5 flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-l-yellow-500">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-yellow-400 font-bold">GITHUB PAGES HEMSKÄRMSIKON</span>
+          <h3 class="text-base font-black text-white mt-0.5">Ladda ner `icon.png` (1024×1024 px)</h3>
+          <p class="text-xs text-zinc-400">Lägg filen `icon.png` i samma mapp som `index.html` på GitHub så får du den taktiska ikonen på telefonens hemskärm.</p>
         </div>
-        <a id="downloadIconBtn" download="icon.png" class="px-4 py-2.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-zinc-950 font-black text-xs uppercase tracking-wider whitespace-nowrap cursor-pointer shadow-lg">
-          ⬇️ Ladda ner icon.png
+        <a id="downloadPngBtn" download="icon.png" class="px-5 py-3 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-zinc-950 font-black text-xs uppercase tracking-wider whitespace-nowrap cursor-pointer shadow-lg">
+          ⬇️ Spara icon.png
         </a>
       </div>
     </section>
 
   </main>
 
-  <!-- ==================== MODAL 1: BOX BREATHING ==================== -->
-  <div id="breathModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="tactical-card max-w-md w-full p-6 text-center space-y-6 border-blue-500/50">
-      <div class="flex justify-between items-center">
-        <span class="text-xs font-mono uppercase tracking-widest text-blue-400 font-bold">AUTONOM REGLERING (4-4-4-4)</span>
-        <button onclick="closeModal('breathModal')" class="text-zinc-400 hover:text-white text-sm font-bold">✕ Stäng</button>
-      </div>
-      <div class="py-6 flex flex-col items-center justify-center">
-        <div id="breathCircle" class="breath-circle w-40 h-40 rounded-full border-4 border-blue-500 bg-blue-500/10 flex flex-col items-center justify-center shadow-2xl">
-          <div id="breathPhaseText" class="text-sm font-black uppercase text-blue-300">Redo</div>
-          <div id="breathSecText" class="text-3xl font-mono font-black text-white mt-1">4s</div>
+  <!-- ================= ACTIVE WORKOUT PLAYER MODAL ================= -->
+  <div id="activeWorkoutModal" class="hidden fixed inset-0 z-50 bg-zinc-950/95 backdrop-blur-lg overflow-y-auto p-4">
+    <div class="max-w-2xl mx-auto space-y-4 pb-24">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <div>
+          <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">AKTIVT TRÄNINGSLÄGE</span>
+          <h2 id="playerDayTitle" class="text-lg font-black text-white">Dag 1: Underkropp Explosiv</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="playerElapsedClock" class="font-mono text-sm font-black bg-zinc-900 border border-zinc-700 px-3 py-1.5 rounded-lg text-orange-400">00:00</span>
+          <button onclick="toggleVoice()" id="playerVoiceBtn" class="px-2.5 py-1.5 rounded-lg bg-zinc-800 text-xs font-bold">🔊 Röst</button>
+          <button onclick="closeActiveWorkoutModal()" class="px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-black uppercase">Avsluta</button>
         </div>
       </div>
-      <p class="text-xs text-zinc-400">4 sek inandning • 4 sek håll • 4 sek utandning • 4 sek håll</p>
-      <button onclick="toggleBoxBreathing()" id="breathStartBtn" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-wider text-sm">
+
+      <!-- Rest Timer Banner Inside Player -->
+      <div id="playerRestBox" class="hidden glass-card border-orange-500 bg-orange-950/20 p-4 flex items-center justify-between">
+        <div>
+          <div class="text-[10px] font-mono uppercase text-orange-400 font-bold">Vilotimer Pågår</div>
+          <div id="playerRestClock" class="text-3xl font-mono font-black text-white">01:30</div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="modifyRest(-15)" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-xs font-bold">-15s</button>
+          <button onclick="modifyRest(15)" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-xs font-bold">+15s</button>
+          <button onclick="cancelRest()" class="px-3.5 py-1.5 rounded-lg bg-orange-500 text-zinc-950 text-xs font-black uppercase">Klar</button>
+        </div>
+      </div>
+
+      <div id="playerExercisesContainer" class="space-y-4"></div>
+    </div>
+  </div>
+
+  <!-- ================= BOX BREATHING MODAL ================= -->
+  <div id="breathModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full p-6 text-center space-y-6 border-blue-500/50">
+      <div class="flex justify-between items-center">
+        <span class="text-xs font-mono uppercase text-blue-400 font-bold">TAKTISK ANDNING (4-4-4-4)</span>
+        <button onclick="closeModal('breathModal')" class="text-zinc-400 hover:text-white text-xs font-bold">✕ Stäng</button>
+      </div>
+      <div class="py-6 flex justify-center">
+        <div id="breathCircleEl" class="breath-ring w-40 h-40 rounded-full border-4 border-blue-500 bg-blue-500/10 flex flex-col items-center justify-center">
+          <div id="breathPhaseLabel" class="text-sm font-black uppercase text-blue-300">Redo</div>
+          <div class="text-xs text-zinc-400 mt-1">4 sek cykel</div>
+        </div>
+      </div>
+      <button onclick="toggleBreathing()" id="breathActionBtn" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black uppercase text-xs tracking-wider">
         Starta Box Breathing
       </button>
     </div>
   </div>
 
-  <!-- ==================== MODAL 2: HLR PROTOCOL (110 BPM) ==================== -->
+  <!-- ================= HLR 110 BPM MODAL ================= -->
   <div id="hlrModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="tactical-card max-w-md w-full p-6 text-center space-y-5 border-red-500/60">
+    <div class="glass-card max-w-md w-full p-6 text-center space-y-5 border-red-500/60">
       <div class="flex justify-between items-center">
-        <span class="text-xs font-mono uppercase tracking-widest text-red-400 font-bold">HLR-PROTOKOLL | 30:2 | 110 BPM</span>
-        <button onclick="closeModal('hlrModal')" class="text-zinc-400 hover:text-white text-sm font-bold">✕ Stäng</button>
+        <span class="text-xs font-mono uppercase text-red-400 font-bold">HLR-PROTOKOLL • 30:2 • 110 BPM</span>
+        <button onclick="closeModal('hlrModal')" class="text-zinc-400 hover:text-white text-xs font-bold">✕ Stäng</button>
       </div>
-      <div class="py-4 flex flex-col items-center">
-        <div id="hlrPulseCircle" class="w-36 h-36 rounded-full border-4 border-red-500 bg-red-950/50 flex flex-col items-center justify-center">
-          <div id="hlrClock" class="text-3xl font-mono font-black text-white">02:00</div>
-          <div id="hlrCompCount" class="text-xs font-bold uppercase text-red-300 mt-1">Standby</div>
+      <div class="py-4 flex justify-center">
+        <div id="hlrRingEl" class="w-36 h-36 rounded-full border-4 border-red-500 bg-red-950/40 flex flex-col items-center justify-center">
+          <div id="hlrCountdownText" class="text-3xl font-mono font-black text-white">02:00</div>
+          <div id="hlrStepLabel" class="text-xs font-bold uppercase text-red-300 mt-1">Standby</div>
         </div>
       </div>
-      <div id="hlrInstruction" class="p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 font-semibold">
-        Tryck på start för ljudmetronom i 110 BPM (30 kompressioner, 2 inblåsningar).
-      </div>
-      <button onclick="toggleHLR()" id="hlrStartBtn" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black uppercase tracking-wider text-sm">
-        ▶ Starta HLR-Metronom
+      <button onclick="toggleHlrMetronome()" id="hlrActionBtn" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black uppercase text-xs tracking-wider">
+        ▶ Starta HLR-Timer (110 BPM)
       </button>
     </div>
   </div>
 
-  <!-- BOTTOM NAVIGATION BAR -->
-  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/95 backdrop-blur-lg border-t border-zinc-800/90 px-2 py-2">
-    <div class="max-w-2xl mx-auto grid grid-cols-5 gap-1">
-      <button onclick="switchTab('workouts')" id="nav-workouts" class="nav-btn active flex flex-col items-center py-1 text-zinc-400">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"/></svg>
-        <span class="text-[10px] font-bold uppercase">Pass</span>
-      </button>
-      <button onclick="switchTab('running')" id="nav-running" class="nav-btn flex flex-col items-center py-1 text-zinc-400">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span class="text-[10px] font-bold uppercase">Löpning</span>
-      </button>
-      <button onclick="switchTab('mobility')" id="nav-mobility" class="nav-btn flex flex-col items-center py-1 text-zinc-400">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        <span class="text-[10px] font-bold uppercase">Mobility</span>
-      </button>
-      <button onclick="switchTab('stats')" id="nav-stats" class="nav-btn flex flex-col items-center py-1 text-zinc-400">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-        <span class="text-[10px] font-bold uppercase">Graf</span>
-      </button>
-      <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center py-1 text-zinc-400">
-        <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span class="text-[10px] font-bold uppercase">Kost & Profil</span>
-      </button>
-    </div>
-  </nav>
-
   <script>
-    // ================= 1. COMPLETE WORKOUT & VARIANT DATA =================
+    // ================= 1. WORKOUT & VARIANT DATA =================
     const workoutDays = [
       {
         id: 'day1',
         short: 'Dag 1: Underkropp',
         tag: 'EXPLOSIV BENSTYRKA',
         title: 'Dag 1: Underkropp Explosiv',
-        focus: 'Knästabilitet, höftkraft & reaktiv acceleration',
         exercises: [
-          { id: 'ex1', type: 'BASLYFT', std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 reps', rest: 120, baseKg: 85, cue: 'Explodera rakt upp ur bottenläget med spänd bål.' },
-          { id: 'ex2', type: 'PLYOMETRI', std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 reps', rest: 90, baseKg: 0, cue: 'Maximal höftsträckning och reaktionssnabbhet.' },
-          { id: 'ex3', type: 'UNILATERAL / HÖFT', std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8 reps', rest: 90, baseKg: 25, cue: 'Kontrollerad excentrisk fas, håll ryggen neutral.' },
-          { id: 'ex4', type: 'POWER', std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30s / 3 hopp', rest: 90, baseKg: 0, cue: 'Tre obrutna maxlängdhopp direkt vid markkontakt.' },
-          { id: 'ex5', type: 'BÅLPANSAR', std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 sek / 10 reps', rest: 60, baseKg: 15, cue: 'Spänn säte och buk som ett kroppspansar.' }
+          { id: 'e1', cat: 'BASLYFT', std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 reps', rest: 120, baseKg: 85, desc: 'Explosiv koncentrisk fas rakt upp ur bottenläget.' },
+          { id: 'e2', cat: 'EXPLOSIVITET', std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 reps', rest: 90, baseKg: 0, desc: 'Maximal höftsträckning och reaktionssnabbhet.' },
+          { id: 'e3', cat: 'BAKRE KEDJA', std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8 reps', rest: 90, baseKg: 25, desc: 'Kontrollerad excentrisk fas med neutral ryggrad.' },
+          { id: 'e4', cat: 'POWER', std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30s / 3 hopp', rest: 90, baseKg: 0, desc: 'Tre sammanhängande maxlängdhopp utan stopp.' },
+          { id: 'e5', cat: 'BÅLPANSAR', std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 sek', rest: 60, baseKg: 15, desc: 'Spänn bål och säte mot yttre belastning.' }
         ]
       },
       {
         id: 'day2',
         short: 'Dag 2: Överkropp',
-        tag: 'TAKTISK PUSH / PULL',
+        tag: 'TAKTISK PUSH & PULL',
         title: 'Dag 2: Överkropp Push/Pull',
-        focus: 'Presskraft, greppstyrka & skulderstabilitet',
         exercises: [
-          { id: 'ex6', type: 'VERTIKAL PRESS', std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 reps', rest: 120, baseKg: 55, cue: 'Lås ut stången stabilt rakt ovanför nacken.' },
-          { id: 'ex7', type: 'VERTIKALT DRAG', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 reps', rest: 120, baseKg: 10, cue: 'Dra bröstet hela vägen upp till stången/handduken.' },
-          { id: 'ex8', type: 'PRESSSTYRKA', std: 'Dips (Väst/Hantel)', var: 'Dips (Tung Viktad)', sets: 3, reps: '8 reps', rest: 90, baseKg: 15, cue: 'Sänk kontrollerat till 90 grader i armbågsleden.' },
-          { id: 'ex9', type: 'HORISONTELL PRESS', std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6-8 reps', rest: 120, baseKg: 70, cue: 'Sänk skulderbladen i bänken och pressa explosivt.' },
-          { id: 'ex10', type: 'BAKRE KEDJA', std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 reps', rest: 90, baseKg: 60, cue: 'Stark bål, dra stången distinkt mot nedre revbenen.' }
+          { id: 'e6', cat: 'AXELPRESS', std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 reps', rest: 120, baseKg: 55, desc: 'Kraftfull press över huvudet med låst bål.' },
+          { id: 'e7', cat: 'DRAG & GREPP', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 reps', rest: 120, baseKg: 10, desc: 'Fullt rörelseutslag från hängande till haka över stång.' },
+          { id: 'e8', cat: 'PRESSSTYRKA', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 reps', rest: 90, baseKg: 15, desc: 'Stark press för bröst, axlar och triceps.' },
+          { id: 'e9', cat: 'BRÖSTPRESS', std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6-8 reps', rest: 120, baseKg: 70, desc: 'Sänk skulderbladen och pressa kontrollerat.' },
+          { id: 'e10', cat: 'RYGGSTYRKA', std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 reps', rest: 90, baseKg: 60, desc: 'Stabil bål och kraftfullt drag mot nedre bröstkorgen.' }
         ]
       },
       {
         id: 'day3',
-        short: 'Dag 3: VO2 & Väst',
-        tag: 'TAKTISK KONDITION',
-        title: 'Dag 3: VO2-Max & Säck/Väst',
-        focus: 'Syreupptagning och arbetsförmåga under utrustning',
+        short: 'Dag 3: VO2 & Säck',
+        tag: 'HJÄRT- & LUNGKAPACITET',
+        title: 'Dag 3: VO2-Max & Väst/Säck',
         exercises: [
-          { id: 'ex11', type: 'BACKINTERVALL', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Backintervall)', sets: 6, reps: '45 sek arbete', rest: 90, baseKg: 12, cue: 'Hög frekvens och aktiv armpendling hela vägen upp.' },
-          { id: 'ex12', type: 'ARBETSUTHÅLLIGHET', std: 'Cardiac Output (Bear Hug)', var: 'Rucking (Tung Säck)', sets: 1, reps: '30 min', rest: 60, baseKg: 20, cue: 'Jämn puls i zon 2–3 under konstant belastning.' },
-          { id: 'ex13', type: 'TRÖSKEL / VO2', std: 'Yasso 800m', var: '4x4 min Intervaller', sets: 6, reps: '800m', rest: 90, baseKg: 0, cue: 'Håll exakt måltempo på samtliga intervaller.' }
+          { id: 'e11', cat: 'BACKINTERVALL', std: 'Yxbacken (Väst/Säck)', var: 'Sprints', sets: 6, reps: '45 sek max', rest: 90, baseKg: 12, desc: 'Hög frekvens uppför brant backe eller flack sprint.' },
+          { id: 'e12', cat: 'UTHÅLLIGHET', std: 'Cardiac Output (Bear Hug)', var: 'Rucking (Tung Säck)', sets: 1, reps: '30 min', rest: 60, baseKg: 20, desc: 'Konstant arbete med puls i zon 2–3.' },
+          { id: 'e13', cat: 'VO2-MAX', std: 'Yasso 800m', var: '4x4 min Intervaller', sets: 6, reps: '800m', rest: 90, baseKg: 0, desc: 'Jämnt högt tempo med kontrollerad joggvila.' }
         ]
       },
       {
@@ -414,337 +393,325 @@
         short: 'Dag 4: 911Strong',
         tag: 'HELKROPP & RÅSTYRKA',
         title: 'Dag 4: 911Strong Helkropp',
-        focus: 'Tungt marklyft, frivändning & bärkapacitet',
         exercises: [
-          { id: 'ex14', type: 'MAXSTYRKA', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 reps', rest: 150, baseKg: 120, cue: 'Tryck golvet ifrån dig, håll stången tätt intill kroppen.' },
-          { id: 'ex15', type: 'EXPLOSIVITET', std: 'Mixed Modality (EMOM)', var: 'Power Cleans', sets: 4, reps: '3-5 reps', rest: 120, baseKg: 65, cue: 'Trippelsträckning i fot, knä och höft – fånga snabbt.' },
-          { id: 'ex16', type: 'TACTICAL CARRY', std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', sets: 4, reps: '40 meter', rest: 90, baseKg: 32, cue: 'Stolta axlar, korta snabba steg, noll sidotippning.' }
+          { id: 'e14', cat: 'MARKLYFT', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 reps', rest: 150, baseKg: 120, desc: 'Tungt baslyft från golvet med neutral rygg.' },
+          { id: 'e15', cat: 'EXPLOSIV VÄNDNING', std: 'Mixed Modality (EMOM)', var: 'Power Cleans', sets: 4, reps: '3-5 reps', rest: 120, baseKg: 65, desc: 'Explosiv höftsträckning och snabb mottagning på axlarna.' },
+          { id: 'e16', cat: 'BÄRKAPACITET', std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', sets: 4, reps: '40 meter', rest: 90, baseKg: 32, desc: 'Tungt grepp och upprätt hållning under gång.' }
         ]
       }
     ];
 
-    const mobilityDrills = [
+    const runningPlan = [
+      { v: 1, p1: 'Yxbacken: 5 × 45s (10 kg väst/säck)', p2: 'Yasso 800m: 4 × 800m @ måltempo', p3: 'Cardiac Output: 30 min zon 2' },
+      { v: 2, p1: 'Yxbacken: 6 × 45s (10 kg väst/säck)', p2: 'Yasso 800m: 5 × 800m @ måltempo', p3: 'Cardiac Output: 35 min Bear Hug säck' },
+      { v: 3, p1: 'Yxbacken: 7 × 45s (12 kg väst/säck)', p2: 'Yasso 800m: 6 × 800m @ måltempo', p3: 'Långpass: 8 km lugnt tempo' },
+      { v: 4, p1: 'Deload: 4 × 30s backe utan väst', p2: 'Yasso 800m: 4 × 800m teknik', p3: 'Cardiac Output: 25 min lätt' },
+      { v: 5, p1: 'Yxbacken: 8 × 45s (12–15 kg säck)', p2: 'Yasso 800m: 7 × 800m @ måltempo', p3: 'Långpass: 10 km progressivt' },
+      { v: 6, p1: 'Testvecka: 2,0 km / Cooper-test', p2: 'Sprints: 8 × 100m max med full vila', p3: 'Återhämtning: 30 min lätt jogg' }
+    ];
+
+    const mobilityPlan = [
       {
-        id: 'mob1',
-        title: '1. Rear Foot Elevated Hip Flexor Stretch',
-        target: 'Höftböjare (Psoas) & Rectus Femoris',
-        dosage: '2 × 45 sek per sida',
-        desc: 'Placera bakre foten på en bänk eller stol. Spänn bakre sätesmuskeln hårt, tippa bäckenet lätt bakåt och skjut fram höften utan att svanka i ländryggen.',
-        svg: `<svg viewBox="0 0 200 120" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2">
-          <line x1="20" y1="100" x2="180" y2="100" stroke="#3f3f46" stroke-width="3"/>
-          <rect x="140" y="65" width="30" height="35" rx="4" fill="#27272a" stroke="#10b981" stroke-width="2"/>
-          <circle cx="85" cy="28" r="10" fill="#10b981"/>
-          <line x1="85" y1="38" x2="85" y2="68" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/>
-          <polyline points="85,68 55,68 55,100" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
-          <polyline points="85,68 115,92 145,68" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
-        </svg>`
+        title: '1. Rear Foot Elevated Hip Flexor',
+        dose: '2 × 45 sek / sida',
+        focus: 'Höftböjare & lår (efter bil/bälte)',
+        text: 'Placera bakre foten på en bänk. Spänn sätet hårt och skjut fram höften med neutral ländrygg.',
+        svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><rect x="140" y="60" width="30" height="35" rx="4" fill="#27272a" stroke="#10b981" stroke-width="2"/><circle cx="85" cy="25" r="9" fill="#10b981"/><line x1="85" y1="34" x2="85" y2="65" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><polyline points="85,65 55,65 55,95" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/><polyline points="85,65 115,88 145,65" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>`
       },
       {
-        id: 'mob2',
-        title: '2. Lizard Drill med Thoracic Rotation',
-        target: 'Insida lår, höftkapsel & bröstryggsrotation',
-        dosage: '2 × 8 kontrollerade reps per sida',
-        desc: 'Kliv fram i ett djupt utfallssteg med båda händerna i golvet innanför främre foten. Rotera den inre armen rakt upp mot taket och följ handen med blicken.',
-        svg: `<svg viewBox="0 0 200 120" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2">
-          <line x1="20" y1="100" x2="180" y2="100" stroke="#3f3f46" stroke-width="3"/>
-          <circle cx="70" cy="48" r="9" fill="#f97316"/>
-          <line x1="75" y1="55" x2="115" y2="72" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/>
-          <line x1="75" y1="55" x2="75" y2="98" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
-          <line x1="75" y1="55" x2="85" y2="18" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
-          <polyline points="115,72 65,65 65,98" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
-          <line x1="115" y1="72" x2="165" y2="98" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/>
-        </svg>`
+        title: '2. Lizard Drill & Rotation',
+        dose: '2 × 8 reps / sida',
+        focus: 'Höftkapsel & bröstrygg',
+        text: 'Kliv fram i ett djupt utfallssteg med händerna i golvet. Rotera inre armen rakt upp mot taket och följ med blicken.',
+        svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="70" cy="45" r="8" fill="#f97316"/><line x1="75" y1="52" x2="115" y2="68" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="75" y1="52" x2="75" y2="93" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/><line x1="75" y1="52" x2="85" y2="16" stroke="#10b981" stroke-width="4" stroke-linecap="round"/><polyline points="115,68 65,62 65,93" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/><line x1="115" y1="68" x2="165" y2="93" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/></svg>`
       },
       {
-        id: 'mob3',
         title: '3. Quadruped Thoracic Rotation',
-        target: 'Övre rygg (Thorax) & skulderbladsmobilitet',
-        dosage: '2 × 10 reps per sida',
-        desc: 'Stå på alla fyra med knäna under höfterna. Lägg ena handen bakom nacken, för armbågen mot motsatt knä och rotera sedan upp bröstkorgen maximalt mot taket.',
-        svg: `<svg viewBox="0 0 200 120" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2">
-          <line x1="20" y1="100" x2="180" y2="100" stroke="#3f3f46" stroke-width="3"/>
-          <circle cx="65" cy="52" r="9" fill="#3b82f6"/>
-          <line x1="74" y1="55" x2="130" y2="58" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/>
-          <line x1="80" y1="56" x2="80" y2="98" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/>
-          <polyline points="80,56 60,30 72,46" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
-          <polyline points="130,58 130,98 155,98" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
-        </svg>`
+        dose: '2 × 10 reps / sida',
+        focus: 'Övre rygg & skuldror (efter väst)',
+        text: 'Stå på alla fyra med handen bakom nacken. För armbågen mot motsatt arm och öppna sedan upp bröstet mot taket.',
+        svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="65" cy="48" r="8" fill="#3b82f6"/><line x1="74" y1="52" x2="130" y2="55" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="80" y1="53" x2="80" y2="93" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/><polyline points="80,53 60,26 72,42" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/><polyline points="130,55 130,93 155,93" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>`
       }
     ];
 
-    const runningWeeks = [
-      { v: 1, p1: 'Yxbacken: 5 × 45s (10 kg väst/säck)', p2: 'Yasso 800m: 4 × 800m @ måltempo', p3: 'Cardiac Output: 30 min zon 2' },
-      { v: 2, p1: 'Yxbacken: 6 × 45s (10 kg väst/säck)', p2: 'Yasso 800m: 5 × 800m @ måltempo', p3: 'Cardiac Output: 35 min Bear Hug säck' },
-      { v: 3, p1: 'Yxbacken: 7 × 45s (12 kg väst/säck)', p2: 'Yasso 800m: 6 × 800m @ måltempo', p3: 'Långpass: 8 km kontrollerat tempo' },
-      { v: 4, p1: 'Deload: 4 × 30s backintervall utan väst', p2: 'Yasso 800m: 4 × 800m teknikfokus', p3: 'Cardiac Output: 25 min lätt jogg' },
-      { v: 5, p1: 'Yxbacken: 8 × 45s (12–15 kg säck)', p2: 'Yasso 800m: 7 × 800m @ måltempo', p3: 'Långpass: 10 km progressiv avslutning' },
-      { v: 6, p1: 'Testvecka: 2,0 km polistest / Cooper', p2: 'Sprints: 8 × 100m max med full vila', p3: 'Återhämtning: 30 min lätt jogg & rörlighet' }
-    ];
-
-    // ================= 2. APP STATE =================
-    let currentDayIdx = 0;
+    // ================= 2. STATE =================
+    let selectedDayIdx = 0;
     let nightShift = false;
-    let workoutActive = false;
-    let workoutSeconds = 0;
-    let workoutTimerInterval = null;
-    let voiceEnabled = true;
-
-    let restSeconds = 0;
-    let restInterval = null;
-
+    let voiceOn = true;
     let activeVariants = JSON.parse(localStorage.getItem('ff_variants') || '{}');
-    let completedSets = JSON.parse(localStorage.getItem('ff_done_sets') || '{}');
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
-    let runChecks = JSON.parse(localStorage.getItem('ff_run_checks') || '{}');
-    let selectedChartExercises = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Pin Squats","Back Squats","Trap Bar Marklyft","Deadlifts"]');
-    let chartInstance = null;
+    let doneSets = JSON.parse(localStorage.getItem('ff_done_sets') || '{}');
+    let runDone = JSON.parse(localStorage.getItem('ff_run_done') || '{}');
+    let chartSelection = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Pin Squats","Back Squats","Trap Bar Marklyft","Deadlifts"]');
+    let chartObj = null;
 
-    // ================= 3. INITIALIZATION =================
+    let playerTimer = null;
+    let playerSec = 0;
+    let restTimer = null;
+    let restSec = 0;
+
+    // ================= 3. INIT =================
     window.addEventListener('DOMContentLoaded', () => {
-      generateAppIcon();
-      loadProfile();
-      renderDaySelector();
-      renderWorkoutCards();
-      renderRunningWeeks();
-      renderMobilityDrills();
-      renderChartFilter();
-      updateChart();
-      updateLoggedSetsCounter();
+      buildTacticalIcon();
+      loadProfileSettings();
+      renderDaySelectorGrid();
+      renderPreviewExercises();
+      renderRunningView();
+      renderMobilityView();
+      renderChartControls();
+      drawStrengthChart();
+      refreshSetCount();
     });
 
-    // ================= 4. AUDIO & VOICE ENGINE =================
-    function playBeep(freq = 880, duration = 0.12) {
+    // ================= 4. SOUND & SPEECH =================
+    function beep(freq = 880, dur = 0.12) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        const g = ctx.createGain();
         osc.frequency.value = freq;
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0.2, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + duration);
+        g.gain.setValueAtTime(0.18, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        osc.connect(g); g.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + dur);
       } catch (e) {}
     }
 
-    function speakText(text) {
-      if (!voiceEnabled || !('speechSynthesis' in window)) return;
+    function speak(txt) {
+      if (!voiceOn || !('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
+      const u = new SpeechSynthesisUtterance(txt);
       u.lang = 'sv-SE';
-      u.rate = 1.05;
       window.speechSynthesis.speak(u);
     }
 
-    function toggleVoiceCoach() {
-      voiceEnabled = !voiceEnabled;
-      document.getElementById('voiceToggleBtn').textContent = voiceEnabled ? '🔊 Röst: PÅ' : '🔇 Röst: AV';
+    function toggleVoice() {
+      voiceOn = !voiceOn;
+      document.getElementById('playerVoiceBtn').textContent = voiceOn ? '🔊 Röst' : '🔇 Tyst';
     }
 
-    // ================= 5. WORKOUT RENDERING & ACTIVE PLAYER =================
-    function renderDaySelector() {
-      const el = document.getElementById('daySelector');
-      el.innerHTML = workoutDays.map((d, i) => `
-        <button onclick="selectDay(${i})" class="px-3.5 py-2 rounded-xl text-xs font-black uppercase tracking-wider whitespace-nowrap border transition ${i === currentDayIdx ? 'bg-orange-500 text-zinc-950 border-orange-400 shadow-lg shadow-orange-500/20' : 'bg-zinc-900/90 text-zinc-300 border-zinc-800'}">
-          ${d.short}
+    // ================= 5. DASHBOARD & VARIANT SWITCHING =================
+    function renderDaySelectorGrid() {
+      const grid = document.getElementById('daySelectorGrid');
+      grid.innerHTML = workoutDays.map((d, idx) => `
+        <button onclick="selectWorkoutDay(${idx})" class="p-3.5 rounded-xl border text-left transition ${idx === selectedDayIdx ? 'bg-orange-500 text-zinc-950 border-orange-400 shadow-lg shadow-orange-500/20' : 'glass-card text-zinc-200 hover:border-zinc-600'}">
+          <div class="text-[10px] font-mono uppercase font-bold ${idx === selectedDayIdx ? 'text-zinc-900' : 'text-orange-400'}">${d.tag}</div>
+          <div class="text-sm font-black mt-0.5">${d.short}</div>
         </button>
       `).join('');
 
-      const day = workoutDays[currentDayIdx];
-      document.getElementById('dayTag').textContent = day.tag;
-      document.getElementById('dayTitle').textContent = day.title;
-      document.getElementById('dayFocus').textContent = day.focus;
+      const cur = workoutDays[selectedDayIdx];
+      document.getElementById('metricDayName').textContent = cur.short;
+      document.getElementById('previewTag').textContent = cur.tag;
+      document.getElementById('previewTitle').textContent = cur.title;
     }
 
-    function selectDay(idx) {
-      currentDayIdx = idx;
-      renderDaySelector();
-      renderWorkoutCards();
+    function selectWorkoutDay(idx) {
+      selectedDayIdx = idx;
+      renderDaySelectorGrid();
+      renderPreviewExercises();
     }
 
-    function toggleVariant(exId) {
+    function swapVariant(exId) {
       activeVariants[exId] = !activeVariants[exId];
       localStorage.setItem('ff_variants', JSON.stringify(activeVariants));
-      playBeep(660, 0.08);
-      renderWorkoutCards();
+      beep(660, 0.08);
+      renderPreviewExercises();
+      if (!document.getElementById('activeWorkoutModal').classList.contains('hidden')) {
+        renderPlayerExercises();
+      }
     }
 
-    function renderWorkoutCards() {
-      const day = workoutDays[currentDayIdx];
+    function renderPreviewExercises() {
+      const day = workoutDays[selectedDayIdx];
       const w = parseFloat(localStorage.getItem('ff_weight') || '70');
-      const scale = w / 70;
-      const container = document.getElementById('workoutExercisesContainer');
+      const factor = w / 70;
+      const container = document.getElementById('previewExercisesList');
 
       container.innerHTML = day.exercises.map(ex => {
         const isVar = !!activeVariants[ex.id];
-        const currentName = isVar ? ex.var : ex.std;
-        const altName = isVar ? ex.std : ex.var;
-        const totalSets = nightShift ? Math.max(1, ex.sets - 1) : ex.sets;
-        const recKg = ex.baseKg > 0 ? Math.round((ex.baseKg * scale) / 2.5) * 2.5 : 0;
-        const history = logs[currentName] || [];
-        const defaultWeight = history.length > 0 ? history[history.length - 1].kg : recKg;
-
-        let setRowsHtml = '';
-        for (let s = 1; s <= totalSets; s++) {
-          const setKey = `${ex.id}_s${s}_${currentName}`;
-          const isDone = !!completedSets[setKey];
-          setRowsHtml += `
-            <div class="flex items-center justify-between gap-2 p-2 rounded-xl border ${isDone ? 'bg-emerald-950/40 border-emerald-600/50' : 'bg-zinc-900/80 border-zinc-800'}">
-              <span class="text-xs font-mono font-bold ${isDone ? 'text-emerald-400' : 'text-zinc-400'} w-14">SET ${s}</span>
-              <div class="flex items-center gap-1.5">
-                <input type="number" id="w-${setKey}" value="${defaultWeight}" class="w-20 bg-zinc-950 text-white font-mono font-bold text-xs px-2.5 py-1.5 rounded-lg border border-zinc-700 text-center">
-                <span class="text-[11px] text-zinc-400">kg</span>
-              </div>
-              <span class="text-xs text-zinc-400 font-mono">${ex.reps}</span>
-              <button onclick="completeSet('${ex.id}', ${s}, '${currentName}', ${ex.rest})" class="px-3 py-1.5 rounded-lg text-xs font-black uppercase transition ${isDone ? 'bg-emerald-500 text-zinc-950' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-600'}">
-                ${isDone ? '✓ Klar' : 'Logga'}
-              </button>
-            </div>
-          `;
-        }
+        const name = isVar ? ex.var : ex.std;
+        const alt = isVar ? ex.std : ex.var;
+        const sets = nightShift ? Math.max(1, ex.sets - 1) : ex.sets;
+        const recKg = ex.baseKg > 0 ? Math.round((ex.baseKg * factor) / 2.5) * 2.5 : 0;
+        const hist = logs[name] || [];
+        const lastKg = hist.length ? hist[hist.length - 1].kg : recKg;
 
         return `
-          <div class="tactical-card p-4 space-y-3 ${isVar ? 'border-amber-500/50' : ''}">
-            <div class="flex items-start justify-between gap-2">
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-zinc-800 text-orange-400 font-bold">${ex.type}</span>
-                  ${isVar ? '<span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">Variant Aktiv</span>' : ''}
-                </div>
-                <h3 class="text-base font-black text-white mt-1.5">${currentName}</h3>
-                <p class="text-xs text-zinc-400 mt-0.5">${ex.cue}</p>
+          <div class="p-4 rounded-xl bg-zinc-900/90 border ${isVar ? 'border-amber-500/50' : 'border-zinc-800'} flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-zinc-800 text-orange-400 font-bold">${ex.cat}</span>
+                ${isVar ? '<span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">Variant Aktiv</span>' : ''}
+                <span class="text-xs font-mono text-zinc-400">${sets} × ${ex.reps}</span>
               </div>
-              <button onclick="toggleVariant('${ex.id}')" class="px-3 py-1.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 border border-amber-500/50 text-amber-400 text-xs font-black whitespace-nowrap shadow">
-                ⇄ Byt: ${altName}
+              <h3 class="text-base font-black text-white">${name}</h3>
+              <p class="text-xs text-zinc-400">${ex.desc}</p>
+            </div>
+
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              <input type="number" id="quick-w-${ex.id}" value="${lastKg}" class="w-20 bg-zinc-950 text-white font-mono font-bold text-xs px-2.5 py-2 rounded-lg border border-zinc-700 text-center">
+              <button onclick="quickLog('${name}', 'quick-w-${ex.id}')" class="px-3 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs uppercase">
+                ✓ Logga
               </button>
-            </div>
-
-            <div class="flex items-center justify-between text-[11px] font-mono text-zinc-400 bg-zinc-950/60 px-3 py-1.5 rounded-lg border border-zinc-800/80">
-              <span>Volym: <strong class="text-zinc-200">${totalSets} × ${ex.reps}</strong></span>
-              <span>Riktvikt: <strong class="text-orange-400">${recKg > 0 ? recKg + ' kg' : 'Kroppsvikt'}</strong></span>
-              <span>Vila: <strong class="text-blue-400">${ex.rest}s</strong></span>
-            </div>
-
-            <div class="space-y-1.5 pt-1">
-              ${setRowsHtml}
+              <button onclick="swapVariant('${ex.id}')" class="px-3 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-amber-500/50 text-amber-400 font-black text-xs whitespace-nowrap">
+                ⇄ Byt (${alt})
+              </button>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    function completeSet(exId, setNum, exName, restSec) {
-      const setKey = `${exId}_s${setNum}_${exName}`;
-      const inputEl = document.getElementById(`w-${setKey}`);
-      const weightVal = parseFloat(inputEl ? inputEl.value : 0) || 0;
+    function quickLog(exName, inputId) {
+      const val = parseFloat(document.getElementById(inputId).value) || 0;
+      saveLogEntry(exName, val);
+      beep(880, 0.12);
+      renderPreviewExercises();
+    }
 
-      completedSets[setKey] = !completedSets[setKey];
-      localStorage.setItem('ff_done_sets', JSON.stringify(completedSets));
-
-      if (completedSets[setKey]) {
-        if (!logs[exName]) logs[exName] = [];
-        const today = new Date().toISOString().slice(5, 10);
-        logs[exName].push({ date: today, kg: weightVal });
-        localStorage.setItem('ff_logs', JSON.stringify(logs));
-
-        if (!selectedChartExercises.includes(exName) && selectedChartExercises.length < 5) {
-          selectedChartExercises.push(exName);
-          localStorage.setItem('ff_chart_sel', JSON.stringify(selectedChartExercises));
-        }
-
-        playBeep(880, 0.15);
-        startRestTimer(restSec, exName);
+    function saveLogEntry(exName, kgVal) {
+      if (!logs[exName]) logs[exName] = [];
+      const today = new Date().toISOString().slice(5, 10);
+      logs[exName].push({ date: today, kg: kgVal });
+      localStorage.setItem('ff_logs', JSON.stringify(logs));
+      if (!chartSelection.includes(exName) && chartSelection.length < 5) {
+        chartSelection.push(exName);
+        localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelection));
       }
-
-      updateLoggedSetsCounter();
-      renderWorkoutCards();
+      refreshSetCount();
     }
 
-    function updateLoggedSetsCounter() {
-      let total = 0;
-      Object.values(logs).forEach(arr => total += arr.length);
-      document.getElementById('dashLoggedSets').textContent = `${total} st`;
+    function refreshSetCount() {
+      let count = 0;
+      Object.values(logs).forEach(arr => count += arr.length);
+      document.getElementById('metricTotalSets').textContent = `${count} set`;
     }
 
-    function startWorkoutSession() {
-      if (workoutActive) return;
-      workoutActive = true;
-      workoutSeconds = 0;
-      document.getElementById('activeWorkoutBar').classList.remove('hidden');
-      document.getElementById('startWorkoutBtn').textContent = '🔥 Pass Pågår';
-      playBeep(660, 0.2);
-      speakText('Träningspass startat. Kör hårt!');
-      workoutTimerInterval = setInterval(() => {
-        workoutSeconds++;
-        const m = String(Math.floor(workoutSeconds / 60)).padStart(2, '0');
-        const s = String(workoutSeconds % 60).padStart(2, '0');
-        document.getElementById('activeWorkoutTimer').textContent = `${m}:${s}`;
+    // ================= 6. ACTIVE WORKOUT PLAYER MODAL =================
+    function openActiveWorkoutModal() {
+      document.getElementById('activeWorkoutModal').classList.remove('hidden');
+      document.getElementById('playerDayTitle').textContent = workoutDays[selectedDayIdx].title;
+      playerSec = 0;
+      clearInterval(playerTimer);
+      playerTimer = setInterval(() => {
+        playerSec++;
+        const m = String(Math.floor(playerSec / 60)).padStart(2, '0');
+        const s = String(playerSec % 60).padStart(2, '0');
+        document.getElementById('playerElapsedClock').textContent = `${m}:${s}`;
       }, 1000);
+      speak('Passet har startat. Kör hårt!');
+      renderPlayerExercises();
     }
 
-    function finishWorkout() {
-      workoutActive = false;
-      clearInterval(workoutTimerInterval);
-      stopRestTimer();
-      document.getElementById('activeWorkoutBar').classList.add('hidden');
-      document.getElementById('startWorkoutBtn').textContent = '▶ Starta Pass';
-      speakText('Passet är avslutat. Snyggt jobbat!');
+    function closeActiveWorkoutModal() {
+      clearInterval(playerTimer);
+      cancelRest();
+      document.getElementById('activeWorkoutModal').classList.add('hidden');
+      renderPreviewExercises();
     }
 
-    function startRestTimer(seconds, exName) {
-      clearInterval(restInterval);
-      restSeconds = seconds;
-      document.getElementById('restTimerBar').classList.remove('hidden');
-      updateRestDisplay();
-      speakText(`Set loggat. Vila ${seconds} sekunder.`);
+    function renderPlayerExercises() {
+      const day = workoutDays[selectedDayIdx];
+      const w = parseFloat(localStorage.getItem('ff_weight') || '70');
+      const factor = w / 70;
+      const container = document.getElementById('playerExercisesContainer');
 
-      restInterval = setInterval(() => {
-        restSeconds--;
-        updateRestDisplay();
-        if (restSeconds === 10) speakText('Tio sekunder kvar.');
-        if (restSeconds <= 0) {
-          stopRestTimer();
-          playBeep(1046, 0.3);
-          speakText('Vilan är slut. Redo för nästa set!');
+      container.innerHTML = day.exercises.map(ex => {
+        const isVar = !!activeVariants[ex.id];
+        const name = isVar ? ex.var : ex.std;
+        const alt = isVar ? ex.std : ex.var;
+        const sets = nightShift ? Math.max(1, ex.sets - 1) : ex.sets;
+        const recKg = ex.baseKg > 0 ? Math.round((ex.baseKg * factor) / 2.5) * 2.5 : 0;
+        const hist = logs[name] || [];
+        const defKg = hist.length ? hist[hist.length - 1].kg : recKg;
+
+        let rows = '';
+        for (let s = 1; s <= sets; s++) {
+          const key = `${ex.id}_${name}_s${s}`;
+          const done = !!doneSets[key];
+          rows += `
+            <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl border ${done ? 'bg-emerald-950/40 border-emerald-500/50' : 'bg-zinc-900 border-zinc-800'}">
+              <span class="text-xs font-mono font-bold ${done ? 'text-emerald-400' : 'text-zinc-400'}">SET ${s}</span>
+              <div class="flex items-center gap-1.5">
+                <input type="number" id="pw-${key}" value="${defKg}" class="w-20 bg-zinc-950 text-white font-mono font-bold text-xs px-2 py-1.5 rounded border border-zinc-700 text-center">
+                <span class="text-xs text-zinc-400">kg × ${ex.reps}</span>
+              </div>
+              <button onclick="logPlayerSet('${ex.id}', '${name}', ${s}, ${ex.rest})" class="px-3.5 py-1.5 rounded-lg text-xs font-black uppercase ${done ? 'bg-emerald-500 text-zinc-950' : 'bg-orange-500 text-zinc-950'}">
+                ${done ? '✓ Klar' : 'Klar'}
+              </button>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="glass-card p-4 space-y-3">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-base font-black text-white">${name}</h3>
+                <p class="text-xs text-zinc-400">${ex.desc}</p>
+              </div>
+              <button onclick="swapVariant('${ex.id}')" class="px-3 py-1.5 rounded-lg bg-zinc-800 border border-amber-500/50 text-amber-400 text-xs font-black">
+                ⇄ Byt: ${alt}
+              </button>
+            </div>
+            <div class="space-y-2">${rows}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function logPlayerSet(exId, exName, setNum, restDur) {
+      const key = `${exId}_${exName}_s${setNum}`;
+      const kg = parseFloat(document.getElementById(`pw-${key}`).value) || 0;
+      doneSets[key] = !doneSets[key];
+      localStorage.setItem('ff_done_sets', JSON.stringify(doneSets));
+      if (doneSets[key]) {
+        saveLogEntry(exName, kg);
+        beep(880, 0.15);
+        triggerRest(restDur);
+      }
+      renderPlayerExercises();
+    }
+
+    function triggerRest(seconds) {
+      clearInterval(restTimer);
+      restSec = seconds;
+      document.getElementById('playerRestBox').classList.remove('hidden');
+      updateRestUI();
+      speak(`Vila ${seconds} sekunder.`);
+      restTimer = setInterval(() => {
+        restSec--;
+        updateRestUI();
+        if (restSec <= 0) {
+          cancelRest();
+          beep(1046, 0.3);
+          speak('Vilan är klar. Nästa set!');
         }
       }, 1000);
     }
 
-    function updateRestDisplay() {
-      const m = String(Math.floor(Math.max(0, restSeconds) / 60)).padStart(2, '0');
-      const s = String(Math.max(0, restSeconds) % 60).padStart(2, '0');
-      document.getElementById('restTimerCountdown').textContent = `${m}:${s}`;
+    function updateRestUI() {
+      const m = String(Math.floor(Math.max(0, restSec) / 60)).padStart(2, '0');
+      const s = String(Math.max(0, restSec) % 60).padStart(2, '0');
+      document.getElementById('playerRestClock').textContent = `${m}:${s}`;
     }
 
-    function adjustRest(delta) {
-      restSeconds = Math.max(5, restSeconds + delta);
-      updateRestDisplay();
-    }
+    function modifyRest(d) { restSec = Math.max(5, restSec + d); updateRestUI(); }
+    function cancelRest() { clearInterval(restTimer); document.getElementById('playerRestBox').classList.add('hidden'); }
 
-    function stopRestTimer() {
-      clearInterval(restInterval);
-      document.getElementById('restTimerBar').classList.add('hidden');
-    }
-
-    // ================= 6. RUNNING & MOBILITY VIEWS =================
-    function renderRunningWeeks() {
-      const container = document.getElementById('runningWeeksContainer');
-      container.innerHTML = runningWeeks.map(w => `
-        <div class="tactical-card p-4 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black uppercase text-blue-400 tracking-wider">Vecka ${w.v}</span>
-            <span class="text-[11px] font-mono text-zinc-400">3 Kvalitetspass</span>
-          </div>
-          ${[1, 2, 3].map(pIdx => {
-            const key = `v${w.v}_p${pIdx}`;
-            const done = !!runChecks[key];
-            const text = w['p' + pIdx];
+    // ================= 7. RUNNING & MOBILITY RENDER =================
+    function renderRunningView() {
+      document.getElementById('runningGrid').innerHTML = runningPlan.map(w => `
+        <div class="glass-card p-4 space-y-2.5">
+          <div class="text-xs font-black uppercase text-blue-400">Vecka ${w.v}</div>
+          ${[1, 2, 3].map(i => {
+            const k = `w${w.v}_p${i}`;
+            const isDone = !!runDone[k];
             return `
-              <div onclick="toggleRunCheck('${key}')" class="flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition ${done ? 'bg-emerald-950/40 border-emerald-600/50 text-emerald-200' : 'bg-zinc-900/80 border-zinc-800 text-zinc-200'}">
-                <span class="text-xs">${text}</span>
-                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded ${done ? 'bg-emerald-500 text-zinc-950' : 'bg-zinc-800 text-zinc-400'}">${done ? '✓ KLAR' : 'LOGGA'}</span>
+              <div onclick="toggleRunItem('${k}')" class="p-2.5 rounded-xl border cursor-pointer flex items-center justify-between text-xs ${isDone ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' : 'bg-zinc-900 border-zinc-800 text-zinc-300'}">
+                <span>${w['p' + i]}</span>
+                <span class="font-mono font-bold px-2 py-0.5 rounded ${isDone ? 'bg-emerald-500 text-zinc-950' : 'bg-zinc-800 text-zinc-400'}">${isDone ? '✓' : 'Logga'}</span>
               </div>
             `;
           }).join('')}
@@ -752,95 +719,79 @@
       `).join('');
     }
 
-    function toggleRunCheck(key) {
-      runChecks[key] = !runChecks[key];
-      localStorage.setItem('ff_run_checks', JSON.stringify(runChecks));
-      playBeep(780, 0.1);
-      renderRunningWeeks();
+    function toggleRunItem(k) {
+      runDone[k] = !runDone[k];
+      localStorage.setItem('ff_run_done', JSON.stringify(runDone));
+      beep(780, 0.1);
+      renderRunningView();
     }
 
-    function renderMobilityDrills() {
-      const container = document.getElementById('mobilityDrillsContainer');
-      container.innerHTML = mobilityDrills.map(d => `
-        <div class="tactical-card p-4 space-y-3">
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-700/40 font-bold">${d.dosage}</span>
-              <h3 class="text-base font-black text-white mt-1.5">${d.title}</h3>
-              <p class="text-[11px] text-emerald-400 font-semibold">${d.target}</p>
-            </div>
-            <button onclick="startRestTimer(45, '${d.title}')" class="px-3 py-1.5 rounded-xl bg-emerald-500 text-zinc-950 font-black text-xs uppercase whitespace-nowrap">
-              ⏱ 45s Timer
-            </button>
+    function renderMobilityView() {
+      document.getElementById('mobilityCardsContainer').innerHTML = mobilityPlan.map(m => `
+        <div class="glass-card p-4 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-700/40 font-bold">${m.dose}</span>
+            <h3 class="text-base font-black text-white">${m.title}</h3>
+            <p class="text-xs text-emerald-400 font-semibold">${m.focus}</p>
+            ${m.svg}
+            <p class="text-xs text-zinc-300 leading-relaxed">${m.text}</p>
           </div>
-          ${d.svg}
-          <p class="text-xs text-zinc-300 leading-relaxed">${d.desc}</p>
         </div>
       `).join('');
     }
 
-    // ================= 7. CHART.JS & CSV EXPORT =================
-    function getAllExerciseNames() {
-      const list = [];
-      workoutDays.forEach(d => d.exercises.forEach(e => {
-        list.push(e.std);
-        list.push(e.var);
-      }));
-      return [...new Set(list)];
+    // ================= 8. CHART.JS & CSV =================
+    function getAllExercisesList() {
+      const arr = [];
+      workoutDays.forEach(d => d.exercises.forEach(e => { arr.push(e.std); arr.push(e.var); }));
+      return [...new Set(arr)];
     }
 
-    function renderChartFilter() {
-      const all = getAllExerciseNames();
-      const el = document.getElementById('chartFilterPills');
-      el.innerHTML = all.map(name => {
-        const active = selectedChartExercises.includes(name);
+    function renderChartControls() {
+      const all = getAllExercisesList();
+      document.getElementById('chartSelectorPills').innerHTML = all.map(name => {
+        const sel = chartSelection.includes(name);
         return `
-          <button onclick="toggleChartExercise('${name}')" class="text-[11px] px-2.5 py-1 rounded-lg border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">
-            ${active ? '✓ ' : ''}${name}
+          <button onclick="toggleChartLine('${name}')" class="text-xs px-2.5 py-1 rounded-lg border transition ${sel ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">
+            ${sel ? '✓ ' : ''}${name}
           </button>
         `;
       }).join('');
     }
 
-    function toggleChartExercise(name) {
-      if (selectedChartExercises.includes(name)) {
-        selectedChartExercises = selectedChartExercises.filter(n => n !== name);
+    function toggleChartLine(name) {
+      if (chartSelection.includes(name)) {
+        chartSelection = chartSelection.filter(x => x !== name);
       } else {
-        if (selectedChartExercises.length >= 5) {
-          alert('Max 5 övningar kan visas samtidigt i grafen.');
-          return;
-        }
-        selectedChartExercises.push(name);
+        if (chartSelection.length >= 5) { alert('Välj max 5 övningar samtidigt.'); return; }
+        chartSelection.push(name);
       }
-      localStorage.setItem('ff_chart_sel', JSON.stringify(selectedChartExercises));
-      renderChartFilter();
-      updateChart();
+      localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelection));
+      renderChartControls();
+      drawStrengthChart();
     }
 
-    function updateChart() {
-      const ctx = document.getElementById('progressChart').getContext('2d');
-      if (chartInstance) chartInstance.destroy();
-      const palette = ['#f97316', '#10b981', '#3b82f6', '#eab308', '#ec4899'];
-
-      const datasets = selectedChartExercises.map((name, idx) => {
-        const entries = logs[name] || [];
-        const points = entries.length ? entries.map((e, i) => ({ x: i + 1, y: e.kg })) : [{ x: 1, y: 0 }];
+    function drawStrengthChart() {
+      const ctx = document.getElementById('strengthChartCanvas').getContext('2d');
+      if (chartObj) chartObj.destroy();
+      const colors = ['#f97316', '#10b981', '#3b82f6', '#eab308', '#ec4899'];
+      const datasets = chartSelection.map((name, i) => {
+        const items = logs[name] || [];
         return {
           label: name,
-          data: points,
-          borderColor: palette[idx % palette.length],
-          backgroundColor: palette[idx % palette.length],
+          data: items.length ? items.map((x, idx) => ({ x: idx + 1, y: x.kg })) : [{ x: 1, y: 0 }],
+          borderColor: colors[i % colors.length],
+          backgroundColor: colors[i % colors.length],
           borderWidth: 2.5,
-          tension: 0.35
+          tension: 0.3
         };
       });
-
-      chartInstance = new Chart(ctx, {
+      chartObj = new Chart(ctx, {
         type: 'line',
         data: { labels: ['Pass 1', 'Pass 2', 'Pass 3', 'Pass 4', 'Pass 5', 'Pass 6', 'Pass 7', 'Pass 8'], datasets },
         options: {
           responsive: true,
-          plugins: { legend: { labels: { color: '#f4f4f5', font: { size: 11, weight: 'bold' } } } },
+          plugins: { legend: { labels: { color: '#f4f4f5' } } },
           scales: {
             x: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } },
             y: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } }
@@ -849,177 +800,151 @@
       });
     }
 
-    function exportCSV() {
+    function exportLogsCSV() {
       let csv = 'Ovning,Datum,Vikt_kg\n';
-      Object.keys(logs).forEach(ex => {
-        logs[ex].forEach(r => { csv += `"${ex}",${r.date},${r.kg}\n`; });
-      });
-      const blob = new Blob([csv], { type: 'text/csv' });
+      Object.keys(logs).forEach(k => logs[k].forEach(r => { csv += `"${k}",${r.date},${r.kg}\n`; }));
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'frontline_fit_logg.csv';
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'frontline_fit_statistik.csv';
       a.click();
     }
 
-    // ================= 8. BOX BREATHING & HLR METRONOME =================
+    // ================= 9. MODALS, BREATHING & HLR =================
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');
-      if (id === 'breathModal' && breathTimer) toggleBoxBreathing();
-      if (id === 'hlrModal' && hlrTimer) toggleHLR();
+      if (id === 'breathModal' && breathInt) toggleBreathing();
+      if (id === 'hlrModal' && hlrInt) toggleHlrMetronome();
     }
 
-    let breathTimer = null;
-    function toggleBoxBreathing() {
-      const btn = document.getElementById('breathStartBtn');
-      const circle = document.getElementById('breathCircle');
-      if (breathTimer) {
-        clearInterval(breathTimer);
-        breathTimer = null;
+    let breathInt = null;
+    function toggleBreathing() {
+      const ring = document.getElementById('breathCircleEl');
+      const btn = document.getElementById('breathActionBtn');
+      if (breathInt) {
+        clearInterval(breathInt); breathInt = null;
+        ring.style.transform = 'scale(1)';
         btn.textContent = 'Starta Box Breathing';
-        circle.style.transform = 'scale(1)';
-        document.getElementById('breathPhaseText').textContent = 'Pausad';
+        document.getElementById('breathPhaseLabel').textContent = 'Pausad';
         return;
       }
-      btn.textContent = 'Stoppa Box Breathing';
-      const phases = [
-        { name: 'Andas IN', scale: 'scale(1.35)', color: '#3b82f6' },
-        { name: 'HÅLL Andan', scale: 'scale(1.35)', color: '#eab308' },
-        { name: 'Andas UT', scale: 'scale(0.85)', color: '#10b981' },
-        { name: 'HÅLL Tom', scale: 'scale(0.85)', color: '#6366f1' }
+      btn.textContent = 'Stoppa';
+      const steps = [
+        { t: 'Andas IN (4s)', s: 'scale(1.3)' },
+        { t: 'HÅLL (4s)', s: 'scale(1.3)' },
+        { t: 'Andas UT (4s)', s: 'scale(0.85)' },
+        { t: 'HÅLL Tom (4s)', s: 'scale(0.85)' }
       ];
-      let step = 0;
-      const runStep = () => {
-        const p = phases[step % 4];
-        document.getElementById('breathPhaseText').textContent = p.name;
-        circle.style.transform = p.scale;
-        circle.style.borderColor = p.color;
-        playBeep(520, 0.08);
-        speakText(p.name);
-        step++;
+      let i = 0;
+      const tick = () => {
+        const st = steps[i % 4];
+        document.getElementById('breathPhaseLabel').textContent = st.t;
+        ring.style.transform = st.s;
+        beep(520, 0.08);
+        i++;
       };
-      runStep();
-      breathTimer = setInterval(runStep, 4000);
+      tick();
+      breathInt = setInterval(tick, 4000);
     }
 
-    let hlrTimer = null;
-    let hlrBeatTimer = null;
-    function toggleHLR() {
-      const btn = document.getElementById('hlrStartBtn');
-      const pulse = document.getElementById('hlrPulseCircle');
-      if (hlrTimer) {
-        clearInterval(hlrTimer);
-        clearInterval(hlrBeatTimer);
-        hlrTimer = null;
-        hlrBeatTimer = null;
-        pulse.classList.remove('hlr-pulse');
-        btn.textContent = '▶ Starta HLR-Metronom';
-        document.getElementById('hlrCompCount').textContent = 'Stoppad';
+    let hlrInt = null, hlrBeat = null;
+    function toggleHlrMetronome() {
+      const ring = document.getElementById('hlrRingEl');
+      const btn = document.getElementById('hlrActionBtn');
+      if (hlrInt) {
+        clearInterval(hlrInt); clearInterval(hlrBeat);
+        hlrInt = null; hlrBeat = null;
+        ring.classList.remove('hlr-beat');
+        btn.textContent = '▶ Starta HLR-Timer (110 BPM)';
         return;
       }
-
-      let secLeft = 120;
-      let comp = 0;
+      let sec = 120, c = 0;
+      ring.classList.add('hlr-beat');
       btn.textContent = '⏹ Stoppa HLR';
-      pulse.classList.add('hlr-pulse');
-      speakText('Starta H L R. Trettio kompressioner, två inblåsningar.');
-
-      hlrBeatTimer = setInterval(() => {
-        comp = (comp % 32) + 1;
-        if (comp <= 30) {
-          playBeep(800, 0.05);
-          document.getElementById('hlrCompCount').textContent = `Kompression ${comp} / 30`;
+      hlrBeat = setInterval(() => {
+        c = (c % 32) + 1;
+        if (c <= 30) {
+          beep(800, 0.05);
+          document.getElementById('hlrStepLabel').textContent = `Kompression ${c}/30`;
         } else {
-          playBeep(440, 0.25);
-          document.getElementById('hlrCompCount').textContent = `2 INBLÅSNINGAR!`;
+          beep(440, 0.2);
+          document.getElementById('hlrStepLabel').textContent = '2 INBLÅSNINGAR';
         }
-      }, 545); // 110 BPM
-
-      hlrTimer = setInterval(() => {
-        secLeft--;
-        const m = String(Math.floor(secLeft / 60)).padStart(2, '0');
-        const s = String(secLeft % 60).padStart(2, '0');
-        document.getElementById('hlrClock').textContent = `${m}:${s}`;
-        if (secLeft <= 0) {
-          toggleHLR();
-          speakText('Två minuter klara. Kontrollera rytm och byt livräddare.');
-        }
+      }, 545);
+      hlrInt = setInterval(() => {
+        sec--;
+        const m = String(Math.floor(sec / 60)).padStart(2, '0');
+        const s = String(sec % 60).padStart(2, '0');
+        document.getElementById('hlrCountdownText').textContent = `${m}:${s}`;
+        if (sec <= 0) toggleHlrMetronome();
       }, 1000);
     }
 
-    // ================= 9. NAVIGATION, PROFILE & ICON =================
-    function switchTab(tabId) {
-      ['workouts', 'running', 'mobility', 'stats', 'profile'].forEach(t => {
-        document.getElementById('view-' + t).classList.add('hidden');
-        document.getElementById('nav-' + t).classList.remove('active');
+    // ================= 10. VIEW NAVIGATION, PROFILE & ICON =================
+    function switchMainView(viewId) {
+      ['dashboard', 'running', 'mobility', 'stats', 'nutrition'].forEach(v => {
+        document.getElementById('view-' + v).classList.add('hidden');
+        document.getElementById('tab-' + v).classList.remove('active');
       });
-      document.getElementById('view-' + tabId).classList.remove('hidden');
-      document.getElementById('nav-' + tabId).classList.add('active');
-      if (tabId === 'stats') { renderChartFilter(); updateChart(); }
+      document.getElementById('view-' + viewId).classList.remove('hidden');
+      document.getElementById('tab-' + viewId).classList.add('active');
+      if (viewId === 'stats') { renderChartControls(); drawStrengthChart(); }
     }
 
     function toggleNightShift() {
       nightShift = !nightShift;
-      const btn = document.getElementById('nightShiftBtn');
-      btn.textContent = nightShift ? '🌙 Natt: PÅ' : '🌙 Natt';
-      btn.className = nightShift
-        ? 'px-2.5 py-2 rounded-xl bg-indigo-600 border border-indigo-400 text-white text-xs font-black'
-        : 'px-2.5 py-2 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs font-bold';
-      document.getElementById('nightShiftBanner').classList.toggle('hidden', !nightShift);
-      updateProfileCalculations();
-      renderWorkoutCards();
+      document.getElementById('nightShiftAlert').classList.toggle('hidden', !nightShift);
+      document.getElementById('nightShiftBtn').className = nightShift
+        ? 'px-2.5 py-1.5 rounded-xl bg-indigo-600 border border-indigo-400 text-white text-xs font-black'
+        : 'px-2.5 py-1.5 rounded-xl bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs font-bold';
+      renderPreviewExercises();
     }
 
-    function loadProfile() {
-      document.getElementById('profWeight').value = localStorage.getItem('ff_weight') || '70';
-      document.getElementById('profHeight').value = localStorage.getItem('ff_height') || '167';
-      updateProfileCalculations();
+    function loadProfileSettings() {
+      document.getElementById('inputProfileWeight').value = localStorage.getItem('ff_weight') || '70';
+      document.getElementById('inputProfileHeight').value = localStorage.getItem('ff_height') || '167';
+      updateProfileData();
     }
 
-    function saveProfile() {
-      localStorage.setItem('ff_weight', document.getElementById('profWeight').value || '70');
-      localStorage.setItem('ff_height', document.getElementById('profHeight').value || '167');
-      updateProfileCalculations();
-      renderWorkoutCards();
-    }
-
-    function updateProfileCalculations() {
-      const w = parseFloat(document.getElementById('profWeight').value) || 70;
-      const h = parseFloat(document.getElementById('profHeight').value) || 167;
-      document.getElementById('headerProfileBadge').textContent = `${w} KG | ${h} CM | ${nightShift ? 'NATTPASS' : 'REDO'}`;
+    function updateProfileData() {
+      const w = parseFloat(document.getElementById('inputProfileWeight').value) || 70;
+      const h = parseFloat(document.getElementById('inputProfileHeight').value) || 167;
+      localStorage.setItem('ff_weight', w);
+      localStorage.setItem('ff_height', h);
 
       const restKcal = Math.round(w * 31);
       const trainKcal = Math.round(w * 38);
       const heavyKcal = Math.round(w * 42);
-      const protein = Math.round(w * 2.2);
+      const prot = Math.round(w * 2.2);
 
-      document.getElementById('dashKcal').textContent = `${trainKcal} kcal`;
-      document.getElementById('dashProtein').textContent = `${protein} g`;
+      document.getElementById('headerSubText').textContent = `${w} kg • ${h} cm • ${trainKcal} kcal/dag`;
+      document.getElementById('metricKcal').textContent = `${trainKcal} kcal`;
+      document.getElementById('metricProtein').textContent = `${prot} g / dag`;
 
-      document.getElementById('macroBreakdownCards').innerHTML = `
-        <div class="p-2.5 bg-zinc-900 rounded-xl border border-zinc-800">
+      document.getElementById('calorieSummaryGrid').innerHTML = `
+        <div class="p-3 bg-zinc-900 rounded-xl border border-zinc-800">
           <div class="text-[10px] text-zinc-400 uppercase font-bold">Vilodag</div>
-          <div class="text-sm font-black text-zinc-200 mt-0.5">${restKcal} kcal</div>
+          <div class="text-base font-black text-white mt-0.5">${restKcal} kcal</div>
         </div>
-        <div class="p-2.5 bg-zinc-900 rounded-xl border border-orange-500/40">
+        <div class="p-3 bg-zinc-900 rounded-xl border border-orange-500/40">
           <div class="text-[10px] text-orange-400 uppercase font-bold">Träningsdag</div>
-          <div class="text-sm font-black text-orange-400 mt-0.5">${trainKcal} kcal</div>
+          <div class="text-base font-black text-orange-400 mt-0.5">${trainKcal} kcal</div>
         </div>
-        <div class="p-2.5 bg-zinc-900 rounded-xl border border-zinc-800">
+        <div class="p-3 bg-zinc-900 rounded-xl border border-emerald-500/40">
           <div class="text-[10px] text-emerald-400 uppercase font-bold">Tungt Skift</div>
-          <div class="text-sm font-black text-emerald-400 mt-0.5">${heavyKcal} kcal</div>
+          <div class="text-base font-black text-emerald-400 mt-0.5">${heavyKcal} kcal</div>
         </div>
       `;
+      renderPreviewExercises();
     }
 
-    function generateAppIcon() {
+    function buildTacticalIcon() {
       const c = document.createElement('canvas');
       c.width = 1024; c.height = 1024;
       const ctx = c.getContext('2d');
-
-      const grad = ctx.createLinearGradient(0, 0, 1024, 1024);
-      grad.addColorStop(0, '#0f172a'); grad.addColorStop(1, '#09090b');
-      ctx.fillStyle = grad; ctx.fillRect(0, 0, 1024, 1024);
+      const g = ctx.createLinearGradient(0, 0, 1024, 1024);
+      g.addColorStop(0, '#0f172a'); g.addColorStop(1, '#09090b');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, 1024, 1024);
 
       ctx.beginPath();
       ctx.moveTo(512, 110); ctx.lineTo(830, 215); ctx.lineTo(830, 525);
@@ -1043,13 +968,11 @@
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('FF', 512, 590);
 
-      const dataUrl = c.toDataURL('image/png');
-      document.getElementById('dynamicFavicon').href = dataUrl;
-      document.getElementById('dynamicTouchIcon').href = dataUrl;
-      document.getElementById('downloadIconBtn').href = dataUrl;
-
-      const hCtx = document.getElementById('headerIconCanvas').getContext('2d');
-      hCtx.drawImage(c, 0, 0, 128, 128);
+      const url = c.toDataURL('image/png');
+      document.getElementById('dynamicFavicon').href = url;
+      document.getElementById('dynamicTouchIcon').href = url;
+      document.getElementById('downloadPngBtn').href = url;
+      document.getElementById('headerLogoCanvas').getContext('2d').drawImage(c, 0, 0, 128, 128);
     }
   </script>
 </body>
