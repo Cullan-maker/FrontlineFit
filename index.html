@@ -1,1051 +1,541 @@
+
+<!-- FRONTLINE FIT - SPARA DENNA FIL SOM index.html -->
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="sv" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#09090b">
-    <title>Frontline Fit - Tactical Pro</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js för dynamiska grafer -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #09090b; /* zinc-950 */
-            color: #f4f4f5; /* zinc-100 */
-            -webkit-font-smoothing: antialiased;
-            padding-bottom: 140px;
-        }
-
-        .text-tactical { color: #f97316; } /* orange-500 */
-        .bg-tactical { background-color: #f97316; color: #000; }
-        .border-tactical { border-color: #f97316; }
-        .text-success { color: #22c55e; } /* green-500 */
-        .bg-success { background-color: #22c55e; }
-        .text-nine11 { color: #3b82f6; } /* blue-500 */
-        .bg-nine11 { background-color: #3b82f6; }
-
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        #global-footer {
-            background: rgba(9, 9, 11, 0.96);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid #27272a;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
-            z-index: 50;
-        }
-
-        .check-btn { transition: all 0.2s ease-in-out; }
-        .check-btn.completed {
-            background-color: #22c55e;
-            color: white;
-            border-color: #22c55e;
-            transform: scale(1.05);
-        }
-        
-        input[type="number"], input[type="text"], textarea {
-            background-color: #18181b;
-            border: 1px solid #3f3f46;
-            color: white;
-            transition: border-color 0.2s;
-        }
-        input[type="number"], input[type="text"] { text-align: center; }
-        input[type="number"]:focus, input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: #f97316;
-        }
-        input::placeholder { color: #52525b; font-size: 0.75rem; }
-
-        .toggle-checkbox:checked { right: 0; border-color: #f97316; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #f97316; }
-
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
-            display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px;
-        }
-        .modal-content {
-            background: #18181b; border: 1px solid #27272a; border-radius: 14px; width: 100%; max-width: 540px;
-            padding: 24px; position: relative; max-height: 90vh; overflow-y: auto;
-        }
-        
-        #mobility-modal .modal-content, #stats-modal .modal-content { max-width: 620px; padding: 0; overflow-x: hidden; }
-
-        .breathing-circle {
-            width: 150px; height: 150px; border-radius: 50%;
-            background: radial-gradient(circle, #f97316 0%, rgba(249, 115, 22, 0.1) 100%);
-            margin: 40px auto;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
-            transition: all 4s linear;
-        }
-
-        .exercise-card { transition: all 0.25s ease; border: 1px solid #27272a; }
-        .exercise-card.inactive { opacity: 0.35; pointer-events: none; transform: scale(0.98); }
-        .exercise-card.active { border-color: #f97316; box-shadow: 0 0 20px rgba(249, 115, 22, 0.15); }
-        .exercise-card.done { opacity: 0.65; border-color: #22c55e; }
-
-        textarea.notes-input {
-            width: 100%; border-radius: 8px; padding: 12px; font-size: 0.875rem; resize: vertical; min-height: 80px;
-        }
-        
-        .nattpass-active .heavy-lift-note { color: #f97316; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Frontline Fit | Tactical Performance</title>
+  <link id="dynamicFavicon" rel="icon" type="image/png" href="icon.png">
+  <link id="dynamicTouchIcon" rel="apple-touch-icon" href="icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { background-color: #09090b; color: #f4f4f5; font-family: system-ui, -apple-system, sans-serif; }
+    .card { background-color: #18181b; border: 1px solid #27272a; border-radius: 0.75rem; }
+    .tab-active { border-bottom: 2px solid #f97316; color: #f97316; font-weight: 700; }
+    input, select { background-color: #27272a; color: #f4f4f5; border: 1px solid #3f3f46; border-radius: 0.5rem; padding: 0.4rem 0.6rem; }
+  </style>
 </head>
-<body class="antialiased">
+<body class="min-h-screen pb-24">
 
-    <header class="p-4 border-b border-zinc-800 bg-zinc-950 sticky top-0 z-40">
-        <div class="flex justify-between items-center mb-3">
-            <div>
-                <h1 class="text-2xl font-black tracking-wider uppercase">
-                    Frontline <span class="text-tactical">Fit</span>
-                </h1>
-                <p class="text-xs text-zinc-400 mt-1 font-semibold uppercase tracking-widest flex items-center cursor-pointer hover:text-white transition" onclick="openSettings()">
-                    <span id="user-metrics-display">70 kg | 167 cm</span> <i class="fas fa-pen ml-2 text-zinc-500 hover:text-tactical"></i>
-                    <span id="sync-status" class="inline-block w-2 h-2 rounded-full bg-yellow-500 ml-3 animate-pulse" title="Synkstatus"></span>
-                </p>
-            </div>
-            <div class="flex flex-col gap-1.5">
-                <div class="flex gap-2">
-                    <button onclick="openModal('mobility-modal')" class="flex-1 bg-nine11 hover:bg-blue-600 text-white font-bold text-[10px] px-3 py-1.5 rounded uppercase tracking-wider transition shadow">
-                        <i class="fas fa-person-walking-arrow-right mr-1"></i> Pre-Shift
-                    </button>
-                    <button onclick="openModal('breathe-modal')" class="flex-1 bg-zinc-800 hover:bg-zinc-700 text-tactical font-bold text-[10px] px-3 py-1.5 rounded uppercase tracking-wider transition shadow border border-zinc-700">
-                        <i class="fas fa-lungs mr-1"></i> Andning
-                    </button>
-                </div>
-                <button onclick="openStats()" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-[10px] px-3 py-1.5 rounded uppercase tracking-wider transition shadow border border-zinc-700">
-                    <i class="fas fa-chart-line mr-1 text-tactical"></i> Statistik & Graf
-                </button>
-            </div>
-        </div>
-
-        <div class="bg-zinc-900 border border-zinc-800 p-3 rounded-lg mb-3 flex justify-between items-center shadow-inner">
-            <div>
-                <div class="text-sm font-bold text-white flex items-center"><i class="fas fa-moon text-tactical mr-2"></i> Nattpass / Sliten?</div>
-                <div class="text-[10px] text-zinc-400 mt-0.5">Sänker vikter med 15% & byter ut max-rusningar mot tempo.</div>
-            </div>
-            <div class="relative inline-block w-12 mr-1 align-middle select-none transition duration-200 ease-in">
-                <input type="checkbox" name="toggle" id="night-toggle" onchange="toggleNightMode()" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-zinc-300 border-4 border-zinc-900 appearance-none cursor-pointer z-10"/>
-                <label for="night-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-zinc-700 cursor-pointer"></label>
-            </div>
-        </div>
-        
-        <div class="flex space-x-2 overflow-x-auto hide-scrollbar pb-1" id="week-nav">
-            <!-- Renderas dynamiskt av JS -->
-        </div>
-    </header>
-
-    <nav class="px-4 py-3 border-b border-zinc-800 bg-zinc-900/50">
-        <div class="flex space-x-2 overflow-x-auto hide-scrollbar" id="day-nav">
-            <!-- Renderas dynamiskt av JS -->
-        </div>
-    </nav>
-
-    <main class="p-4" id="main-container">
-        <div class="flex justify-center items-center h-32">
-            <div class="text-zinc-500 animate-pulse font-bold"><i class="fas fa-circle-notch fa-spin mr-2"></i> Initierar Frontline Fit...</div>
-        </div>
-    </main>
-
-    <!-- Global feedback toast för gränssnittet -->
-    <div id="toast-msg" class="fixed top-5 left-1/2 -translate-x-1/2 z-[2000] hidden bg-zinc-900 text-white border border-tactical px-4 py-2 rounded-lg text-xs font-bold shadow-2xl tracking-wide uppercase"></div>
-
-    <div id="global-footer" class="fixed bottom-0 left-0 w-full p-4 flex flex-col justify-center z-50 gap-2">
-        <div id="workout-actions" class="hidden w-full flex gap-2">
-            <button onclick="nextExercise()" id="btn-next-ex" class="flex-1 bg-tactical hover:bg-orange-600 text-black font-black uppercase tracking-wider py-3 rounded-lg text-sm transition shadow-lg">
-                <i class="fas fa-forward-step mr-2"></i> Nästa Övning
-            </button>
-            <button onclick="finishWorkout()" id="btn-finish-wo" class="hidden flex-1 bg-success hover:bg-green-600 text-white font-black uppercase tracking-wider py-3 rounded-lg text-sm transition shadow-lg">
-                <i class="fas fa-check-double mr-2"></i> Slutför Pass
-            </button>
-        </div>
-        
-        <div class="flex justify-between items-center w-full">
-            <div class="flex space-x-2">
-                <button onclick="startVoiceTimer(120, 'Vila')" class="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white px-4 py-2 rounded-lg font-black text-xs tracking-widest transition shadow">
-                    <i class="fas fa-stopwatch mr-1"></i> 2 MIN VILA
-                </button>
-                <button onclick="startVoiceTimer(120, 'HLR', true)" class="bg-red-900/30 hover:bg-red-800/50 border border-red-800/50 text-red-400 px-4 py-2 rounded-lg font-black text-xs tracking-widest transition shadow">
-                    <i class="fas fa-heartbeat mr-1"></i> HLR 🚑
-                </button>
-            </div>
-            <div id="global-time-display" class="text-2xl font-extrabold tracking-widest font-mono text-white drop-shadow-md">00:00</div>
-            <button onclick="stopTimer()" class="bg-red-900/30 hover:bg-red-800/50 border border-red-800/50 text-red-400 px-3.5 py-2 rounded-lg font-black text-xs transition" title="Stoppa timer">
-                <i class="fas fa-stop"></i>
-            </button>
-        </div>
+  <header class="sticky top-0 z-30 bg-zinc-950/90 backdrop-blur border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <canvas id="headerIconCanvas" width="128" height="128" class="w-9 h-9 rounded-lg border border-yellow-500/40"></canvas>
+      <div>
+        <h1 class="text-lg font-black tracking-wider uppercase text-zinc-100">Frontline <span class="text-orange-500">Fit</span></h1>
+        <p id="profileSummaryHeader" class="text-xs text-zinc-400">70 kg | 167 cm | Standardläge</p>
+      </div>
     </div>
+    <button onclick="toggleNightShift()" id="nightShiftBtn" class="text-xs px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-300 font-semibold">
+      🌙 Nattpass: AV
+    </button>
+  </header>
 
-    <div id="stats-modal" class="modal-overlay">
-        <div class="modal-content relative bg-zinc-950">
-            <div class="sticky top-0 bg-zinc-950/95 backdrop-blur border-b border-zinc-800 p-4 z-10 flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-black text-white uppercase leading-none">Progression & Export</h2>
-                    <p class="text-[10px] text-zinc-400 uppercase tracking-widest font-bold mt-1">Välj upp till 5 övningar att jämföra</p>
-                </div>
-                <button onclick="closeModal('stats-modal')" class="text-zinc-400 hover:text-white text-3xl leading-none">&times;</button>
-            </div>
-            
-            <div class="p-4 space-y-6">
-                <!-- Val av övningar (Dynamisk generering) -->
-                <div>
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2"><i class="fas fa-filter text-tactical mr-1"></i> Aktiva Övningar i Grafen</label>
-                    <div id="graph-exercise-toggles" class="flex flex-wrap gap-2">
-                        <!-- Renderas av JS -->
-                    </div>
-                </div>
+  <nav class="flex overflow-x-auto border-b border-zinc-800 bg-zinc-900/60 px-2 text-xs uppercase tracking-wider sticky top-[61px] z-20">
+    <button onclick="switchTab('workouts')" id="tab-workouts" class="px-4 py-3 whitespace-nowrap tab-active">Pass & Varianter</button>
+    <button onclick="switchTab('running')" id="tab-running" class="px-4 py-3 whitespace-nowrap text-zinc-400">Löpning (6v)</button>
+    <button onclick="switchTab('mobility')" id="tab-mobility" class="px-4 py-3 whitespace-nowrap text-zinc-400">Rörlighet</button>
+    <button onclick="switchTab('stats')" id="tab-stats" class="px-4 py-3 whitespace-nowrap text-zinc-400">Statistik & Graf</button>
+    <button onclick="switchTab('tactical')" id="tab-tactical" class="px-4 py-3 whitespace-nowrap text-zinc-400">Andning & HLR</button>
+    <button onclick="switchTab('profile')" id="tab-profile" class="px-4 py-3 whitespace-nowrap text-zinc-400">Profil & Kost</button>
+  </nav>
 
-                <!-- Graf Area -->
-                <div class="bg-[#0f172a] rounded-xl border border-zinc-800 shadow-inner p-3 relative w-full" style="height: 280px;">
-                    <canvas id="progressionChart"></canvas>
-                </div>
+  <main class="max-w-3xl mx-auto p-4 space-y-6">
 
-                <!-- Export Area -->
-                <div class="bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-lg">
-                    <h3 class="text-lg font-black text-white mb-1">Exportera till Excel</h3>
-                    <p class="text-xs text-zinc-400 mb-4">Ladda ner all din historik, vikter och loggade pass som en CSV-fil för Excel eller Google Sheets.</p>
-                    <button onclick="downloadCSV()" class="w-full bg-[#10b981] hover:bg-green-500 text-black font-black py-3.5 rounded-lg flex items-center justify-center uppercase tracking-wider transition shadow-lg text-sm">
-                        <i class="fas fa-file-csv mr-2 text-xl"></i> Ladda ner CSV
-                    </button>
-                </div>
+    <section id="view-workouts" class="space-y-4">
+      <div class="flex gap-2 overflow-x-auto pb-1" id="daySelector"></div>
+      <div id="nightShiftBanner" class="hidden p-3 rounded-lg bg-indigo-950/60 border border-indigo-700 text-indigo-200 text-xs">
+        <strong>🌙 Nattpass-anpassning aktiv:</strong> Volymen sänks med 1 set per övning och RPE begränsas till 7.5 för att skydda återhämtningen.
+      </div>
+      <div id="workoutContainer" class="space-y-3"></div>
+    </section>
 
-                <!-- 1RM Kalkylator -->
-                <div class="bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-lg">
-                    <h3 class="text-xs font-black text-tactical uppercase tracking-widest mb-3"><i class="fas fa-calculator mr-2"></i> 1RM Kalkylator (Epleys Formel)</h3>
-                    <div class="flex gap-2 mb-3">
-                        <input type="number" id="calc-w" placeholder="Vikt (kg)" class="flex-1 border border-zinc-700 text-white p-3 rounded-lg font-bold">
-                        <input type="number" id="calc-r" placeholder="Reps" class="w-24 border border-zinc-700 text-white p-3 rounded-lg font-bold">
-                    </div>
-                    <button onclick="calc1RM()" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-3 rounded-lg border border-zinc-700 uppercase tracking-wider transition text-xs">Beräkna Maxlyft</button>
-                    <div id="calc-result" class="text-center font-black text-white text-lg mt-3 h-8 text-tactical drop-shadow-md"></div>
-                </div>
-            </div>
+    <section id="view-running" class="hidden space-y-4">
+      <div class="card p-4">
+        <h2 class="text-base font-bold text-orange-500 uppercase mb-1">6-Veckors Taktisk Löpprogression</h2>
+        <p class="text-xs text-zinc-400 mb-4">Kombinerar VO2-max (Yxbacken / Yasso 800m) med uthållighet under belastning (Väst / Bulgarian Bag).</p>
+        <div id="runningSchedule" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <section id="view-mobility" class="hidden space-y-4">
+      <div class="card p-4 space-y-4">
+        <div>
+          <h2 class="text-base font-bold text-green-500 uppercase">Pre-Shift Mobility (10 min)</h2>
+          <p class="text-xs text-zinc-400">Motverkar stelhet från utrustningsbälte, kroppspansar och patrullbil.</p>
         </div>
-    </div>
-
-    <div id="breathe-modal" class="modal-overlay">
-        <div class="modal-content text-center p-8 bg-zinc-900 border-tactical">
-            <h2 class="text-xl font-black text-white uppercase mb-1">Taktisk Andning</h2>
-            <p class="text-xs text-zinc-400 uppercase tracking-widest mb-6">Box Breathing – Sänk kortisolnivåerna</p>
-            <div id="breathing-circle" class="breathing-circle">Start</div>
-            <p id="breathe-instruction" class="text-lg font-bold text-white h-8 mb-6">Gör dig redo...</p>
-            <div class="flex gap-2">
-                <button onclick="startBreathing()" class="flex-1 bg-tactical text-black font-bold py-3 rounded-lg uppercase tracking-wider text-xs">Starta</button>
-                <button onclick="stopBreathing(); closeModal('breathe-modal')" class="flex-1 bg-zinc-800 text-white font-bold py-3 rounded-lg uppercase tracking-wider text-xs border border-zinc-700">Avbryt</button>
-            </div>
+        <div class="grid gap-4">
+          <div class="p-3 bg-zinc-900 rounded-lg border border-zinc-800">
+            <h3 class="font-bold text-sm text-zinc-100">1. Rear Foot Elevated Hip Flexor Stretch</h3>
+            <p class="text-xs text-zinc-400 mt-1">2 x 45 sek/sida. Bakre foten mot bänk/kant, spänn sätet, skjut fram höften utan att svanka.</p>
+          </div>
+          <div class="p-3 bg-zinc-900 rounded-lg border border-zinc-800">
+            <h3 class="font-bold text-sm text-zinc-100">2. Lizard Drill med Thoracic Rotation</h3>
+            <p class="text-xs text-zinc-400 mt-1">2 x 8 reps/sida. Djupt utfallssteg med händerna i golvet, rotera inre armen rakt upp mot taket.</p>
+          </div>
+          <div class="p-3 bg-zinc-900 rounded-lg border border-zinc-800">
+            <h3 class="font-bold text-sm text-zinc-100">3. Quadruped Thoracic Rotation</h3>
+            <p class="text-xs text-zinc-400 mt-1">2 x 10 reps/sida. På alla fyra, hand bakom nacken, rotera armbåge mot motsatt knä och öppna upp mot taket.</p>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <div id="mobility-modal" class="modal-overlay">
-        <div class="modal-content relative bg-zinc-950">
-            <div class="sticky top-0 bg-zinc-950/95 backdrop-blur border-b border-zinc-800 p-4 z-10 flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-black text-nine11 uppercase leading-none">Pre-Shift Mobility</h2>
-                    <p class="text-[10px] text-zinc-400 uppercase tracking-widest font-bold mt-1">10 Minuter motverkar radiobilen</p>
-                </div>
-                <button onclick="closeModal('mobility-modal')" class="text-zinc-400 hover:text-white text-3xl leading-none">&times;</button>
-            </div>
-            
-            <div class="p-4 space-y-6">
-                <!-- Drill 1 -->
-                <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden shadow-lg">
-                    <div class="h-44 relative bg-zinc-800 flex items-center justify-center">
-                        <img src="https://placehold.co/600x350/18181b/3b82f6?text=1.+HIP+FLEXOR+STRETCH" alt="Hip Flexor Stretch" class="w-full h-full object-cover opacity-75">
-                        <div class="absolute bottom-2 left-2 bg-black/70 px-2.5 py-1 rounded text-[10px] font-bold uppercase text-white tracking-wider border border-white/10">1. Rear Foot Elevated</div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs font-bold text-nine11 mb-2 uppercase tracking-widest">Skyddar Ländryggen</p>
-                        <ul class="text-sm text-zinc-300 space-y-2 list-disc pl-4">
-                            <li>Bakre foten på en bänk/låda. Främre benet i 90 grader.</li>
-                            <li><strong class="text-white">Spänn skinkan</strong> på det bakre benet, pressa fram höften.</li>
-                            <li>Luta dig *inte* bakåt (svanka inte). Håll överkroppen helt lodrät.</li>
-                            <li><i class="fas fa-stopwatch mr-1 text-zinc-500"></i> Håll 60 sekunder per ben.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Drill 2 -->
-                <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden shadow-lg">
-                    <div class="h-44 relative bg-zinc-800 flex items-center justify-center">
-                        <img src="https://placehold.co/600x350/18181b/3b82f6?text=2.+LIZARD+DRILL" alt="Lizard Drill" class="w-full h-full object-cover opacity-75">
-                        <div class="absolute bottom-2 left-2 bg-black/70 px-2.5 py-1 rounded text-[10px] font-bold uppercase text-white tracking-wider border border-white/10">2. Lizard Drill</div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs font-bold text-nine11 mb-2 uppercase tracking-widest">Öppnar höft & bröstrygg</p>
-                        <ul class="text-sm text-zinc-300 space-y-2 list-disc pl-4">
-                            <li>Stå i armhävningsposition. Kliv fram med ena foten på utsidan av händerna.</li>
-                            <li>Håll det bakre benet så rakt som möjligt.</li>
-                            <li>Sjunk mjukt ner med höften mot golvet.</li>
-                            <li><i class="fas fa-stopwatch mr-1 text-zinc-500"></i> Håll 60 sekunder per sida.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Drill 3 -->
-                <div class="bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden shadow-lg">
-                    <div class="h-44 relative bg-zinc-800 flex items-center justify-center">
-                        <img src="https://placehold.co/600x350/18181b/3b82f6?text=3.+THORACIC+ROTATION" alt="Thoracic Rotation" class="w-full h-full object-cover opacity-75">
-                        <div class="absolute bottom-2 left-2 bg-black/70 px-2.5 py-1 rounded text-[10px] font-bold uppercase text-white tracking-wider border border-white/10">3. Thoracic Rotation</div>
-                    </div>
-                    <div class="p-4">
-                        <p class="text-xs font-bold text-nine11 mb-2 uppercase tracking-widest">Återställer ryggraden efter tungt bälte</p>
-                        <ul class="text-sm text-zinc-300 space-y-2 list-disc pl-4">
-                            <li>Ligg platt på rygg. Dra upp ena knät och fäll det över kroppen mot golvet.</li>
-                            <li>Sträck ut motsatt arm och pressa ner baksidan av den axeln i golvet.</li>
-                            <li>Känn stretch i säte och en skön rotation i bröstryggen.</li>
-                            <li><i class="fas fa-stopwatch mr-1 text-zinc-500"></i> Ligg kvar i 60 sekunder per sida och andas djupt.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="p-4 border-t border-zinc-800 bg-zinc-950 sticky bottom-0 z-10">
-                <button onclick="closeModal('mobility-modal')" class="w-full bg-nine11 hover:bg-blue-600 text-white font-bold py-3.5 rounded-lg uppercase tracking-wider transition shadow-lg flex items-center justify-center text-sm">
-                    Klar med rörlighet
-                </button>
-            </div>
+    <section id="view-stats" class="hidden space-y-4">
+      <div class="card p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-bold text-orange-500 uppercase">Dynamisk Progressionsgraf</h2>
+            <p class="text-xs text-zinc-400">Välj upp till 5 övningar (inkl. varianter) att jämföra i grafen.</p>
+          </div>
+          <button onclick="exportCSV()" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded border border-zinc-600">Exportera CSV</button>
         </div>
-    </div>
-
-    <div id="settings-modal" class="modal-overlay">
-        <div class="modal-content p-6 border-tactical">
-            <button onclick="closeModal('settings-modal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white text-2xl font-bold">&times;</button>
-            <h2 class="text-xl font-black text-white uppercase mb-1 pr-6">Din Fysprofil</h2>
-            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Fyskraven och målen beräknas dynamiskt baserat på din kroppsvikt och längd.</p>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-tactical uppercase tracking-widest mb-1.5">Kroppsvikt (kg)</label>
-                    <input type="number" id="setting-weight" class="w-full bg-zinc-900 border border-zinc-700 focus:border-tactical text-white p-3 rounded-lg font-bold text-left" placeholder="T.ex. 70">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-tactical uppercase tracking-widest mb-1.5">Längd (cm)</label>
-                    <input type="number" id="setting-height" class="w-full bg-zinc-900 border border-zinc-700 focus:border-tactical text-white p-3 rounded-lg font-bold text-left" placeholder="T.ex. 167">
-                </div>
-                <button onclick="saveSettings()" class="w-full bg-tactical hover:bg-orange-600 text-black font-black py-3.5 rounded-lg uppercase tracking-wider transition shadow-lg mt-6 text-sm">
-                    Spara & Uppdatera Fyskrav
-                </button>
-            </div>
+        <div id="exerciseFilterList" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-zinc-900 rounded border border-zinc-800"></div>
+        <div class="bg-zinc-950 p-2 rounded-lg border border-zinc-800">
+          <canvas id="progressChart" height="220"></canvas>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <script type="module">
-        let appData = { progress: {}, maxLifts: {}, userMetrics: { weight: 70, height: 167 }, activeVariants: {} };
-        let currentWeek = 1;
-        let currentDay = 1;
-        let isNightMode = false;
-        let isWorkoutActive = false;
-        let currentExerciseIndex = 0;
-        let activeDayData = null;
-        let wakeLock = null;
-        let timerInt;
-        
-        let progChart = null; 
-        let selectedGraphExercises = ['Trap Bar Marklyft', 'Pin Squats', 'Push Press'];
-        const chartColors = ['#ef4444', '#3b82f6', '#f97316', '#10b981', '#a855f7'];
-        
-        let workoutDB = {}; 
+    <section id="view-tactical" class="hidden space-y-4">
+      <div class="card p-4 space-y-3">
+        <h2 class="text-base font-bold text-blue-400 uppercase">Taktisk Andning (Box Breathing 4-4-4-4)</h2>
+        <p class="text-xs text-zinc-400">Sänker puls och kortisol efter påslag eller högintensiva intervaller.</p>
+        <div class="flex items-center justify-between bg-zinc-900 p-4 rounded-lg border border-zinc-800">
+          <div>
+            <div id="breathPhase" class="text-lg font-black text-blue-400">Redo att starta</div>
+            <div id="breathTimerText" class="text-2xl font-mono text-zinc-100">4.0 s</div>
+          </div>
+          <button onclick="toggleBoxBreathing()" id="breathBtn" class="px-4 py-2 rounded-lg bg-blue-600 font-bold text-sm">Starta Andning</button>
+        </div>
+      </div>
 
-        function showToast(text) {
-            const toast = document.getElementById('toast-msg');
-            toast.innerText = text;
-            toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 2800);
+      <div class="card p-4 space-y-3">
+        <h2 class="text-base font-bold text-red-500 uppercase">HLR-Protokoll (30:2 | 110 BPM)</h2>
+        <p class="text-xs text-zinc-400">2-minuters cykel med rekommenderad takt (110 kompressioner/min).</p>
+        <div class="flex items-center justify-between bg-zinc-900 p-4 rounded-lg border border-zinc-800">
+          <div>
+            <div id="hlrStatus" class="text-sm font-bold text-red-400">Standby (2:00 cykel)</div>
+            <div id="hlrClock" class="text-2xl font-mono text-zinc-100">02:00</div>
+          </div>
+          <button onclick="toggleHLR()" id="hlrBtn" class="px-4 py-2 rounded-lg bg-red-600 font-bold text-sm">Starta HLR-Timer</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-profile" class="hidden space-y-4">
+      <div class="card p-4 space-y-4">
+        <h2 class="text-base font-bold text-orange-500 uppercase">Personlig Profil & Basvikter</h2>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block text-zinc-400 mb-1">Kroppsvikt (kg)</label>
+            <input type="number" id="profWeight" value="70" onchange="saveProfile()" class="w-full">
+          </div>
+          <div>
+            <label class="block text-zinc-400 mb-1">Längd (cm)</label>
+            <input type="number" id="profHeight" value="167" onchange="saveProfile()" class="w-full">
+          </div>
+        </div>
+        <div id="calorieBox" class="p-3 bg-zinc-900 rounded-lg border border-zinc-800 text-xs space-y-1.5"></div>
+      </div>
+
+      <div class="card p-4 space-y-3">
+        <h2 class="text-base font-bold text-yellow-500 uppercase">GitHub App-Ikon (1024x1024 PNG)</h2>
+        <p class="text-xs text-zinc-400">Ladda ner den färdiga filen <code>icon.png</code> och lägg i samma mapp som <code>index.html</code> på GitHub.</p>
+        <a id="downloadIconBtn" download="icon.png" class="inline-block bg-yellow-500 text-zinc-950 font-black px-4 py-2.5 rounded-lg text-xs uppercase tracking-wider cursor-pointer">
+          ⬇️ Ladda ner icon.png
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const workoutDays = [
+      {
+        id: 'day1',
+        title: 'Dag 1: Underkropp Explosiv',
+        focus: 'Benstyrka, knästabilitet & sprint',
+        exercises: [
+          { id: 'ex1', std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 reps', baseKg: 85, note: 'Explosivt upp ur bottenläget' },
+          { id: 'ex2', std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 reps', baseKg: 0, note: 'Maximal explosivitet på signal' },
+          { id: 'ex3', std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8/ben (el. 8 reps)', baseKg: 25, note: 'Bulgarian bag el. skivstång' },
+          { id: 'ex4', std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30s / 3 hopp', baseKg: 0, note: 'Maximal kraftutveckling' },
+          { id: 'ex5', std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 sek', baseKg: 15, note: 'Säck eller viktskiva på ländrygg' }
+        ]
+      },
+      {
+        id: 'day2',
+        title: 'Dag 2: Överkropp Push/Pull',
+        focus: 'Press, dragstyrka & taktiskt grepp',
+        exercises: [
+          { id: 'ex6', std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 reps', baseKg: 55, note: 'Driv med benen el. strikt militärpress' },
+          { id: 'ex7', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 reps', baseKg: 10, note: 'Greppstyrka el. viktbälte/hantel' },
+          { id: 'ex8', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 reps', baseKg: 15, note: 'Hantel mellan fötterna eller viktväst' },
+          { id: 'ex9', std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6-8 reps', baseKg: 70, note: 'Kontrollerad excentrisk fas' },
+          { id: 'ex10', std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 reps', baseKg: 60, note: 'Stark ländrygg och bröstrygg' }
+        ]
+      },
+      {
+        id: 'day3',
+        title: 'Dag 3: VO2-Max & Säck/Väst',
+        focus: 'Hjärt-lungkapacitet & syreupptagning',
+        exercises: [
+          { id: 'ex11', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Backintervall)', sets: 6, reps: '45 sek arbete', baseKg: 12, note: 'Bulgarian bag el. viktväst i brant backe' },
+          { id: 'ex12', std: 'Cardiac Output (Bear Hug Säck)', var: 'Rucking (Tung Säck)', sets: 1, reps: '30 min', baseKg: 20, note: 'Krama sandsäck framför bröstet i lutning' },
+          { id: 'ex13', std: 'Yasso 800m', var: '4x4 min Intervaller', sets: 6, reps: '800m', baseKg: 0, note: 'Jämnt tempopass med 90s joggvila' }
+        ]
+      },
+      {
+        id: 'day4',
+        title: 'Dag 4: 911Strong Helkropp',
+        focus: 'Marklyft, explosiv vändning & arbetskapacitet',
+        exercises: [
+          { id: 'ex14', std: 'Trap Bar Marklyft', var: 'Deadlifts (Rak stång)', sets: 4, reps: '5 reps', baseKg: 120, note: 'Tungt baslyft från golvet' },
+          { id: 'ex15', std: 'Mixed Modality (EMOM 12)', var: 'Power Cleans', sets: 4, reps: '3-5 reps', baseKg: 65, note: 'Explosiv höftsträckning' },
+          { id: 'ex16', std: 'Farmers Walk / Säckbärning', var: 'Sandbag Shouldering', sets: 4, reps: '40 meter', baseKg: 32, note: 'Tungt grepp och bålstabilitet' }
+        ]
+      }
+    ];
+
+    const runningWeeks = [
+      { v: 1, p1: 'Yxbacken: 5 x 45s (10 kg väst/säck)', p2: 'Yasso: 4 x 800m @ måltempo', p3: 'Cardiac Output: 30 min (zon 2)' },
+      { v: 2, p1: 'Yxbacken: 6 x 45s (10 kg väst/säck)', p2: 'Yasso: 5 x 800m @ måltempo', p3: 'Cardiac Output: 35 min Bear Hug säck' },
+      { v: 3, p1: 'Yxbacken: 7 x 45s (12 kg väst/säck)', p2: 'Yasso: 6 x 800m @ måltempo', p3: 'Långpass: 8 km lugnt tempo' },
+      { v: 4, p1: 'Deload: 4 x 30s backe utan väst', p2: 'Yasso: 4 x 800m', p3: 'Cardiac Output: 25 min lätt' },
+      { v: 5, p1: 'Yxbacken: 8 x 45s (12-15 kg säck)', p2: 'Yasso: 7 x 800m @ måltempo', p3: 'Långpass: 10 km progressivt' },
+      { v: 6, p1: 'Testvecka: 2,0 km / Cooper-test', p2: 'Sprints: 8 x 100m max', p3: 'Återhämtning: 30 min rörlighet/jogg' }
+    ];
+
+    let currentDayIndex = 0;
+    let nightShift = false;
+    let activeVariants = JSON.parse(localStorage.getItem('ff_variants') || '{}');
+    let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
+    let selectedChartExercises = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Pin Squats","Back Squats","Trap Bar Marklyft","Deadlifts (Rak stång)"]');
+    let chartInstance = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      generateAppIcon();
+      loadProfile();
+      renderDaySelector();
+      renderWorkouts();
+      renderRunning();
+      renderStatsFilter();
+      updateChart();
+    });
+
+    function generateAppIcon() {
+      const c = document.createElement('canvas');
+      c.width = 1024; c.height = 1024;
+      const ctx = c.getContext('2d');
+
+      const grad = ctx.createLinearGradient(0, 0, 1024, 1024);
+      grad.addColorStop(0, '#0f172a'); grad.addColorStop(1, '#09090b');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, 1024, 1024);
+
+      ctx.beginPath();
+      ctx.moveTo(512, 120); ctx.lineTo(820, 220); ctx.lineTo(820, 520);
+      ctx.bezierCurveTo(820, 740, 512, 880, 512, 910);
+      ctx.bezierCurveTo(512, 880, 204, 740, 204, 520);
+      ctx.lineTo(204, 220); ctx.closePath();
+      ctx.fillStyle = '#18181b'; ctx.fill();
+      ctx.lineWidth = 28; ctx.strokeStyle = '#eab308'; ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(512, 410, 110, Math.PI, 0, false);
+      ctx.lineWidth = 44; ctx.strokeStyle = '#f4f4f5'; ctx.lineCap = 'round'; ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(512, 580, 165, 0, Math.PI * 2);
+      ctx.fillStyle = '#27272a'; ctx.fill();
+      ctx.lineWidth = 20; ctx.strokeStyle = '#eab308'; ctx.stroke();
+
+      ctx.fillStyle = '#eab308';
+      ctx.font = '900 130px system-ui, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('FF', 512, 590);
+
+      const dataUrl = c.toDataURL('image/png');
+      document.getElementById('dynamicFavicon').href = dataUrl;
+      document.getElementById('dynamicTouchIcon').href = dataUrl;
+      document.getElementById('downloadIconBtn').href = dataUrl;
+
+      const headerCtx = document.getElementById('headerIconCanvas').getContext('2d');
+      headerCtx.drawImage(c, 0, 0, 128, 128);
+    }
+
+    function switchTab(tabId) {
+      ['workouts', 'running', 'mobility', 'stats', 'tactical', 'profile'].forEach(t => {
+        document.getElementById('view-' + t).classList.add('hidden');
+        document.getElementById('tab-' + t).classList.remove('tab-active');
+        document.getElementById('tab-' + t).classList.add('text-zinc-400');
+      });
+      document.getElementById('view-' + tabId).classList.remove('hidden');
+      document.getElementById('tab-' + tabId).classList.add('tab-active');
+      document.getElementById('tab-' + tabId).classList.remove('text-zinc-400');
+      if (tabId === 'stats') { renderStatsFilter(); updateChart(); }
+    }
+
+    function renderDaySelector() {
+      const container = document.getElementById('daySelector');
+      container.innerHTML = workoutDays.map((d, idx) => `
+        <button onclick="selectDay(${idx})" class="px-3 py-2 rounded-lg text-xs font-bold whitespace-nowrap border ${idx === currentDayIndex ? 'bg-orange-500 text-zinc-950 border-orange-500' : 'bg-zinc-900 text-zinc-300 border-zinc-800'}">
+          ${d.title}
+        </button>
+      `).join('');
+    }
+
+    function selectDay(idx) {
+      currentDayIndex = idx;
+      renderDaySelector();
+      renderWorkouts();
+    }
+
+    function toggleVariant(exId) {
+      activeVariants[exId] = !activeVariants[exId];
+      localStorage.setItem('ff_variants', JSON.stringify(activeVariants));
+      renderWorkouts();
+    }
+
+    function renderWorkouts() {
+      const day = workoutDays[currentDayIndex];
+      const w = parseFloat(localStorage.getItem('ff_weight') || '70');
+      const scale = w / 70;
+      const container = document.getElementById('workoutContainer');
+
+      container.innerHTML = day.exercises.map(ex => {
+        const isVar = !!activeVariants[ex.id];
+        const currentName = isVar ? ex.var : ex.std;
+        const altName = isVar ? ex.std : ex.var;
+        const setsCount = nightShift ? Math.max(1, ex.sets - 1) : ex.sets;
+        const recKg = ex.baseKg > 0 ? Math.round((ex.baseKg * scale) / 2.5) * 2.5 : 0;
+        const history = logs[currentName] || [];
+        const lastKg = history.length > 0 ? history[history.length - 1].kg : recKg;
+
+        return `
+          <div class="card p-4 space-y-3">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="text-[10px] uppercase px-2 py-0.5 rounded bg-zinc-800 text-orange-400 font-bold">${isVar ? 'Variant aktiv' : 'Standard'}</span>
+                <h3 class="text-base font-extrabold text-zinc-100 mt-1">${currentName}</h3>
+                <p class="text-xs text-zinc-400">${setsCount} set × ${ex.reps} ${recKg > 0 ? `• Riktvikt: ${recKg} kg` : ''} • ${ex.note}</p>
+              </div>
+              <button onclick="toggleVariant('${ex.id}')" class="text-xs px-2.5 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-amber-400 font-bold whitespace-nowrap">
+                ⇄ Byt: ${altName}
+              </button>
+            </div>
+            <div class="flex items-center gap-2 pt-1">
+              <input type="number" id="input-${ex.id}" value="${lastKg}" placeholder="Vikt (kg)" class="w-28 text-sm">
+              <button onclick="logExercise('${currentName}', 'input-${ex.id}')" class="px-3 py-1.5 rounded bg-green-600 hover:bg-green-500 text-zinc-950 font-extrabold text-xs uppercase">
+                ✓ Logga Set (${currentName})
+              </button>
+              <span class="text-xs text-zinc-400 ml-auto">${history.length} loggade pass</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function logExercise(exName, inputId) {
+      const val = parseFloat(document.getElementById(inputId).value) || 0;
+      if (!logs[exName]) logs[exName] = [];
+      const today = new Date().toISOString().slice(5, 10);
+      logs[exName].push({ date: today, kg: val });
+      localStorage.setItem('ff_logs', JSON.stringify(logs));
+      if (!selectedChartExercises.includes(exName) && selectedChartExercises.length < 5) {
+        selectedChartExercises.push(exName);
+        localStorage.setItem('ff_chart_sel', JSON.stringify(selectedChartExercises));
+      }
+      renderWorkouts();
+    }
+
+    function toggleNightShift() {
+      nightShift = !nightShift;
+      document.getElementById('nightShiftBtn').textContent = nightShift ? '🌙 Nattpass: PÅ' : '🌙 Nattpass: AV';
+      document.getElementById('nightShiftBanner').classList.toggle('hidden', !nightShift);
+      updateProfileSummary();
+      renderWorkouts();
+    }
+
+    function renderRunning() {
+      document.getElementById('runningSchedule').innerHTML = runningWeeks.map(w => `
+        <div class="p-3 bg-zinc-900 rounded-lg border border-zinc-800 text-xs space-y-1">
+          <div class="font-bold text-orange-400 uppercase">Vecka ${w.v}</div>
+          <div><strong>Pass 1:</strong> ${w.p1}</div>
+          <div><strong>Pass 2:</strong> ${w.p2}</div>
+          <div><strong>Pass 3:</strong> ${w.p3}</div>
+        </div>
+      `).join('');
+    }
+
+    function getAllExerciseNames() {
+      const names = [];
+      workoutDays.forEach(d => d.exercises.forEach(e => {
+        names.push(e.std);
+        names.push(e.var);
+      }));
+      return [...new Set(names)];
+    }
+
+    function renderStatsFilter() {
+      const all = getAllExerciseNames();
+      const container = document.getElementById('exerciseFilterList');
+      container.innerHTML = all.map(name => {
+        const checked = selectedChartExercises.includes(name);
+        return `
+          <button onclick="toggleChartExercise('${name}')" class="text-[11px] px-2.5 py-1 rounded border ${checked ? 'bg-orange-500 text-zinc-950 border-orange-500 font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'}">
+            ${checked ? '✓ ' : ''}${name}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleChartExercise(name) {
+      if (selectedChartExercises.includes(name)) {
+        selectedChartExercises = selectedChartExercises.filter(n => n !== name);
+      } else {
+        if (selectedChartExercises.length >= 5) {
+          alert('Du kan visa max 5 övningar samtidigt för att hålla grafen tydlig.');
+          return;
         }
+        selectedChartExercises.push(name);
+      }
+      localStorage.setItem('ff_chart_sel', JSON.stringify(selectedChartExercises));
+      renderStatsFilter();
+      updateChart();
+    }
 
-        function getWorkoutDB() {
-            const weight = appData.userMetrics?.weight || 70;
-            const height = appData.userMetrics?.height || 167;
-            
-            const db = {};
-            // V.1-8 Main split
-            for (let w = 1; w <= 8; w++) {
-                db[w] = { days: {} };
-                
-                if (w === 1 || w === 8) {
-                    db[w].days[1] = { title: "Test 1: Styrka & Fart", type: "test", exercises: [
-                        { id: `w${w}d1_e1`, name: "Trap Bar Marklyft", variant: { name: "Deadlifts (Konventionell)", notes: "Rak skivstång. Maximal ländryggs- och latskontroll.", isCoreLift: "deadlift" }, sets: 1, reps: "1RM", notes: `Mål: ${Math.round(weight * 2)} kg (2x kv).`, isCoreLift: "deadlift" },
-                        { id: `w${w}d1_e2`, name: "Sprint 100m", variant: { name: "Sprints (Flygande)", notes: "Maxfart 100m med full återhämtning." }, sets: 1, reps: "Tid", notes: "Mål: Under 16 sekunder." },
-                        { id: `w${w}d1_e3`, name: "Boxhopp", variant: { name: "Triple Broad Jumps", notes: "3 obrutna maxlängdhopp framåt. Mät total distans." }, sets: 1, reps: "Max", notes: `Mål: ${Math.round(height * 0.5)} cm (50% av längd).` }
-                    ]};
-                    db[w].days[2] = { title: "Test 2: Motor", type: "test", exercises: [
-                        { id: `w${w}d2_e1`, name: "Strikta Pull-ups", variant: { name: "Weighted Pull-ups", notes: "Chins med extra vikt i bälte eller hantel mellan fötter." }, sets: 1, reps: "Max", notes: "Mål: 12 obrutna." },
-                        { id: `w${w}d2_e2`, name: "Bar Dips", variant: { name: "Dips (+Vikt)", notes: "Djupa dips med strikt form och kontrollerad botten." }, sets: 1, reps: "Max", notes: "Mål: 15 obrutna." },
-                        { id: `w${w}d2_e3`, name: "Löpning 2.4 km", sets: 1, reps: "Tid", notes: "Mål: Under 12 min." }
-                    ]};
-                    db[w].days[3] = { title: "Test 3: Bärförmåga", type: "test", exercises: [
-                        { id: `w${w}d3_e1`, name: "Farmers Carry", sets: 1, reps: "Vikt", notes: `Mål: ${Math.round(weight * 0.5)} kg per hand, 50m.` },
-                        { id: `w${w}d3_e2`, name: "Sled Push", sets: 1, reps: "Klar?", notes: `Mål: ${weight}kg på släden, 30m.` }
-                    ]};
-                    db[w].days[4] = { title: "Återhämtning", type: "recovery", exercises: [
-                        { id: `w${w}d4_e1`, name: "Pre-Shift Mobility", sets: 1, reps: "Genomför", notes: "Använd modulen uppe till höger." }
-                    ]};
-                } else {
-                    let sRep = (w <= 3) ? "6-8" : (w <= 6 ? "4-6" : "5"); 
-                    let sSets = (w === 4 || w === 6) ? 5 : 4;
+    function updateChart() {
+      const ctx = document.getElementById('progressChart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+      const colors = ['#f97316', '#22c55e', '#3b82f6', '#eab308', '#ec4899'];
 
-                    db[w].days[1] = { title: "Underkropp & Agility", type: "train", exercises: [
-                        { id: `w${w}d1_e1`, name: "Pin Squats", variant: { name: "Back Squats", notes: "Klassiska djupa knäböj med skivstång bakom nacken. Bygg benpansar.", isCoreLift: "squat" }, sets: sSets, reps: sRep, notes: "Kraft från dött läge i botten.", isCoreLift: "squat" },
-                        { id: `w${w}d1_e2`, name: "Reaktiv Sprint (Mage)", variant: { name: "Kneeling Jumps", notes: "Starta på knäna, skjut fram höften explosionsartat och landa i squat!" }, sets: 4, reps: "20m", notes: "Starta på mage, flyg upp och sprinta." },
-                        { id: `w${w}d1_e3`, name: "Utfallssteg (Väst/Säck)", variant: { name: "BB RDL", notes: "Rumänska marklyft med skivstång. Tryck bak höften, sträck ut hamstrings och säte." }, sets: 3, reps: "10/ben", notes: "10kg väst, eller bär en Bulgarian bag/sandsäck." },
-                        { id: `w${w}d1_e4`, name: "HII: Sled/Bike", variant: { name: "Triple Broad Jumps", notes: "3 obrutna maxlängdhopp. Maximal horisontell kraftutveckling. Vila 90s." }, sets: 1, reps: "Protokoll", notes: "30s max, 2 min vila. 4-6 ronder." }
-                    ]};
-                    
-                    db[w].days[2] = { title: "Överkropp, Control & Cardio", type: "train", exercises: [
-                        { id: `w${w}d2_e1`, name: "Push Press", variant: { name: "BB OHP (Militärpress)", notes: "Strikta militärpressar utan hjälp från benen. Rå axel- och skulderstyrka.", isCoreLift: "press" }, sets: sSets, reps: sRep, notes: "Explosivt från benen.", isCoreLift: "press" },
-                        { id: `w${w}d2_e2`, name: "Handduks-Pullups", variant: { name: "Weighted Pull-ups", notes: "Häng viktskiva i bälte eller hantel mellan fötterna. Ren överkroppsstyrka." }, sets: 3, reps: "Max", notes: "Brutalt för brottningsgreppet." },
-                        { id: `w${w}d2_e3`, name: "Bar Dips (+Vikt)", variant: { name: "Dips", notes: "Djupa dips för triceps och bröststyrka. Lämna 1-2 reps i tanken." }, sets: 3, reps: "Submax", notes: "Med hantel mellan fötterna. Lämna 2 reps i tanken." },
-                        { id: `w${w}d2_e4`, name: "Cable Cross / Flyes", variant: { name: "Bench Press (Bänkpress)", notes: "Klassisk tung skivstångsbänkpress. Bygg rå horisontell presskraft." }, sets: 3, reps: "10-12", notes: "Träna stående presskraft för brottning." },
-                        { id: `w${w}d2_e5`, name: "Cardiac Output (Väst/Säck)", sets: 1, reps: "30 min", notes: "Direkt efter styrkan. 10kg väst eller krama en säck (Bear hug). Puls 120-150." }
-                    ]};
-                    
-                    let runData = {};
-                    if (w === 2) runData = { n: "Fartlek (Flackt)", r: "20 min", text: "1 min snabbt (RPE 8) / 1 min lugn jogg (RPE 4)." };
-                    else if (w === 3) runData = { n: "Yxbacken: Explosiv", r: "8 x 20s", text: "Utan vikt. Maxfart uppåt! Promenad ner som vila." };
-                    else if (w === 4) runData = { n: "Yasso 800m (Flackt)", r: "4 x 800m", text: "Tröskelfart. Försök hålla samma tid på alla 4 intervaller." };
-                    else if (w === 5) runData = { n: "Yxbacken: Grinder", r: "4 x 2 min", text: "Med 10kg väst eller en säck över axlarna! Långa kliv, pumpa med armarna." };
-                    else if (w === 6) runData = { n: "400m Repeats (Flackt)", r: "6 x 400m", text: "Överfart! Tuffaste passet innan deload. Vila 90s." };
-                    else if (w === 7) runData = { n: "Yxbacken: Deload", r: "3 x 15s", text: "Ingen extra vikt. Endast 3 korta drag för att väcka CNS." };
-                        
-                    db[w].days[3] = { title: "Löpning & Bål", type: "train", exercises: [
-                        { id: `w${w}d3_e1`, name: runData.n, sets: 1, reps: runData.r, notes: runData.text },
-                        { id: `w${w}d3_e2`, name: "Bål (Plankan +Vikt)", sets: 3, reps: "60 sek", notes: "Stärk bålen. Lägg en viktplatta, väst eller sandsäck på ryggen." },
-                        { id: `w${w}d3_e3`, name: "Pre-Shift Mobility", sets: 1, reps: "10 min", notes: "Lås upp ländryggen efter löpningen." }
-                    ]};
-                    
-                    db[w].days[4] = { title: "Ryggstyrka, Grepp & Mixed", type: "train", exercises: [
-                        { id: `w${w}d4_e1`, name: "Trap Bar Marklyft", variant: { name: "Deadlifts (Konventionell)", notes: "Tungt marklyft med rak skivstång från golvet. Bygg urstyrka.", isCoreLift: "deadlift" }, sets: sSets, reps: sRep, notes: "Bygg pansar. Låg tyngdpunkt.", isCoreLift: "deadlift" },
-                        { id: `w${w}d4_e2`, name: "Seated Good Mornings", variant: { name: "BB Rows (Skivstångsrodd)", notes: "Framåtlutad skivstångsrodd. Bygger massiv tjocklek i övre ryggen och lats." }, sets: 3, reps: "8-10", notes: "Lätt vikt. Skydda ländryggen mot bältet." },
-                        { id: `w${w}d4_e3`, name: "Farmers Carry", sets: 4, reps: "40m", notes: "Tunga hantlar, dra nytta av kort längd." },
-                        { id: `w${w}d4_e4`, name: "Pinch Grips", sets: 3, reps: "Tid", notes: "Håll två viktskivor med fingertopparna." },
-                        { id: `w${w}d4_e5`, name: "Mixed Modality", variant: { name: "Power Cleans", notes: "Frivändningar med skivstång. Rå explosiv trippel-extension." }, sets: 1, reps: "4 varv", notes: "KB Svingar -> Armhävningar. 30s ON/OFF. 1 redskap!" }
-                    ]};
-                }
-            }
-            
-            // Fas 5: IGV Underhåll (V.9)
-            db[9] = { days: {} };
-            db[9].days[1] = { title: "Underhåll: Helkropp", type: "train", exercises: [
-                { id: `w9d1_e1`, name: "Trap Bar / Squat", variant: { name: "Back Squats / Deadlifts", notes: "Klassisk stångböj eller marklyft. Håll nervsystemet alert." }, sets: 3, reps: "5", notes: "75% av max. Bara hålla igång CNS.", isCoreLift: "deadlift" },
-                { id: `w9d1_e2`, name: "Push Press / Dips", variant: { name: "Bench Press / BB OHP", notes: "Bänkpress eller strikt militärpress." }, sets: 3, reps: "8", notes: "Moderata vikter." },
-                { id: `w9d1_e3`, name: "Handduks-Pullups", variant: { name: "Weighted Pull-ups", notes: "Bibehåll maximal dragstyrka." }, sets: 2, reps: "Max", notes: "Bibehåll greppet." }
-            ]};
-            db[9].days[2] = { title: "Underhåll: Kondition", type: "train", exercises: [
-                { id: `w9d2_e1`, name: "Valfria Intervaller", sets: 1, reps: "20 min", notes: "Välj Flackt eller Backe. Håll igång hjärtat." },
-                { id: `w9d2_e2`, name: "Pre-Shift Mobility", sets: 1, reps: "10 min", notes: "Återställ ländryggen." }
-            ]};
-            db[9].days[3] = { title: "Underhåll: Väst & Bål", type: "train", exercises: [
-                { id: `w9d3_e1`, name: "Cardiac Output (Väst/Säck)", sets: 1, reps: "30 min", notes: "10kg Väst eller krama en säck. Trappmaskin." },
-                { id: `w9d3_e2`, name: "Plankan (+Vikt)", variant: { name: "BB RDL (Lätt kontakt)", notes: "Bygg kontakt och stabilitet i bakre kedjan." }, sets: 3, reps: "Max", notes: "Stärk bålen. Viktskiva eller säck på ryggen." }
-            ]};
-            
-            return db;
-        }
-
-        function initApp() {
-            const local = localStorage.getItem('frontlineProData');
-            if(local) {
-                try { appData = JSON.parse(local); } catch(e) {}
-            }
-            
-            if(!appData.progress) appData.progress = {};
-            if(!appData.maxLifts) appData.maxLifts = {};
-            if(!appData.userMetrics) appData.userMetrics = { weight: 70, height: 167 };
-            if(!appData.activeVariants) appData.activeVariants = {};
-            
-            workoutDB = getWorkoutDB(); 
-            updateMetricsDisplay();
-            
-            const syncEl = document.getElementById('sync-status');
-            if(syncEl) syncEl.classList.replace('bg-yellow-500', 'bg-green-500');
-            updateUI();
-        }
-
-        function saveToCloud() {
-            localStorage.setItem('frontlineProData', JSON.stringify(appData));
-            const sync = document.getElementById('sync-status');
-            if(sync) {
-                sync.classList.replace('bg-green-500', 'bg-yellow-500');
-                setTimeout(() => sync.classList.replace('bg-yellow-500', 'bg-green-500'), 400);
-            }
-        }
-
-        window.toggleExerciseVariant = function(exId) {
-            if(!appData.activeVariants) appData.activeVariants = {};
-            appData.activeVariants[exId] = !appData.activeVariants[exId];
-            saveToCloud();
-            renderDayOverview();
-        }
-
-        window.toggleNightMode = function() {
-            isNightMode = document.getElementById('night-toggle').checked;
-            renderDayOverview(); 
-            if(isNightMode) speak("Nattpass aktiverat. Vikter sänks 15 procent.");
-        }
-        
-        window.openSettings = function() {
-            document.getElementById('setting-weight').value = appData.userMetrics?.weight || 70;
-            document.getElementById('setting-height').value = appData.userMetrics?.height || 167;
-            openModal('settings-modal');
-        }
-
-        window.saveSettings = function() {
-            const w = parseFloat(document.getElementById('setting-weight').value) || 70;
-            const h = parseFloat(document.getElementById('setting-height').value) || 167;
-            
-            appData.userMetrics.weight = w;
-            appData.userMetrics.height = h;
-            
-            saveToCloud();
-            workoutDB = getWorkoutDB(); 
-            updateMetricsDisplay();
-            closeModal('settings-modal');
-            showToast("Profil uppdaterad!");
-            
-            if(!isWorkoutActive) updateUI();
-        }
-
-        function updateMetricsDisplay() {
-            if(appData.userMetrics) {
-                document.getElementById('user-metrics-display').innerText = `${appData.userMetrics.weight} kg | ${appData.userMetrics.height} cm`;
-            }
-        }
-
-        function calculateSuggestedWeight(coreLiftId, repsStr) {
-            if(!appData.maxLifts || !appData.maxLifts[coreLiftId]) return ''; 
-            let targetReps = 5; 
-            if(repsStr.includes('8')) targetReps = 8;
-            if(repsStr.includes('4')) targetReps = 4;
-            
-            const max = appData.maxLifts[coreLiftId];
-            let percentage = 0.85; 
-            if(targetReps >= 8) percentage = 0.75;
-            if(targetReps <= 4) percentage = 0.90;
-            
-            let calc = max * percentage;
-            if(isNightMode) calc = calc * 0.85; 
-            return Math.round(calc / 2.5) * 2.5; 
-        }
-
-        function updateUI() {
-            const wNav = document.getElementById('week-nav');
-            wNav.innerHTML = '';
-            for(let i=1; i<=9; i++) {
-                const btn = document.createElement('button');
-                let label = (i===1||i===8) ? `V${i} Exam` : `Vecka ${i}`;
-                if(i===9) label = "IGV Underhåll";
-                
-                btn.className = `px-4 py-2 rounded-full font-bold text-xs uppercase whitespace-nowrap transition border ${currentWeek === i ? 'bg-tactical text-black border-tactical shadow-md' : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:text-white'}`;
-                btn.innerText = label;
-                btn.onclick = () => { currentWeek = i; currentDay = 1; isWorkoutActive = false; updateUI(); };
-                wNav.appendChild(btn);
-            }
-
-            const dNav = document.getElementById('day-nav');
-            dNav.innerHTML = '';
-            const daysInWeek = currentWeek === 9 ? 3 : 4;
-            for(let i=1; i<=daysInWeek; i++) {
-                const btn = document.createElement('button');
-                btn.className = `px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition ${currentDay === i ? 'bg-zinc-700 text-white' : 'bg-zinc-900 text-zinc-500 border border-zinc-800 hover:text-white'}`;
-                btn.innerText = `Pass ${i}`;
-                btn.onclick = () => { currentDay = i; isWorkoutActive = false; updateUI(); };
-                dNav.appendChild(btn);
-            }
-
-            renderDayOverview();
-        }
-
-        function renderDayOverview() {
-            const container = document.getElementById('main-container');
-            activeDayData = workoutDB[currentWeek].days[currentDay];
-            if(!activeDayData) return;
-
-            const dayKey = `w${currentWeek}d${currentDay}`;
-            const isCompleted = appData.progress[`${dayKey}_completed`];
-
-            let html = `
-                <div class="bg-zinc-900 rounded-xl overflow-hidden border ${isCompleted ? 'border-success' : 'border-zinc-800'} mb-6 shadow-xl">
-                    <div class="p-5 border-b border-zinc-800 bg-zinc-950/80 flex justify-between items-center">
-                        <div>
-                            <span class="text-[10px] font-bold text-white bg-nine11 px-2 py-0.5 rounded mb-2 inline-block uppercase tracking-wider">${currentWeek===1||currentWeek===8 ? 'EXAMINATION' : 'TAKTIK & FYS'}</span>
-                            <h2 class="text-xl font-black uppercase text-white tracking-wide leading-tight">${activeDayData.title}</h2>
-                        </div>
-                        ${isCompleted ? '<div class="w-10 h-10 rounded-full bg-success/20 text-success flex items-center justify-center text-xl shadow-inner"><i class="fas fa-check"></i></div>' : ''}
-                    </div>
-                    <div class="p-5 space-y-4">
-                        ${!isCompleted ? `
-                        <button onclick="startWorkoutMode()" class="w-full bg-tactical hover:bg-orange-600 text-black font-black py-3.5 rounded-xl text-base uppercase tracking-wider shadow-lg transition transform hover:scale-[1.01]">
-                            <i class="fas fa-play mr-2"></i> Starta Passet
-                        </button>
-                        ` : `
-                        <button onclick="startWorkoutMode()" class="w-full bg-zinc-800 text-zinc-300 hover:text-white font-bold py-3 rounded-lg text-xs uppercase tracking-wider border border-zinc-700">
-                            Återuppta / Redigera Pass
-                        </button>
-                        `}
-                    </div>
-                </div>
-            `;
-
-            if(isWorkoutActive) {
-                html += `<div class="space-y-6 pb-20">`;
-                activeDayData.exercises.forEach((ex, index) => {
-                    const isActive = index === currentExerciseIndex;
-                    const isPast = index < currentExerciseIndex;
-                    const cardClass = isActive ? 'exercise-card active bg-zinc-900' : (isPast ? 'exercise-card done bg-zinc-950' : 'exercise-card inactive bg-zinc-950 hidden');
-                    
-                    const isVariantActive = appData.activeVariants && appData.activeVariants[ex.id];
-                    const activeName = (isVariantActive && ex.variant) ? ex.variant.name : ex.name;
-                    let note = (isVariantActive && ex.variant) ? ex.variant.notes : ex.notes;
-                    const coreLift = (isVariantActive && ex.variant) ? (ex.variant.isCoreLift || ex.isCoreLift) : ex.isCoreLift;
-
-                    if(isNightMode && activeName.includes("Sprint")) note = "Nattpass: Kör som TEMPO-löpning istället. Inget maxande.";
-
-                    html += `
-                        <div id="ex-card-${index}" class="${cardClass} rounded-xl p-5 shadow-lg relative ${isNightMode ? 'nattpass-active' : ''}">
-                            ${isActive ? '<div class="absolute -top-2.5 -right-2 w-5 h-5 rounded-full bg-tactical animate-pulse border-2 border-zinc-950"></div>' : ''}
-                            
-                            <div class="flex justify-between items-center mb-1.5">
-                                <div class="text-[10px] font-bold ${isActive ? 'text-tactical' : 'text-zinc-600'} uppercase tracking-widest">Övning ${index + 1}</div>
-                                ${ex.variant ? `
-                                <button onclick="toggleExerciseVariant('${ex.id}')" class="text-[10px] font-bold px-2 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-tactical border border-zinc-700 transition">
-                                    <i class="fas fa-arrows-rotate mr-1"></i> Byt: ${isVariantActive ? ex.name : ex.variant.name}
-                                </button>
-                                ` : ''}
-                            </div>
-                            
-                            <h3 class="text-lg font-bold text-white mb-2 flex items-center justify-between">
-                                <span>${activeName}</span>
-                                ${isVariantActive ? '<span class="text-[9px] bg-orange-950/70 text-orange-400 border border-orange-700/50 px-2 py-0.5 rounded font-black tracking-widest uppercase">Variant</span>' : ''}
-                            </h3>
-                            <p class="text-xs text-zinc-400 italic mb-4 heavy-lift-note border-l-2 border-zinc-700 pl-2.5 leading-relaxed">${note}</p>
-                    `;
-
-                    if(typeof ex.sets === 'number' && !ex.reps.includes('Tid') && !ex.reps.includes('varv') && !ex.reps.includes('Protokoll') && !ex.reps.includes('min')) {
-                        let suggestedWeight = '';
-                        if(currentWeek > 1 && coreLift) {
-                            suggestedWeight = calculateSuggestedWeight(coreLift, ex.reps);
-                        }
-
-                        for(let s=1; s<=ex.sets; s++) {
-                            const setId = `${ex.id}_s${s}`;
-                            const wVal = appData.progress[`${setId}_w`] || '';
-                            const rVal = appData.progress[`${setId}_r`] || '';
-                            const isDone = appData.progress[`${setId}_d`];
-                            
-                            html += `
-                                <div class="flex items-center justify-between bg-zinc-950/80 p-3 rounded-lg border border-zinc-800/80 mb-2">
-                                    <span class="text-xs font-bold text-zinc-500 uppercase w-12">Set ${s}</span>
-                                    <div class="flex gap-2">
-                                        <input type="number" placeholder="${suggestedWeight ? suggestedWeight : 'kg'}" value="${wVal}" onchange="updateData('${setId}_w', this.value)" class="w-16 h-10 rounded-md font-bold text-sm" ${!isActive?'disabled':''}>
-                                        <input type="text" placeholder="${ex.reps}" value="${rVal}" onchange="updateData('${setId}_r', this.value)" class="w-16 h-10 rounded-md font-bold text-sm" ${!isActive?'disabled':''}>
-                                    </div>
-                                    <button id="btn_${setId}" onclick="toggleSet('${setId}', ${isActive})" class="check-btn w-12 h-10 rounded-md border border-zinc-700 bg-zinc-800 flex items-center justify-center font-bold text-lg ${isDone?'completed':''}" ${!isActive?'disabled':''}>
-                                        ${isDone ? '<i class="fas fa-check"></i>' : ''}
-                                    </button>
-                                </div>
-                            `;
-                        }
-                    } else {
-                        const setId = `${ex.id}_single`;
-                        const val = appData.progress[`${setId}_val`] || '';
-                        const isDone = appData.progress[`${setId}_d`];
-                        html += `
-                            <div class="flex items-center justify-between bg-zinc-950/80 p-3 rounded-lg border border-zinc-800/80 mb-2">
-                                <input type="text" placeholder="Resultat / Status" value="${val}" onchange="updateData('${setId}_val', this.value)" class="flex-1 h-10 rounded-md px-3 mr-2 font-bold text-sm text-left" ${!isActive?'disabled':''}>
-                                <button id="btn_${setId}" onclick="toggleSet('${setId}', ${isActive})" class="check-btn w-12 h-10 rounded-md border border-zinc-700 bg-zinc-800 flex items-center justify-center font-bold text-lg ${isDone?'completed':''}" ${!isActive?'disabled':''}>
-                                    ${isDone ? '<i class="fas fa-check"></i>' : ''}
-                                </button>
-                            </div>
-                        `;
-                    }
-                    html += `</div>`;
-                });
-                
-                const notesVal = appData.progress[`${dayKey}_notes`] || '';
-                const isActiveNotes = currentExerciseIndex === activeDayData.exercises.length - 1;
-                html += `
-                    <div id="journal-card" class="bg-zinc-900 rounded-xl p-5 border border-zinc-800 shadow-lg mt-6 ${isActiveNotes ? '' : 'hidden'}">
-                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2"><i class="fas fa-pen text-tactical mr-1"></i> Passanteckningar</label>
-                        <textarea placeholder="Form? Teknik? Känning?" onchange="updateData('${dayKey}_notes', this.value)" class="notes-input">${notesVal}</textarea>
-                    </div>
-                </div>`;
-            } else {
-                html += `<h3 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 px-2">Översikt (Klicka på 'Byt' för att växla övning)</h3><div class="space-y-3 opacity-90">`;
-                activeDayData.exercises.forEach(ex => {
-                    const isVariantActive = appData.activeVariants && appData.activeVariants[ex.id];
-                    const activeName = (isVariantActive && ex.variant) ? ex.variant.name : ex.name;
-                    const activeNote = (isVariantActive && ex.variant) ? ex.variant.notes : ex.notes;
-                    
-                    html += `
-                        <div class="bg-zinc-900/80 p-4 rounded-lg border border-zinc-800 flex justify-between items-start">
-                            <div>
-                                <div class="font-bold text-zinc-200 flex items-center gap-2">
-                                    <span>${activeName}</span>
-                                    ${isVariantActive ? '<span class="text-[8px] bg-orange-950 text-orange-400 border border-orange-800/50 px-1.5 py-0.5 rounded uppercase font-black">Variant</span>' : ''}
-                                </div>
-                                <div class="text-xs text-zinc-500 mt-1">${ex.sets} set | ${ex.reps} | ${activeNote}</div>
-                            </div>
-                            ${ex.variant ? `
-                            <button onclick="toggleExerciseVariant('${ex.id}')" class="text-[10px] font-bold px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-tactical border border-zinc-700 transition ml-2 whitespace-nowrap">
-                                <i class="fas fa-arrows-rotate mr-1"></i> Byt
-                            </button>
-                            ` : ''}
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            }
-
-            container.innerHTML = html;
-        }
-
-        window.startWorkoutMode = async function() {
-            isWorkoutActive = true;
-            currentExerciseIndex = 0;
-            document.getElementById('workout-actions').classList.remove('hidden');
-            
-            try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } 
-            catch (err) { console.warn('Wake Lock error:', err); }
-            
-            updateUI();
-            updateWorkoutBtns();
-            speak("Pass startat. Kör hårt.");
-        }
-
-        window.nextExercise = function() {
-            const currEx = activeDayData.exercises[currentExerciseIndex];
-            if(currentWeek === 1 && currEx.isCoreLift) {
-                const setId = `${currEx.id}_s1`;
-                const lifted = parseFloat(appData.progress[`${setId}_w`]);
-                const reps = parseFloat(appData.progress[`${setId}_r`]) || 1;
-                if(lifted) {
-                    appData.maxLifts[currEx.isCoreLift] = Math.round(lifted * (1 + reps/30));
-                    saveToCloud();
-                }
-            }
-
-            currentExerciseIndex++;
-            updateUI();
-            updateWorkoutBtns();
-            speak("Nästa övning.");
-            setTimeout(() => {
-                const activeCard = document.getElementById(`ex-card-${currentExerciseIndex}`);
-                if(activeCard) activeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
-
-        function updateWorkoutBtns() {
-            const isLast = currentExerciseIndex === activeDayData.exercises.length - 1;
-            document.getElementById('btn-next-ex').classList.toggle('hidden', isLast);
-            document.getElementById('btn-finish-wo').classList.toggle('hidden', !isLast);
-        }
-
-        window.finishWorkout = function() {
-            const dayKey = `w${currentWeek}d${currentDay}`;
-            appData.progress[`${dayKey}_completed`] = true;
-            saveToCloud();
-            isWorkoutActive = false;
-            document.getElementById('workout-actions').classList.add('hidden');
-            
-            if (wakeLock !== null) { wakeLock.release().then(() => { wakeLock = null; }); }
-            
-            updateUI();
-            speak("Pass slutfört. Riktigt bra jobbat.");
-            window.scrollTo({top:0, behavior:'smooth'});
-        }
-
-        window.updateData = function(key, val) {
-            appData.progress[key] = val;
-            saveToCloud();
-        }
-
-        window.toggleSet = function(setId, isActive) {
-            if(!isActive) return;
-            const isDone = !appData.progress[`${setId}_d`];
-            appData.progress[`${setId}_d`] = isDone;
-            saveToCloud();
-            
-            const btn = document.getElementById(`btn_${setId}`);
-            if(isDone) {
-                btn.classList.add('completed');
-                btn.innerHTML = '<i class="fas fa-check"></i>';
-                startVoiceTimer(120, "Vila");
-            } else {
-                btn.classList.remove('completed');
-                btn.innerHTML = '';
-            }
-        }
-
-        function getTrackableExercises() {
-            const uniqueEx = new Set();
-            for (let w = 1; w <= 8; w++) {
-                for (let d = 1; d <= 4; d++) {
-                    const day = workoutDB[w].days[d];
-                    if (day && day.exercises) {
-                        day.exercises.forEach(ex => {
-                            if (typeof ex.sets === 'number' && !ex.reps.includes('Tid') && !ex.reps.includes('Protokoll') && !ex.reps.includes('varv') && !ex.reps.includes('min')) {
-                                uniqueEx.add(ex.name);
-                                if(ex.variant) uniqueEx.add(ex.variant.name);
-                            }
-                        });
-                    }
-                }
-            }
-            return Array.from(uniqueEx);
-        }
-
-        function renderGraphToggles() {
-            const container = document.getElementById('graph-exercise-toggles');
-            if(!container) return;
-            const exercises = getTrackableExercises();
-            container.innerHTML = '';
-            
-            exercises.forEach(exName => {
-                const isSelected = selectedGraphExercises.includes(exName);
-                const btn = document.createElement('button');
-                btn.className = `px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition border ${isSelected ? 'bg-zinc-700 text-white border-zinc-500 shadow' : 'bg-zinc-900 text-zinc-500 border-zinc-800 hover:text-zinc-300'}`;
-                btn.innerText = exName;
-                btn.onclick = () => {
-                    if(isSelected) {
-                        selectedGraphExercises = selectedGraphExercises.filter(e => e !== exName);
-                    } else {
-                        if(selectedGraphExercises.length >= 5) {
-                            showToast("Max 5 övningar samtidigt i grafen!");
-                            return;
-                        }
-                        selectedGraphExercises.push(exName);
-                    }
-                    renderGraphToggles();
-                    drawGraph();
-                };
-                container.appendChild(btn);
-            });
-        }
-
-        function extractMaxForExerciseName(weekNum, exName) {
-            let maxWeight = null;
-            const weekData = workoutDB[weekNum];
-            if (!weekData || !weekData.days) return null;
-
-            for (let d = 1; d <= 4; d++) {
-                const dayData = weekData.days[d];
-                if (!dayData) continue;
-                
-                dayData.exercises.forEach(ex => {
-                    const matchesName = (ex.name === exName) || (ex.variant && ex.variant.name === exName);
-                    if (matchesName) {
-                        const sets = ex.sets || 5; 
-                        for (let s = 1; s <= sets; s++) {
-                            const val = parseFloat(appData.progress[`${ex.id}_s${s}_w`]);
-                            if (!isNaN(val) && val > 0) {
-                                if (maxWeight === null || val > maxWeight) maxWeight = val;
-                            }
-                        }
-                    }
-                });
-            }
-            return maxWeight;
-        }
-
-        window.openStats = function() {
-            openModal('stats-modal');
-            renderGraphToggles();
-            setTimeout(drawGraph, 80);
-        }
-
-        function drawGraph() {
-            const ctx = document.getElementById('progressionChart');
-            if(!ctx) return;
-            
-            if(progChart) progChart.destroy();
-            
-            const labels = Array.from({length: 8}, (_, i) => `V${i+1}`);
-            
-            const datasets = selectedGraphExercises.map((exName, index) => {
-                const data = labels.map((_, i) => extractMaxForExerciseName(i+1, exName));
-                const color = chartColors[index % chartColors.length];
-                return {
-                    label: exName,
-                    data: data,
-                    borderColor: color,
-                    backgroundColor: color,
-                    borderWidth: 2.5,
-                    tension: 0.1, 
-                    spanGaps: true,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                };
-            });
-
-            Chart.defaults.color = '#71717a'; 
-            
-            progChart = new Chart(ctx.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { 
-                            grid: { color: 'rgba(255, 255, 255, 0.05)' }, 
-                            ticks: { font: { size: 10 }, color: '#a1a1aa' } 
-                        },
-                        x: { 
-                            grid: { color: 'rgba(255, 255, 255, 0.05)' }, 
-                            ticks: { font: { size: 10 }, color: '#a1a1aa' } 
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: { usePointStyle: true, boxWidth: 6, font: { size: 11, weight: 'bold' }, color: '#fff' }
-                        }
-                    }
-                }
-            });
-        }
-        
-        window.downloadCSV = function() {
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Nyckel,Varde\n";
-            
-            let rows = [];
-            for (let key in appData.progress) {
-                if(appData.progress[key] !== null && appData.progress[key] !== "") {
-                    rows.push([key, `"${appData.progress[key]}"`]);
-                }
-            }
-            
-            csvContent += rows.map(e => e.join(",")).join("\n");
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "frontline_fit_backup.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast("CSV nerladdad!");
-        }
-
-        window.calc1RM = function() {
-            const w = parseFloat(document.getElementById('calc-w').value);
-            const r = parseFloat(document.getElementById('calc-r').value);
-            if(w > 0 && r > 0) {
-                const rm = Math.round(w * (1 + (r / 30)));
-                document.getElementById('calc-result').innerText = `Estimerat 1RM: ${rm} kg`;
-            } else {
-                document.getElementById('calc-result').innerText = "";
-            }
-        }
-
-        function speak(text) {
-            if('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'sv-SE';
-                utterance.rate = 1.0;
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        window.startVoiceTimer = function(seconds, type, isHLR = false) {
-            clearInterval(timerInt);
-            let left = seconds;
-            updateTimeDisplay(left);
-            
-            if(isHLR) speak("HLR startad. Två minuter.");
-            else speak("Timer startad.");
-
-            timerInt = setInterval(() => {
-                left--;
-                updateTimeDisplay(left);
-                
-                if(left === 30) speak("Trettio sekunder kvar.");
-                if(left === 10) speak("Tio sekunder.");
-                if(isHLR && left%30===0 && left>0 && left!==30) speak("Håll tempot.");
-
-                if(left <= 0) {
-                    clearInterval(timerInt);
-                    if(isHLR) speak("Tiden är ute. Byt!");
-                    else speak("Tiden är ute. Redo för nästa.");
-                }
-            }, 1000);
-        }
-
-        window.stopTimer = function() {
-            clearInterval(timerInt);
-            updateTimeDisplay(0);
-            window.speechSynthesis.cancel();
-        }
-
-        function updateTimeDisplay(sec) {
-            const m = Math.floor(sec/60).toString().padStart(2,'0');
-            const s = (sec%60).toString().padStart(2,'0');
-            document.getElementById('global-time-display').innerText = `${m}:${s}`;
-        }
-
-        let breatheInt;
-        window.startBreathing = function() {
-            const circle = document.getElementById('breathing-circle');
-            const text = document.getElementById('breathe-instruction');
-            let step = 0;
-            
-            clearInterval(breatheInt);
-            runBreatheStep(circle, text, step);
-            
-            breatheInt = setInterval(() => {
-                step = (step + 1) % 4;
-                runBreatheStep(circle, text, step);
-            }, 4000);
-        }
-
-        function runBreatheStep(circle, text, step) {
-            if(step === 0) {
-                text.innerText = "ANDAS IN...";
-                circle.style.transform = "scale(1.45)";
-                circle.style.background = "radial-gradient(circle, #f97316 0%, rgba(249, 115, 22, 0.45) 100%)";
-            } else if(step === 1) {
-                text.innerText = "HÅLL ANDAN";
-            } else if(step === 2) {
-                text.innerText = "ANDAS UT...";
-                circle.style.transform = "scale(1)";
-                circle.style.background = "radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, rgba(249, 115, 22, 0.05) 100%)";
-            } else if(step === 3) {
-                text.innerText = "HÅLL TOMT";
-            }
-        }
-
-        window.stopBreathing = function() {
-            clearInterval(breatheInt);
-            const circle = document.getElementById('breathing-circle');
-            if(circle) circle.style.transform = "scale(1)";
-            const text = document.getElementById('breathe-instruction');
-            if(text) text.innerText = "Avslutad.";
-        }
-
-        window.openModal = id => document.getElementById(id).style.display = 'flex';
-        window.closeModal = id => {
-            document.getElementById(id).style.display = 'none';
-            if(id === 'breathe-modal') stopBreathing();
+      const datasets = selectedChartExercises.map((name, i) => {
+        const dataPoints = (logs[name] || []).map((entry, idx) => ({ x: idx + 1, y: entry.kg }));
+        return {
+          label: name,
+          data: dataPoints.length ? dataPoints : [{ x: 1, y: 0 }],
+          borderColor: colors[i % colors.length],
+          backgroundColor: colors[i % colors.length],
+          tension: 0.3
         };
+      });
 
-        document.addEventListener('visibilitychange', async () => {
-            if (wakeLock !== null && document.visibilityState === 'visible' && isWorkoutActive) {
-                try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
-            }
-        });
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: { labels: ['Pass 1', 'Pass 2', 'Pass 3', 'Pass 4', 'Pass 5', 'Pass 6'], datasets },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#e4e4e7', font: { size: 11 } } } },
+          scales: {
+            x: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } },
+            y: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } }
+          }
+        }
+      });
+    }
 
-        initApp();
-    </script>
+    function exportCSV() {
+      let csv = 'Övning,Datum,Vikt_kg\n';
+      Object.keys(logs).forEach(ex => {
+        logs[ex].forEach(r => { csv += `"${ex}",${r.date},${r.kg}\n`; });
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'frontline_fit_statistik.csv';
+      a.click();
+    }
+
+    let breathInterval = null;
+    function toggleBoxBreathing() {
+      const btn = document.getElementById('breathBtn');
+      if (breathInterval) {
+        clearInterval(breathInterval);
+        breathInterval = null;
+        btn.textContent = 'Starta Andning';
+        document.getElementById('breathPhase').textContent = 'Pausad';
+        return;
+      }
+      btn.textContent = 'Stoppa';
+      const phases = ['Andas IN (4s)', 'HÅLL andan (4s)', 'Andas UT (4s)', 'HÅLL tom (4s)'];
+      let step = 0;
+      const runPhase = () => {
+        const text = phases[step % 4];
+        document.getElementById('breathPhase').textContent = text;
+        if ('speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance(text.replace('(4s)', ''));
+          u.lang = 'sv-SE';
+          window.speechSynthesis.speak(u);
+        }
+        step++;
+      };
+      runPhase();
+      breathInterval = setInterval(runPhase, 4000);
+    }
+
+    let hlrInterval = null;
+    function toggleHLR() {
+      const btn = document.getElementById('hlrBtn');
+      if (hlrInterval) {
+        clearInterval(hlrInterval);
+        hlrInterval = null;
+        btn.textContent = 'Starta HLR-Timer';
+        document.getElementById('hlrStatus').textContent = 'Stoppad';
+        return;
+      }
+      let sec = 120;
+      btn.textContent = 'Stoppa HLR';
+      document.getElementById('hlrStatus').textContent = '30 kompressioner : 2 inblåsningar (110 BPM)';
+      hlrInterval = setInterval(() => {
+        sec--;
+        const m = String(Math.floor(sec / 60)).padStart(2, '0');
+        const s = String(sec % 60).padStart(2, '0');
+        document.getElementById('hlrClock').textContent = `${m}:${s}`;
+        if (sec <= 0) {
+          clearInterval(hlrInterval);
+          hlrInterval = null;
+          document.getElementById('hlrStatus').textContent = '2 min klara! Kontrollera rytm / byt livräddare.';
+        }
+      }, 1000);
+    }
+
+    function loadProfile() {
+      const w = localStorage.getItem('ff_weight') || '70';
+      const h = localStorage.getItem('ff_height') || '167';
+      document.getElementById('profWeight').value = w;
+      document.getElementById('profHeight').value = h;
+      updateProfileSummary();
+    }
+
+    function saveProfile() {
+      const w = document.getElementById('profWeight').value || '70';
+      const h = document.getElementById('profHeight').value || '167';
+      localStorage.setItem('ff_weight', w);
+      localStorage.setItem('ff_height', h);
+      updateProfileSummary();
+      renderWorkouts();
+    }
+
+    function updateProfileSummary() {
+      const w = parseFloat(document.getElementById('profWeight').value) || 70;
+      const h = parseFloat(document.getElementById('profHeight').value) || 167;
+      document.getElementById('profileSummaryHeader').textContent = `${w} kg | ${h} cm | ${nightShift ? 'Nattpass' : 'Standardläge'}`;
+
+      const restKcal = Math.round(w * 31);
+      const trainKcal = Math.round(w * 38);
+      const heavyKcal = Math.round(w * 42);
+      const protein = Math.round(w * 2.2);
+
+      document.getElementById('calorieBox').innerHTML = `
+        <div class="font-bold text-orange-400 uppercase">Automatisk Kalori- & Makrokalkylator (${w} kg)</div>
+        <div>• <strong>Vilodag / Lätt skift:</strong> ca ${restKcal} kcal</div>
+        <div>• <strong>Träningsdag (Frontline Fit):</strong> ca ${trainKcal} kcal</div>
+        <div>• <strong>Tungt skift + väst/säck-pass:</strong> ca ${heavyKcal} kcal</div>
+        <div class="pt-1 text-green-400 font-semibold">Rekommenderat protein: ${protein} g / dag (ca 2,2 g/kg)</div>
+      `;
+    }
+  </script>
 </body>
 </html>
