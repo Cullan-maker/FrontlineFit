@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - KOMPLETT VERSION MED FIXAD VIKTRUTA & RÄTT EXAM-PASS -->
+<!-- FRONTLINE FIT - KOMPLETT MED DYNAMISK 8-VECKORS LÖPPROGRESSION -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -26,7 +26,6 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Kortdesign exakt som Bild 1 */
     .ff-panel {
       background-color: #141418;
       border: 1px solid #26262c;
@@ -61,7 +60,6 @@
       color: #09090b;
     }
 
-    /* Polisfys Timer Sheet (Bild 3) */
     .polisfys-sheet {
       background: linear-gradient(180deg, #0f172a 0%, #0b1120 100%);
       border-top: 1px solid rgba(59, 130, 246, 0.25);
@@ -82,7 +80,7 @@
   <!-- ================= HUVUDCONTAINER (BILD 1 UI) ================= -->
   <div class="max-w-md mx-auto px-4 pt-5 space-y-4">
 
-    <!-- TOPP-HEADER (EXAKT SOM BILD 1) -->
+    <!-- TOPP-HEADER -->
     <header class="flex items-start justify-between gap-3">
       <div>
         <h1 class="text-3xl font-black tracking-tight leading-none text-white uppercase">
@@ -96,7 +94,6 @@
         </button>
       </div>
 
-      <!-- Höger knappsats (PRE-SHIFT, ANDNING, STATISTIK & GRAF) -->
       <div class="w-[215px] space-y-2">
         <div class="grid grid-cols-2 gap-2">
           <button onclick="openModal('mobilityModal')" class="bg-[#2563eb] hover:bg-blue-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight shadow-md">
@@ -115,7 +112,7 @@
       </div>
     </header>
 
-    <!-- NATTPASS / SLITEN? KORT (BILD 1) -->
+    <!-- NATTPASS / SLITEN? KORT -->
     <div class="ff-panel p-4 flex items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-1.5 text-sm font-bold text-white">
@@ -129,13 +126,13 @@
       </button>
     </div>
 
-    <!-- 8-VECKORS PROGRESSIONSPiller (BILD 1: V1 EXAM -> V8 EXAM) -->
+    <!-- 8-VECKORS PROGRESSIONSPiller -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
     </div>
 
-    <!-- STARTA PASSET PANEL (BILD 1) -->
+    <!-- STARTA PASSET PANEL -->
     <div class="ff-panel p-4">
       <button onclick="toggleWorkoutSession()" id="startPassBtn" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition">
         <span>▶</span>
@@ -143,12 +140,12 @@
       </button>
     </div>
 
-    <!-- ÖVNINGSKORT LISTA (BILD 1) -->
+    <!-- ÖVNINGSKORT LISTA -->
     <div id="exercisesListContainer" class="space-y-4"></div>
 
   </div>
 
-  <!-- FAST BOTTENKNAPP: NÄSTA ÖVNING (BILD 1) -->
+  <!-- FAST BOTTENKNAPP: NÄSTA ÖVNING -->
   <div class="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/95 to-transparent pt-3 pb-4 px-4">
     <div class="max-w-md mx-auto">
       <button onclick="goToNextExercise()" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl">
@@ -158,7 +155,7 @@
     </div>
   </div>
 
-  <!-- ================= POLISFYS NEDRÄKNINGSTIMER (EXAKT SOM BILD 3) ================= -->
+  <!-- ================= POLISFYS NEDRÄKNINGSTIMER (BILD 3) ================= -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
       <div id="restTimerHeaderLabel" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
@@ -185,7 +182,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: PRE-SHIFT MOBILITY MED SVG-FIGURER (BILD 2) ================= -->
+  <!-- ================= MODAL: PRE-SHIFT MOBILITY MED SVG-FIGURER ================= -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -314,7 +311,59 @@
       { id: 8, label: 'V8 EXAM', mult: 1.02 }
     ];
 
-    // Exam-passet är nu återställt till: 1. Trap Bar Marklyft (2x kv), 2. Sprint 100 m (16 sek), 3. Boxhopp (50% av längd)
+    // Dynamisk veckoprogression för PASS 3: VO2 & BACKE (Vecka 1–8)
+    const runningProgressionByWeek = {
+      1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
+      2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad (5 backvändor / 4×800m)' },
+      3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning (6 backvändor / 5×800m)' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, fokus på löpteknik & återhämtning' },
+      5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering (7 backvändor / 6×800m med 75s vila)' },
+      6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym (8 backvändor / 7×800m / 45 min säck)' },
+      7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power (Tung 15kg explosiv backe + 8×800m)' },
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering inför maxtest' }
+    };
+
+    function getExercisesForDay(dayKey, weekId) {
+      if (dayKey === 'day3') {
+        const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
+        const hillSetsArr = Array.from({ length: rp.hillSets }, () => ({ fixedVal: rp.hillKg, reps: rp.hillRep }));
+        const yassoSetsArr = Array.from({ length: rp.yassoSets }, () => ({ fixedVal: 800, reps: rp.yassoRep }));
+        return [
+          {
+            id: 'd3_1',
+            std: 'Yxbacken (Väst/Säck)',
+            var: 'Sprints (Maxrusning)',
+            mode: 'fixedKg',
+            fixedGoal: rp.hillKg,
+            goalText: `${rp.phaseNote} • ${rp.hillSets} × ${rp.hillRep} (${rp.hillKg} kg utrustning).`,
+            sets: hillSetsArr,
+            rest: rp.hillRest
+          },
+          {
+            id: 'd3_2',
+            std: 'Yasso 800m',
+            var: '4x4 min Intervaller',
+            mode: 'sprint',
+            goalFactor: 800,
+            goalText: `${rp.yassoSets} × 800m i jämnt måltempo (${rp.yassoRest}s vila). Logga tid eller distans.`,
+            sets: yassoSetsArr,
+            rest: rp.yassoRest
+          },
+          {
+            id: 'd3_3',
+            std: 'Cardiac Output (Bear Hug)',
+            var: 'Rucking (Tung Säck)',
+            mode: 'fixedKg',
+            fixedGoal: rp.cardioKg,
+            goalText: `${rp.cardioMin} konstant arbete i zon 2 med ${rp.cardioKg} kg belastning.`,
+            sets: [{ fixedVal: rp.cardioKg, reps: rp.cardioMin }],
+            rest: 60
+          }
+        ];
+      }
+      return workoutTemplates[dayKey].exercises;
+    }
+
     const workoutTemplates = {
       exam: {
         name: 'EXAM / TESTPASS',
@@ -372,11 +421,7 @@
       },
       day3: {
         name: 'PASS 3: VO2 & BACKE',
-        exercises: [
-          { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Maxrusning)', mode: 'weight', goalFactor: 0.15, goalText: 'Backintervaller med {val} kg utrustning.', sets: [{ factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }, { factor: 0.15, reps: '45 SEK' }], rest: 90 },
-          { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervaller', mode: 'bw', goalFactor: 0, goalText: 'Håll jämnt måltempo med 90s vila.', sets: [{ factor: 0, reps: '800M' }, { factor: 0, reps: '800M' }, { factor: 0, reps: '800M' }, { factor: 0, reps: '800M' }], rest: 90 },
-          { id: 'd3_3', std: 'Cardiac Output (Bear Hug)', var: 'Rucking (Tung Säck)', mode: 'weight', goalFactor: 0.3, goalText: '30 min konstant arbete med {val} kg säck.', sets: [{ factor: 0.3, reps: '30 MIN' }], rest: 60 }
-        ]
+        exercises: []
       },
       day4: {
         name: 'PASS 4: 911STRONG',
@@ -425,7 +470,6 @@
     let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Sprint 100 m","Boxhopp","Back Squats"]');
     let chartInstance = null;
 
-    // Polisfys Timer State
     let restTotalSec = 90;
     let restLeftSec = 90;
     let restTimerInt = null;
@@ -529,16 +573,14 @@
       renderExercises();
     }
 
-    // Sparar direkt när man skriver i rutan utan att rita om DOM eller tappa fokus
     function saveTypedInput(setKey, val) {
       customInputs[setKey] = val;
       localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs));
     }
 
-    // Byter endast CSS-ram när man klickar på ett kort eller en viktruta (ingen DOM-omritning!)
     function highlightCardOnly(idx) {
       activeExerciseIdx = idx;
-      const list = workoutTemplates[currentDayKey].exercises;
+      const list = getExercisesForDay(currentDayKey, currentWeek);
       list.forEach((_, i) => {
         const card = document.getElementById('ex-card-' + i);
         const dot = document.getElementById('ex-dot-' + i);
@@ -558,7 +600,7 @@
       const height = parseFloat(localStorage.getItem('ff_height') || '167');
       const weekObj = weeksConfig.find(w => w.id === currentWeek) || weeksConfig[0];
       const nightMult = nightMode ? 0.85 : 1.0;
-      const list = workoutTemplates[currentDayKey].exercises;
+      const list = getExercisesForDay(currentDayKey, currentWeek);
       const container = document.getElementById('exercisesListContainer');
 
       container.innerHTML = list.map((ex, idx) => {
@@ -571,7 +613,9 @@
         if (ex.mode === 'height50') {
           targetVal = Math.round(height * ex.goalFactor);
         } else if (ex.mode === 'sprint') {
-          targetVal = nightMode ? 18 : ex.goalFactor;
+          targetVal = nightMode && ex.goalFactor === 16 ? 18 : ex.goalFactor;
+        } else if (ex.mode === 'fixedKg') {
+          targetVal = nightMode ? Math.round(ex.fixedGoal * 0.85) : ex.fixedGoal;
         } else if (ex.goalFactor > 0) {
           targetVal = Math.round((weight * ex.goalFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
         }
@@ -585,14 +629,14 @@
           let calcDefault = 0;
           if (sObj.heightFactor) {
             calcDefault = Math.round(height * sObj.heightFactor);
-          } else if (sObj.fixedVal) {
-            calcDefault = nightMode ? 18 : sObj.fixedVal;
+          } else if (sObj.fixedVal !== undefined) {
+            calcDefault = nightMode && ex.mode === 'fixedKg' ? Math.round(sObj.fixedVal * 0.85) : sObj.fixedVal;
           } else if (sObj.factor > 0) {
             calcDefault = Math.round((weight * sObj.factor * weekObj.mult * nightMult) / 2.5) * 2.5;
           }
 
           const displayVal = customInputs[setKey] !== undefined ? customInputs[setKey] : calcDefault;
-          const repLabel = nightMode && (sObj.reps === '1RM' || sObj.reps === '16 SEK') ? 'TEMPO' : sObj.reps;
+          const repLabel = nightMode && (sObj.reps === '1RM' || sObj.reps === '16 SEK' || sObj.reps === '30S MAX') ? 'TEMPO' : sObj.reps;
 
           return `
             <div class="ff-set-row px-3.5 py-3 flex items-center justify-between gap-2">
@@ -650,7 +694,7 @@
       }).join('');
     }
 
-    // ================= 6. LOGGNING + POLISFYS NEDRÄKNINGSTIMER (BILD 3) =================
+    // ================= 6. LOGGNING + POLISFYS NEDRÄKNINGSTIMER =================
     function toggleSetComplete(setKey, exTitle, restSec, cardIdx) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
@@ -684,7 +728,7 @@
     }
 
     function goToNextExercise() {
-      const list = workoutTemplates[currentDayKey].exercises;
+      const list = getExercisesForDay(currentDayKey, currentWeek);
       if (activeExerciseIdx < list.length - 1) {
         activeExerciseIdx++;
       } else {
@@ -785,7 +829,7 @@
     }
 
     function getAllExerciseTitles() {
-      const names = [];
+      const names = ['Yxbacken (Väst/Säck)', 'Sprints (Maxrusning)', 'Yasso 800m', '4x4 min Intervaller', 'Cardiac Output (Bear Hug)', 'Rucking (Tung Säck)'];
       Object.values(workoutTemplates).forEach(t => {
         t.exercises.forEach(e => { names.push(e.std); names.push(e.var); });
       });
@@ -856,7 +900,6 @@
       a.click();
     }
 
-    // Box Breathing & HLR
     let breathInt = null;
     function toggleBoxBreath() {
       const circle = document.getElementById('breathCircle');
@@ -918,7 +961,6 @@
       }, 1000);
     }
 
-    // Profil & Ikon
     function loadProfile() {
       document.getElementById('profWeightInput').value = localStorage.getItem('ff_weight') || '70';
       document.getElementById('profHeightInput').value = localStorage.getItem('ff_height') || '167';
