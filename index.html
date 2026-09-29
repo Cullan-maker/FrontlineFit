@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - ORIGINALPASSEN + DYNAMISK EXAM PROGRESSION -->
+<!-- FRONTLINE FIT - VARIANTER INFO & KOMPLETT LOGGBOK -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -163,25 +163,17 @@
   <!-- ================= POLISFYS NEDRÄKNINGSTIMER ================= -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
-      <div id="restTimerHeaderLabel" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
-        VILA TILL NÄSTA SET
-      </div>
-
+      <div id="restTimerHeaderLabel" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">VILA TILL NÄSTA SET</div>
       <div class="relative w-48 h-48 flex items-center justify-center">
         <svg class="w-48 h-48" viewBox="0 0 180 180">
           <circle cx="90" cy="90" r="76" fill="none" stroke="#1e293b" stroke-width="12" />
           <circle id="polisfysRingProgress" class="timer-ring-circle" cx="90" cy="90" r="76" fill="none" stroke="#3b82f6" stroke-width="12" stroke-linecap="round" stroke-dasharray="477.5" stroke-dashoffset="0" />
         </svg>
-        <div id="polisfysTimerDigits" class="absolute text-5xl font-black tracking-tight text-white">
-          01:30
-        </div>
+        <div id="polisfysTimerDigits" class="absolute text-5xl font-black tracking-tight text-white">01:30</div>
       </div>
-
       <div class="flex items-center gap-3">
         <button onclick="adjustPolisfysRest(-15)" class="px-4 py-2.5 rounded-full bg-slate-800/70 border border-slate-700 text-slate-300 text-xs font-bold">-15s</button>
-        <button onclick="skipPolisfysRest()" class="px-8 py-3.5 rounded-full bg-[#162033] hover:bg-slate-800 border border-slate-700/80 text-white text-xs font-extrabold uppercase tracking-wider shadow-lg">
-          HOPPA ÖVER VILA
-        </button>
+        <button onclick="skipPolisfysRest()" class="px-8 py-3.5 rounded-full bg-[#162033] hover:bg-slate-800 border border-slate-700/80 text-white text-xs font-extrabold uppercase tracking-wider shadow-lg">HOPPA ÖVER VILA</button>
         <button onclick="adjustPolisfysRest(15)" class="px-4 py-2.5 rounded-full bg-slate-800/70 border border-slate-700 text-slate-300 text-xs font-bold">+15s</button>
       </div>
     </div>
@@ -195,7 +187,7 @@
     </div>
   </div>
 
-  <!-- ================= ÖVRIGA MODALER ================= -->
+  <!-- ================= MODALER: MOBILITY, STATS, ANDNING, PROFIL ================= -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -213,18 +205,24 @@
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
         <div>
-          <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">PRESTATIONSUTVECKLING</span>
-          <h2 class="text-lg font-black text-white uppercase">📈 Statistik & Graf</h2>
+          <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">PRESTATIONSUTVECKLING & LOGG</span>
+          <h2 class="text-lg font-black text-white uppercase">📈 Statistik & Loggbok</h2>
         </div>
         <button onclick="closeModal('statsModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
       <div class="flex items-center justify-between">
-        <span class="text-xs text-zinc-400">Välj upp till 5 övningar:</span>
+        <span class="text-xs text-zinc-400">Välj upp till 5 övningar/varianter:</span>
         <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs font-bold text-orange-400">⬇️ CSV-Export</button>
       </div>
       <div id="chartFilterContainer" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-zinc-950 rounded-xl border border-zinc-800"></div>
       <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
         <canvas id="strengthChart" height="230"></canvas>
+      </div>
+      
+      <!-- Ny Loggboksvy i Stats -->
+      <div class="pt-4 border-t border-zinc-800">
+        <h3 class="text-sm font-black text-white uppercase tracking-wider mb-3">Senaste Aktivitet (Loggbok)</h3>
+        <div id="historyLogList" class="space-y-2 max-h-60 overflow-y-auto pr-2 no-scrollbar"></div>
       </div>
     </div>
   </div>
@@ -252,7 +250,7 @@
         <div class="text-xs font-bold uppercase text-red-400 tracking-wider">❤️ HLR-Metronom (30:2 • 110 BPM)</div>
         <div id="hlrTimeText" class="text-3xl font-mono font-black text-white">02:00</div>
         <div id="hlrStatusText" class="text-xs font-bold text-red-300 uppercase">Standby</div>
-        <button onclick="toggleHLR()" id="hlrBtn" class="w-full py-3 rounded-xl bg-red-600 text-white font-black text-xs uppercase tracking-wider">▶ Starta HLR</button>
+        <button onclick="toggleHLR()" id="hlrBtn" class="w-full py-3 rounded-xl bg-red-600 text-white font-black text-xs uppercase tracking-wider">▶ Starta HLR (110 BPM)</button>
       </div>
     </div>
   </div>
@@ -280,11 +278,16 @@
 
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
 
-      <!-- Dina 1RM Base Stats -->
+      <!-- Dina 1RM Base Stats med EXAM Datumlogg -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-orange-500/40 space-y-3">
         <div class="flex justify-between items-center">
           <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
           <div class="text-[9px] text-zinc-400 uppercase">Styr din progression</div>
+        </div>
+        <!-- EXAM DATUM LOGG -->
+        <div id="examDatesContainer" class="text-[10px] text-zinc-300 bg-zinc-900 px-2 py-1 rounded border border-zinc-800 flex justify-between">
+          <span>Första test: <span id="firstExamDate">Laddar...</span></span>
+          <span>Senaste: <span id="lastExamDate">Laddar...</span></span>
         </div>
         <div class="grid grid-cols-3 gap-2" id="baselineInputsContainer"></div>
       </div>
@@ -321,55 +324,55 @@
 
     const runningProgressionByWeek = {
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
-      2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad (5 backvändor / 4×800m)' },
-      3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning (6 backvändor / 5×800m)' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, fokus på löpteknik' },
-      5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering (7 backvändor / 6×800m)' },
-      6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym (8 backvändor / 7×800m)' },
-      7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power (Tung explosiv backe + 8×800m)' },
+      2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
+      3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknikfokus' },
+      5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
+      6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
+      7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
       8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
     };
 
-    // De "Gamla" ursprungliga 4 passen, med Exam tillagt
+    // Struktur anpassad för unika standard- och variant-beskrivningar & ikoner
     const workoutDays = [
       {
         id: 'day1',
         name: 'DAG 1: UNDERKROPP',
         exercises: [
-          { std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 85, info: 'Bygger brutal benstyrka. Gå till parallellt djup och explodera rakt upp ur bottenläget.', svgType: 'squat' },
-          { std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 REPS', rest: 75, baseKg: 0, info: 'Starta från magliggande eller knästående. Handlar enbart om acceleration, inte uthållighet.', svgType: 'sprint' },
-          { std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, info: 'Sandsäck på axlarna. Skyddar knän och bygger stabilitet för tunga lyft.', svgType: 'pull' },
-          { std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30 SEK', rest: 90, baseKg: 0, info: 'Tre obrutna maxlängdhopp utan mellanhopp. Landa och skjut ifrån direkt.', svgType: 'sprint' },
-          { std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, info: 'Stärk bålpansaret mot en yttre belastning (ex. viktskiva eller säck på ländryggen).', svgType: 'press' }
+          { std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 85, stdInfo: 'Starta från pinnar i bottenläget. Bygger brutal startstyrka.', varInfo: 'Klassisk knäböj med stången på nacken. Fullt djup och stark bål.', stdSvg: 'squat', varSvg: 'squat' },
+          { std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 REPS', rest: 75, baseKg: 0, stdInfo: 'Starta från magliggande/knästående. Handlar enbart om maximal acceleration.', varInfo: 'Explosivt upphopp från knästående till jämfota landning. Ren höftkraft.', stdSvg: 'sprint', varSvg: 'sprint' },
+          { std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, stdInfo: 'Sandsäck på axlarna. Skyddar knän och bygger stabilitet för benen.', varInfo: 'Rumänska marklyft med skivstång. Håll benen lätt böjda och fäll i höften.', stdSvg: 'squat', varSvg: 'pull' },
+          { std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30 SEK', rest: 90, baseKg: 0, stdInfo: 'Maximal sprint på cykel eller med släde i 30 sekunder.', varInfo: 'Tre maxlängdhopp i sträck. Landa och studsa iväg direkt utan vila.', stdSvg: 'sprint', varSvg: 'sprint' },
+          { std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, stdInfo: 'Stärk bålpansaret mot en yttre belastning (t.ex. vikt eller säck).', varInfo: 'Rulla ut hjulet kontrollerat tills näsan nuddar golvet. Dra tillbaka med magen.', stdSvg: 'press', varSvg: 'press' }
         ]
       },
       {
         id: 'day2',
         name: 'DAG 2: ÖVERKROPP',
         exercises: [
-          { std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 REPS', rest: 120, baseKg: 55, info: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', svgType: 'press' },
-          { std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, info: 'Extrem greppträning. Häng två handdukar över stången och dra upp bröstkorgen.', svgType: 'pull' },
-          { std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, info: 'Fullt djup (90 grader i armbågen). Luta lätt framåt för att koppla in bröstet.', svgType: 'press' },
-          { std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, info: 'Sänk skulderbladen i bänken och pressa stången explosivt från bröstet.', svgType: 'press' },
-          { std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 REPS', rest: 90, baseKg: 60, info: 'Stark ländrygg och bröstrygg. Undvik att gunga upp vikten i rodden.', svgType: 'pull' }
+          { std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 REPS', rest: 120, baseKg: 55, stdInfo: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', varInfo: 'Strikt militärpress utan bentryck. Lås knän och pressa stången i en rak linje.', stdSvg: 'press', varSvg: 'press' },
+          { std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, stdInfo: 'Häng två handdukar över stången och dra upp bröstkorgen. Extrem greppträning.', varInfo: 'Fäst en vikt i bältet eller kläm en hantel mellan fötterna. Haka över stången.', stdSvg: 'pull', varSvg: 'pull' },
+          { std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, stdInfo: 'Dips i ställning med väst. Fullt djup (90 grader i armbågen).', varInfo: 'Häng på extra vikt. Luta lätt framåt för att koppla in bröstet mer.', stdSvg: 'press', varSvg: 'press' },
+          { std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, stdInfo: 'Isolerande bröstövning i dragmaskin för full kontraktion.', varInfo: 'Klassisk bänkpress. Plantera fötterna, brösta upp dig och pressa.', stdSvg: 'press', varSvg: 'press' },
+          { std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 REPS', rest: 90, baseKg: 60, stdInfo: 'Stark ländrygg. Sitt på bänk och fäll överkroppen framåt med stång på nacken.', varInfo: 'Framåtlutad skivstångsrodd. Dra stången mot naveln med armbågarna nära kroppen.', stdSvg: 'pull', varSvg: 'pull' }
         ]
       },
       {
         id: 'day4',
         name: 'DAG 4: 911STRONG',
         exercises: [
-          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, info: 'Tungt baslyft. Tryck ifrån med benen snarare än att dra med ryggen.', svgType: 'pull' },
-          { std: 'Mixed Modality (EMOM)', var: 'Power Cleans', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, info: 'Explosiv trippelsträckning i fot, knä och höft. Fånga stången mjukt.', svgType: 'pull' },
-          { std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, info: 'Bär tunga vikter i händerna med stolt hållning och korta, snabba steg.', svgType: 'sprint' }
+          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, stdInfo: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen snarare än att dra med ryggen.', varInfo: 'Konventionellt marklyft med rak stång. Stången nära smalbenen hela vägen.', stdSvg: 'pull', varSvg: 'pull' },
+          { std: 'Mixed Modality (EMOM)', var: 'Power Cleans', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, stdInfo: 'Cirkelträning med t.ex. wallballs och kettlebells. Varje minut (EMOM).', varInfo: 'Frivändning. Explosiv höftsträckning, accelerera stången och fånga mjukt på axlarna.', stdSvg: 'pull', varSvg: 'pull' },
+          { std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, stdInfo: 'Bär tunga vikter i händerna med stolt hållning och korta, snabba steg.', varInfo: 'Lyft en tung sandsäck från golvet upp över ena axeln. Byt axel varje rep.', stdSvg: 'sprint', varSvg: 'pull' }
         ]
       },
       {
         id: 'exam',
         name: 'EXAM / TESTPASS',
         exercises: [
-          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', info: 'Maxtest. Målet är 2x kroppsvikt. Ditt resultat här styr progressionen i Vecka 2-7.', svgType: 'pull' },
-          { std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK', rest: 120, isExam: true, examType: 'sprint', info: 'Målet är max 16 sekunder.', svgType: 'sprint' },
-          { std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', info: 'Jämfotahopp. Målet är 50% av din kroppslängd.', svgType: 'sprint' }
+          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', stdInfo: 'Maxtest Trap Bar. Målet är 2x kroppsvikt. Detta styr progressionen framåt.', varInfo: 'Maxtest konventionellt marklyft. Målet är 2x kroppsvikt.', stdSvg: 'pull', varSvg: 'pull' },
+          { std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK / CM', rest: 120, isExam: true, examType: 'sprint', stdInfo: 'Målet är max 16 sekunder på 100 meter.', varInfo: 'Maxtest i längd. Tre jämfotahopp i rad – mät total sträcka.', stdSvg: 'sprint', varSvg: 'sprint' },
+          { std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', stdInfo: 'Jämfotahopp på låda. Målet är att klara 50% av din kroppslängd i höjd.', varInfo: 'Maxtest från knästående. Hoppa jämfota upp på högsta möjliga låda.', stdSvg: 'sprint', varSvg: 'sprint' }
         ]
       }
     ];
@@ -377,9 +380,9 @@
     function getDay3Exercises(weekId) {
       const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
       return [
-        { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, info: `${rp.phaseNote}. Simulering av förföljande i tung utrustning.`, svgType: 'sprint' },
-        { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, info: 'Bygger syreupptagning. Håll jämnt måltempo.', svgType: 'sprint' },
-        { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, info: 'Zon 2 arbete. Håll pulsen jämn och bär utrustningen högt.', svgType: 'sprint' }
+        { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, stdInfo: `${rp.phaseNote}. Backintervaller med tung utrustning.`, varInfo: 'Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.', stdSvg: 'sprint', varSvg: 'sprint' },
+        { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, stdInfo: 'Bygger syreupptagning. Håll jämnt måltempo på 800 meter.', varInfo: '4 minuters arbete på 90-95% av maxpuls för att optimera VO2-Max.', stdSvg: 'sprint', varSvg: 'sprint' },
+        { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, stdInfo: 'Zon 2 arbete med bear hug säck. Håll pulsen jämn och bär utrustningen högt.', varInfo: 'Gå raskt med tung ryggsäck. Håll ett tempo där du precis kan föra ett samtal.', stdSvg: 'sprint', varSvg: 'sprint' }
       ];
     }
 
@@ -421,12 +424,13 @@
     window.addEventListener('DOMContentLoaded', () => {
       generateIconFile();
       loadProfile();
-      // Säkerställ att om week=2-7, vi inte startar på EXAM.
       if (currentWeek > 1 && currentWeek < 8) currentDayKey = 'day1';
       renderWeekPills();
       renderDayPills();
       renderExercises();
       renderMobilityModal();
+      updateExamDates();
+      renderHistoryLog();
     });
 
     function playBeep(freq = 880, dur = 0.12) {
@@ -539,6 +543,12 @@
       });
     }
 
+    // Helper för att hämta det senaste datumet från en loggarray
+    function getLastDateFor(title) {
+      const hist = logs[title] || [];
+      return hist.length > 0 ? hist[hist.length - 1].date : 'Aldrig';
+    }
+
     function renderExercises() {
       const weight = parseFloat(localStorage.getItem('ff_weight') || '70');
       const height = parseFloat(localStorage.getItem('ff_height') || '167');
@@ -548,12 +558,11 @@
       let list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       const container = document.getElementById('exercisesListContainer');
 
-      // Dynamisk skalningsfaktor baserad på Exam-resultatet i Trap Bar (Mål 2x Kroppsvikt)
       let powerFactor = 1.0;
       const savedTrap = parseFloat(user1RMs['trapbar']);
       if (savedTrap > 0) {
         powerFactor = savedTrap / (weight * 2);
-        powerFactor = Math.max(0.5, Math.min(powerFactor, 1.5)); // Spärr mot felinmatningar
+        powerFactor = Math.max(0.5, Math.min(powerFactor, 1.5));
       }
 
       container.innerHTML = list.map((ex, idx) => {
@@ -561,8 +570,11 @@
         const isVar = !!activeVariants[ex.id || idx];
         const title = isVar && ex.var ? ex.var : ex.std;
         const altTitle = isVar && ex.var ? ex.std : ex.var;
+        
+        const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
+        const svgImage = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
+        const lastLogDate = getLastDateFor(title);
 
-        // Räkna ut målvärde för rubrik
         let targetVal = 0;
         if (ex.isExam && ex.examType === 'trapbar') targetVal = Math.round(weight * 2);
         else if (ex.isExam && ex.examType === 'sprint') targetVal = 16;
@@ -570,12 +582,10 @@
         else if (ex.fixedKg !== undefined) targetVal = nightMode ? Math.round(ex.fixedKg * 0.85) : ex.fixedKg;
         else if (ex.baseKg > 0) targetVal = Math.round((ex.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
 
-        // Om det inte är exam utan vanligt pass
-        let goalLine = ex.isExam ? ex.info : '';
-        if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg. ${ex.info}`;
-        if (currentDayKey === 'day3') goalLine = ex.info; // För löpningen
+        let goalLine = ex.isExam ? infoText : '';
+        if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg.`;
+        if (currentDayKey === 'day3') goalLine = infoText;
 
-        // Skapa set-raderna
         let setsHtml = '';
         for (let s = 1; s <= ex.sets; s++) {
           const setKey = `w${currentWeek}_${currentDayKey}_${ex.id||idx}_s${s}_${title}`;
@@ -604,7 +614,7 @@
                   ${repLabel}
                 </div>
               </div>
-              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx}, ${ex.isExam}, '${ex.examType}')"
+              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx}, ${ex.isExam ? 'true' : 'false'}, '${ex.examType || ''}')"
                 class="ff-check-box ${isChecked ? 'checked' : ''}">
                 ${isChecked ? '<span class="text-lg font-black">✓</span>' : ''}
               </button>
@@ -616,10 +626,13 @@
           <div id="ex-card-${idx}" onclick="highlightCardOnly(${idx})" class="${isCurrent ? 'ff-card-active' : 'ff-panel'} p-4 space-y-3.5 relative transition">
             <span id="ex-dot-${idx}" class="${isCurrent ? '' : 'hidden'} w-3.5 h-3.5 rounded-full bg-orange-500/80 absolute -top-1.5 -right-1.5 border-2 border-[#0a0a0c]"></span>
 
-            <div class="flex items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-black uppercase tracking-wider text-[#f97316]">ÖVNING ${idx + 1}</span>
-                <button onclick="event.stopPropagation(); showExerciseInfo('${title}', '${ex.info}', '${ex.svgType}')" class="text-zinc-500 hover:text-white px-1 py-0.5">ℹ️</button>
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-black uppercase tracking-wider text-[#f97316]">ÖVNING ${idx + 1}</span>
+                  <button onclick="event.stopPropagation(); showExerciseInfo('${title}', '${infoText}', '${svgImage}')" class="text-zinc-500 hover:text-white bg-zinc-800 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
+                </div>
+                <div class="text-[10px] text-zinc-500 mt-0.5 font-mono">Senast loggad: ${lastLogDate}</div>
               </div>
               ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id||idx}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1"><span>⇄</span><span>Byt: ${altTitle}</span></button>` : ''}
             </div>
@@ -652,7 +665,6 @@
       localStorage.setItem('ff_checked_sets', JSON.stringify(checkedSets));
 
       if (checkedSets[setKey]) {
-        // Uppdatera Dynamisk Exam 1RM
         if (isExam && examType) {
           user1RMs[examType] = numericVal;
           localStorage.setItem('ff_1rms', JSON.stringify(user1RMs));
@@ -661,7 +673,9 @@
 
         if (!logs[exTitle]) logs[exTitle] = [];
         const today = new Date().toISOString().slice(5, 10);
-        logs[exTitle].push({ date: today, kg: numericVal });
+        
+        // Uppdaterar arrayen så att sista posten alltid är den senaste
+        logs[exTitle].push({ date: today, kg: numericVal, ex: exTitle });
         localStorage.setItem('ff_logs', JSON.stringify(logs));
 
         if (!chartSelected.includes(exTitle) && chartSelected.length < 5) {
@@ -669,6 +683,8 @@
           localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected));
         }
 
+        updateExamDates();
+        renderHistoryLog();
         playBeep(880, 0.14);
         openPolisfysRestTimer(restSec, 'VILA TILL NÄSTA SET');
       }
@@ -770,25 +786,57 @@
       document.getElementById('polisfysTimerOverlay').classList.add('hidden');
     }
 
-    // ================= 7. MODALER & PROFIL =================
-    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    // ================= 7. LOGGHANTERING =================
+    function getExamDates() {
+      let allDates = [];
+      const examNames = ['Trap Bar Marklyft', 'Deadlifts', 'Sprint 100 m', 'Triple Broad Jumps', 'Boxhopp', 'Kneeling Jumps'];
+      examNames.forEach(name => {
+        if (logs[name]) { logs[name].forEach(item => allDates.push(item.date)); }
+      });
+      if (allDates.length === 0) return { first: 'Aldrig', last: 'Aldrig' };
+      allDates.sort();
+      return { first: allDates[0], last: allDates[allDates.length - 1] };
+    }
 
-    function renderMobilityModal() {
-      document.getElementById('mobilityList').innerHTML = mobilityDrills.map(m => `
-        <div class="p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black text-white">${m.title}</span>
-            <button onclick="closeModal('mobilityModal'); openPolisfysRestTimer(45, '${m.title.toUpperCase()}')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[10px] font-black uppercase">⏱ 45s</button>
+    function updateExamDates() {
+      const d = getExamDates();
+      document.getElementById('firstExamDate').textContent = d.first;
+      document.getElementById('lastExamDate').textContent = d.last;
+    }
+
+    function renderHistoryLog() {
+      let flatLogs = [];
+      Object.keys(logs).forEach(exName => {
+        logs[exName].forEach(entry => flatLogs.push({...entry, ex: exName}));
+      });
+      // Sortera nyast först
+      flatLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Begränsa till max 15 senaste för UIn
+      const recent = flatLogs.slice(0, 15);
+      
+      const container = document.getElementById('historyLogList');
+      if (recent.length === 0) {
+        container.innerHTML = '<div class="text-xs text-zinc-500 italic">Inga set loggade ännu.</div>';
+        return;
+      }
+
+      container.innerHTML = recent.map(r => `
+        <div class="flex items-center justify-between p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg">
+          <div>
+            <div class="text-[10px] text-zinc-400 font-mono">${r.date}</div>
+            <div class="text-xs font-bold text-white mt-0.5">${r.ex}</div>
           </div>
-          <div class="text-[11px] font-mono text-blue-400">${m.dose}</div>
-          ${m.svg}
-          <p class="text-xs text-zinc-300 leading-relaxed">${m.desc}</p>
+          <div class="font-mono font-black text-orange-400">${r.kg}</div>
         </div>
       `).join('');
     }
 
-    function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); }
+
+    // ================= 8. MODALER =================
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); renderHistoryLog(); }
     function renderChartFilter() {
       const all = ['Trap Bar Marklyft', 'Pin Squats', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'];
       document.getElementById('chartFilterContainer').innerHTML = all.map(name => {
