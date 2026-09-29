@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - STÄDAD KOD, RÖRLIGHET TILLBAKA, HLR BORTTAGET -->
+<!-- FRONTLINE FIT - FELFRI VERSION UTAN DUBBLETTER, HLR BORTTAGET -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -303,7 +303,7 @@
   </div>
 
   <script>
-    // ================= 1. DYNAMISK PROGRESSION & PASSDATA =================
+    // ================= 1. DYNAMISK PROGRESSION & DATA =================
     const weeksConfig = [
       { id: 1, label: 'V1 EXAM', mult: 1.0 },
       { id: 2, label: 'VECKA 2', mult: 0.82 },
@@ -438,7 +438,7 @@
       } catch (e) {}
     }
 
-    // ================= 5. RENDERING =================
+    // ================= 4. RENDERING =================
     function renderWeekPills() {
       const container = document.getElementById('weekPillsContainer');
       container.innerHTML = weeksConfig.map(w => {
@@ -640,7 +640,7 @@
       }).join('');
     }
 
-    // ================= 6. LOGGNING + TIMERS =================
+    // ================= 5. LOGGNING + TIMERS =================
     function toggleSetComplete(setKey, exTitle, restSec, cardIdx, isExam, examType) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
@@ -776,7 +776,7 @@
       document.getElementById('polisfysTimerOverlay').classList.add('hidden');
     }
 
-    // ================= 7. LOGGHANTERING =================
+    // ================= 6. DATUM, LOGG & MODALER =================
     function getExamDates() {
       let allDates = [];
       const examNames = ['Trap Bar Marklyft', 'Deadlifts', 'Sprint 100 m', 'Triple Broad Jumps', 'Boxhopp', 'Kneeling Jumps'];
@@ -819,7 +819,6 @@
       `).join('');
     }
 
-    // ================= 8. MODALER =================
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
