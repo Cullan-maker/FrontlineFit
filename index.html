@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - DYNAMISK PROGRESSION, INFO-BILDER & NY CYKEL -->
+<!-- FRONTLINE FIT - ORIGINALPASSEN + DYNAMISK EXAM PROGRESSION -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -187,17 +187,15 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: INFO & TEKNIK (NY) ================= -->
+  <!-- ================= MODAL: INFO & TEKNIK ================= -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
     <div class="max-w-md w-full ff-panel p-6 border-orange-500/50 relative">
       <button onclick="closeModal('exInfoModal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-lg font-black">✕</button>
-      <div id="exInfoContent" class="space-y-4">
-        <!-- Genereras dynamiskt -->
-      </div>
+      <div id="exInfoContent" class="space-y-4"></div>
     </div>
   </div>
 
-  <!-- ================= MODALER: MOBILITY, STATS, ANDNING, PROFIL ================= -->
+  <!-- ================= ÖVRIGA MODALER ================= -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -221,7 +219,7 @@
         <button onclick="closeModal('statsModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
       <div class="flex items-center justify-between">
-        <span class="text-xs text-zinc-400">Välj upp till 5 övningar/varianter:</span>
+        <span class="text-xs text-zinc-400">Välj upp till 5 övningar:</span>
         <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs font-bold text-orange-400">⬇️ CSV-Export</button>
       </div>
       <div id="chartFilterContainer" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-zinc-950 rounded-xl border border-zinc-800"></div>
@@ -259,7 +257,6 @@
     </div>
   </div>
 
-  <!-- Profil, Kost, 1RM & Ny Cykel -->
   <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -286,10 +283,10 @@
       <!-- Dina 1RM Base Stats -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-orange-500/40 space-y-3">
         <div class="flex justify-between items-center">
-          <div class="text-xs font-black text-orange-400 uppercase">Dina basvärden (1RM)</div>
-          <div class="text-[9px] text-zinc-400 uppercase">Uppdateras via Exam</div>
+          <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
+          <div class="text-[9px] text-zinc-400 uppercase">Styr din progression</div>
         </div>
-        <div class="grid grid-cols-2 gap-2" id="baselineInputsContainer"></div>
+        <div class="grid grid-cols-3 gap-2" id="baselineInputsContainer"></div>
       </div>
 
       <div class="space-y-2 text-xs">
@@ -305,7 +302,6 @@
         </button>
       </div>
 
-      <!-- Dold Ikon-generering -->
       <div class="hidden"><a id="downloadIconLink" download="icon.png"></a></div>
     </div>
   </div>
@@ -327,87 +323,77 @@
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
       2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad (5 backvändor / 4×800m)' },
       3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning (6 backvändor / 5×800m)' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknikfokus' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, fokus på löpteknik' },
       5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering (7 backvändor / 6×800m)' },
       6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym (8 backvändor / 7×800m)' },
       7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power (Tung explosiv backe + 8×800m)' },
       8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
     };
 
-    // Hjälpfunktion för att hämta RÄTT 1RM-värde för övningen
-    function get1RM(baseRef) {
-      const weight = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
-      const def = { squat: weight*1.2, bench: weight*0.9, deadlift: weight*1.5, ohp: weight*0.6, sprint: 16 };
-      return parseFloat(user1RMs[baseRef]) || def[baseRef] || 0;
-    }
-
-    // Basövningar och deras progression. Istället för 'goalFactor' utifrån kroppsvikt, använder vi 'ref' till 1RM och 'pct' (% av 1RM).
-    const workoutTemplates = {
-      exam: {
+    // De "Gamla" ursprungliga 4 passen, med Exam tillagt
+    const workoutDays = [
+      {
+        id: 'day1',
+        name: 'DAG 1: UNDERKROPP',
+        exercises: [
+          { std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 85, info: 'Bygger brutal benstyrka. Gå till parallellt djup och explodera rakt upp ur bottenläget.', svgType: 'squat' },
+          { std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 REPS', rest: 75, baseKg: 0, info: 'Starta från magliggande eller knästående. Handlar enbart om acceleration, inte uthållighet.', svgType: 'sprint' },
+          { std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, info: 'Sandsäck på axlarna. Skyddar knän och bygger stabilitet för tunga lyft.', svgType: 'pull' },
+          { std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30 SEK', rest: 90, baseKg: 0, info: 'Tre obrutna maxlängdhopp utan mellanhopp. Landa och skjut ifrån direkt.', svgType: 'sprint' },
+          { std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, info: 'Stärk bålpansaret mot en yttre belastning (ex. viktskiva eller säck på ländryggen).', svgType: 'press' }
+        ]
+      },
+      {
+        id: 'day2',
+        name: 'DAG 2: ÖVERKROPP',
+        exercises: [
+          { std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 REPS', rest: 120, baseKg: 55, info: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', svgType: 'press' },
+          { std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, info: 'Extrem greppträning. Häng två handdukar över stången och dra upp bröstkorgen.', svgType: 'pull' },
+          { std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, info: 'Fullt djup (90 grader i armbågen). Luta lätt framåt för att koppla in bröstet.', svgType: 'press' },
+          { std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, info: 'Sänk skulderbladen i bänken och pressa stången explosivt från bröstet.', svgType: 'press' },
+          { std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 REPS', rest: 90, baseKg: 60, info: 'Stark ländrygg och bröstrygg. Undvik att gunga upp vikten i rodden.', svgType: 'pull' }
+        ]
+      },
+      {
+        id: 'day4',
+        name: 'DAG 4: 911STRONG',
+        exercises: [
+          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, info: 'Tungt baslyft. Tryck ifrån med benen snarare än att dra med ryggen.', svgType: 'pull' },
+          { std: 'Mixed Modality (EMOM)', var: 'Power Cleans', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, info: 'Explosiv trippelsträckning i fot, knä och höft. Fånga stången mjukt.', svgType: 'pull' },
+          { std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, info: 'Bär tunga vikter i händerna med stolt hållning och korta, snabba steg.', svgType: 'sprint' }
+        ]
+      },
+      {
+        id: 'exam',
         name: 'EXAM / TESTPASS',
         exercises: [
-          { id: 'ex_exam0', std: 'Knäböj', var: 'Pin Squats', mode: 'exam_rm', ref: 'squat', goalText: 'Maxtest: 1 Repetition Maximum.', sets: [{ reps: '1RM' }], rest: 150, info: 'Gå till parallellt djup och pressa explosivt. Resultatet sätter din baslinje för ben.', svgType: 'squat' },
-          { id: 'ex_exam1', std: 'Bänkpress', var: 'Cable Cross', mode: 'exam_rm', ref: 'bench', goalText: 'Maxtest: 1 Repetition Maximum.', sets: [{ reps: '1RM' }], rest: 150, info: 'Klassisk bänkpress med stopp på bröstet. Sätter baslinje för överkropp press.', svgType: 'press' },
-          { id: 'ex_exam2', std: 'Trap Bar Marklyft', var: 'Deadlifts (Konventionell)', mode: 'exam_rm', ref: 'deadlift', goalText: 'Maxtest: 1 Repetition Maximum.', sets: [{ reps: '1RM' }], rest: 150, info: 'Tungt marklyft. Neutral rygg och kraftig höftsträckning. Sätter din baslinje.', svgType: 'pull' },
-          { id: 'ex_exam3', std: 'Militärpress', var: 'Push Press', mode: 'exam_rm', ref: 'ohp', goalText: 'Maxtest: 1 Repetition Maximum.', sets: [{ reps: '1RM' }], rest: 150, info: 'Strikt axelpress. Inget bentryck om du kör militärpress.', svgType: 'press' },
-          { id: 'ex_exam4', std: 'Sprint 100 m', var: 'Triple Broad Jumps', mode: 'exam_sprint', ref: 'sprint', goalText: 'Maxtest: Tid i sekunder.', sets: [{ reps: 'SEK' }], rest: 120, info: 'Sätter din explosiva sprint-baslinje. Spring 100m så snabbt som möjligt.', svgType: 'sprint' },
-          { id: 'ex_exam5', std: 'Boxhopp', var: 'Kneeling Jumps', mode: 'height50', goalFactor: 0.5, goalText: 'Mål: Minst {val} cm (50% av din längd).', sets: [{ heightFactor: 0.5, reps: 'MAX HÖJD' }], rest: 90, info: 'Jämfotahopp upp på låda. Landa mjukt.', svgType: 'sprint' }
-        ]
-      },
-      day1: {
-        name: 'PASS 1: UNDERKROPP',
-        exercises: [
-          { id: 'd1_1', std: 'Pin Squats', var: 'Back Squats', mode: 'pct_rm', ref: 'squat', pct: 0.8, goalText: 'Arbeta på ca 80% av 1RM ({val} kg).', sets: [{ reps: '5 REPS' }, { reps: '5 REPS' }, { reps: '5 REPS' }, { reps: '5 REPS' }], rest: 120, info: 'Bygger brutal benstyrka. Gå djupt, spänn bålen som en cylinder.', svgType: 'squat' },
-          { id: 'd1_2', std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', mode: 'bw', goalFactor: 0, goalText: 'Maximal höftsträckning på signal.', sets: [{ reps: '3 REPS' }, { reps: '3 REPS' }, { reps: '3 REPS' }, { reps: '3 REPS' }], rest: 75, info: 'Korta explosiva moment. Det handlar om reaktion, inte uthållighet.', svgType: 'sprint' },
-          { id: 'd1_3', std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', mode: 'pct_rm', ref: 'deadlift', pct: 0.35, goalText: 'Excentrisk kontroll ({val} kg).', sets: [{ reps: '8 REPS' }, { reps: '8 REPS' }, { reps: '8 REPS' }], rest: 90, info: 'Håll överkroppen stolt. Sänker skaderisken i hamstrings och knän.', svgType: 'pull' },
-          { id: 'd1_4', std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', mode: 'bw', goalFactor: 0, goalText: '3 obrutna maxlängdhopp el. 30s sprint.', sets: [{ reps: '3 HOPP' }, { reps: '3 HOPP' }, { reps: '3 HOPP' }], rest: 90, info: 'Tre hopp i följd utan pauser. Landa och skjut ifrån direkt.', svgType: 'sprint' }
-        ]
-      },
-      day2: {
-        name: 'PASS 2: ÖVERKROPP',
-        exercises: [
-          { id: 'd2_1', std: 'Push Press', var: 'BB OHP', mode: 'pct_rm', ref: 'ohp', pct: 0.85, goalText: 'Driv kraftfullt över huvudet ({val} kg).', sets: [{ reps: '5 REPS' }, { reps: '5 REPS' }, { reps: '5 REPS' }, { reps: '5 REPS' }], rest: 120, info: 'Om du kör Push Press, använd bensats. Vid OHP – strikt press.', svgType: 'press' },
-          { id: 'd2_2', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', mode: 'bw', goalFactor: 0, goalText: 'Taktisk greppstyrka (Kroppsvikt).', sets: [{ reps: '6 REPS' }, { reps: '6 REPS' }, { reps: '6 REPS' }, { reps: '6 REPS' }], rest: 120, info: 'Häng två handdukar över stången och dra dig upp. Extrem greppträning.', svgType: 'pull' },
-          { id: 'd2_3', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', mode: 'bw', goalFactor: 0, goalText: 'Fullt djup med kontrollerad press.', sets: [{ reps: '8 REPS' }, { reps: '8 REPS' }, { reps: '8 REPS' }], rest: 90, info: 'Luta dig något framåt för att koppla in bröstmuskulaturen mer.', svgType: 'press' },
-          { id: 'd2_4', std: 'Cable Cross / Flyes', var: 'Bench Press', mode: 'pct_rm', ref: 'bench', pct: 0.75, goalText: 'Tung horisontell press ({val} kg).', sets: [{ reps: '6 REPS' }, { reps: '6 REPS' }, { reps: '6 REPS' }], rest: 120, info: 'Stabilt fotfäste i golvet. Skulderbladen ihop.', svgType: 'press' },
-          { id: 'd2_5', std: 'Seated Good Mornings', var: 'BB Rows', mode: 'pct_rm', ref: 'bench', pct: 0.70, goalText: 'Stark bröstrygg och ländrygg ({val} kg).', sets: [{ reps: '8 REPS' }, { reps: '8 REPS' }, { reps: '8 REPS' }], rest: 90, info: 'Skivstångsrodd där du drar stången mot nedre delen av magen.', svgType: 'pull' }
-        ]
-      },
-      day4: {
-        name: 'PASS 4: 911STRONG',
-        exercises: [
-          { id: 'd4_1', std: 'Trap Bar Marklyft', var: 'Deadlifts (Konventionell)', mode: 'pct_rm', ref: 'deadlift', pct: 0.82, goalText: 'Tungt baslyft från golvet ({val} kg).', sets: [{ reps: '5 REPS' }, { reps: '5 REPS' }, { reps: '5 REPS' }, { reps: '5 REPS' }], rest: 150, info: 'Ditt tyngsta pass för veckan. Fokusera enbart på teknik och buktryck.', svgType: 'pull' },
-          { id: 'd4_2', std: 'Mixed Modality (EMOM)', var: 'Power Cleans', mode: 'pct_rm', ref: 'deadlift', pct: 0.50, goalText: 'Explosiv frivändning ({val} kg).', sets: [{ reps: '3 REPS' }, { reps: '3 REPS' }, { reps: '3 REPS' }, { reps: '3 REPS' }], rest: 120, info: 'Rörelsen startar långsamt och accelererar snabbt förbi knäna.', svgType: 'pull' },
-          { id: 'd4_3', std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', mode: 'pct_rm', ref: 'deadlift', pct: 0.30, goalText: '40m tung bärning ({val} kg).', sets: [{ reps: '40M' }, { reps: '40M' }, { reps: '40M' }], rest: 90, info: 'Bär tung utrustning med stolt hållning. Korta snabba steg.', svgType: 'sprint' }
+          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', info: 'Maxtest. Målet är 2x kroppsvikt. Ditt resultat här styr progressionen i Vecka 2-7.', svgType: 'pull' },
+          { std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK', rest: 120, isExam: true, examType: 'sprint', info: 'Målet är max 16 sekunder.', svgType: 'sprint' },
+          { std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', info: 'Jämfotahopp. Målet är 50% av din kroppslängd.', svgType: 'sprint' }
         ]
       }
-    };
+    ];
 
-    function getExercisesForDay(dayKey, weekId) {
-      if (dayKey === 'day3') {
-        const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
-        const hillSetsArr = Array.from({ length: rp.hillSets }, () => ({ fixedVal: rp.hillKg, reps: rp.hillRep }));
-        const yassoSetsArr = Array.from({ length: rp.yassoSets }, () => ({ fixedVal: 800, reps: rp.yassoRep }));
-        return [
-          { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Maxrusning)', mode: 'fixedKg', fixedGoal: rp.hillKg, goalText: `${rp.phaseNote} • ${rp.hillSets} × ${rp.hillRep} (${rp.hillKg} kg).`, sets: hillSetsArr, rest: rp.hillRest, info: 'Kondition under belastning. Simulering av förföljande i tung utrustning.', svgType: 'sprint' },
-          { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervaller', mode: 'fixedKg', fixedGoal: 800, goalText: `${rp.yassoSets} × 800m i jämnt måltempo.`, sets: yassoSetsArr, rest: rp.yassoRest, info: 'Intervallträning som bygger VO2-Max. Spring på bana eller platt mark.', svgType: 'sprint' },
-          { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking (Tung Säck)', mode: 'fixedKg', fixedGoal: rp.cardioKg, goalText: `${rp.cardioMin} konstant arbete i zon 2 med ${rp.cardioKg} kg.`, sets: [{ fixedVal: rp.cardioKg, reps: rp.cardioMin }], rest: 60, info: 'Lågintensiv uthållighet. Håll pulsen jämn och bär säcken högt.', svgType: 'sprint' }
-        ];
-      }
-      return workoutTemplates[dayKey].exercises;
+    function getDay3Exercises(weekId) {
+      const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
+      return [
+        { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, info: `${rp.phaseNote}. Simulering av förföljande i tung utrustning.`, svgType: 'sprint' },
+        { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, info: 'Bygger syreupptagning. Håll jämnt måltempo.', svgType: 'sprint' },
+        { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, info: 'Zon 2 arbete. Håll pulsen jämn och bär utrustningen högt.', svgType: 'sprint' }
+      ];
     }
 
     const mobilityDrills = [
       { title: '1. Rear Foot Elevated Hip Flexor', dose: '2 × 45 sek / sida', desc: 'Placera bakre foten på en bänk. Spänn sätet hårt och skjut fram höften.', svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><rect x="140" y="60" width="30" height="35" rx="4" fill="#27272a" stroke="#3b82f6" stroke-width="2"/><circle cx="85" cy="25" r="9" fill="#3b82f6"/><line x1="85" y1="34" x2="85" y2="65" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><polyline points="85,65 55,65 55,95" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/><polyline points="85,65 115,88 145,65" fill="none" stroke="#3b82f6" stroke-width="5" stroke-linecap="round"/></svg>` },
       { title: '2. Lizard Drill med Rotation', dose: '2 × 8 reps / sida', desc: 'Djupt utfallssteg med händerna i golvet. Rotera inre armen rakt upp.', svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="70" cy="45" r="8" fill="#f97316"/><line x1="75" y1="52" x2="115" y2="68" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="75" y1="52" x2="75" y2="93" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/><line x1="75" y1="52" x2="85" y2="16" stroke="#10b981" stroke-width="4" stroke-linecap="round"/><polyline points="115,68 65,62 65,93" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/><line x1="115" y1="68" x2="165" y2="93" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/></svg>` },
-      { title: '3. Quadruped Thoracic Rotation', dose: '2 × 10 reps / sida', desc: 'Stå på alla fyra. För armbågen mot motsatt knä och öppna sedan upp bröstet.', svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="65" cy="48" r="8" fill="#3b82f6"/><line x1="74" y1="52" x2="130" y2="55" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="80" y1="53" x2="80" y2="93" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/><polyline points="80,53 60,26 72,42" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/><polyline points="130,55 130,93 155,93" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>` }
+      { title: '3. Quadruped Thoracic Rotation', dose: '2 × 10 reps / sida', desc: 'Stå på alla fyra med ena handen bakom nacken. För armbågen mot motsatt knä och öppna upp bröstet.', svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="65" cy="48" r="8" fill="#3b82f6"/><line x1="74" y1="52" x2="130" y2="55" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="80" y1="53" x2="80" y2="93" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/><polyline points="80,53 60,26 72,42" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/><polyline points="130,55 130,93 155,93" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>` }
     ];
 
     function getExSvg(type) {
-      if(type==='squat') return `<svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto"><circle cx="50" cy="20" r="10" fill="#f4f4f5"/><line x1="20" y1="35" x2="80" y2="35" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="30" x2="50" y2="60" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,60 30,80 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,60 70,80 70,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
-      if(type==='pull') return `<svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto"><circle cx="50" cy="30" r="10" fill="#f4f4f5"/><line x1="20" y1="90" x2="80" y2="90" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="40" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,70 30,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 70,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="45" x2="50" y2="90" stroke="#f4f4f5" stroke-width="4"/></svg>`;
-      if(type==='press') return `<svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto"><circle cx="50" cy="40" r="10" fill="#f4f4f5"/><line x1="20" y1="15" x2="80" y2="15" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="95" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,50 30,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,50 70,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
-      return `<svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
+      if(type==='squat') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="20" r="10" fill="#f4f4f5"/><line x1="20" y1="35" x2="80" y2="35" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="30" x2="50" y2="60" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,60 30,80 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,60 70,80 70,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
+      if(type==='pull') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="30" r="10" fill="#f4f4f5"/><line x1="20" y1="90" x2="80" y2="90" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="40" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,70 30,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 70,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="45" x2="50" y2="90" stroke="#f4f4f5" stroke-width="4"/></svg>`;
+      if(type==='press') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="40" r="10" fill="#f4f4f5"/><line x1="20" y1="15" x2="80" y2="15" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="95" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,50 30,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,50 70,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
+      return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
     }
 
     // ================= 2. APP STATE =================
@@ -419,7 +405,6 @@
     let passRunning = false;
     let passElapsedSec = 0;
     let passInterval = null;
-
     let restTotalSec = 90;
     let restLeftSec = 90;
     let restTimerInt = null;
@@ -429,12 +414,15 @@
     let checkedSets = JSON.parse(localStorage.getItem('ff_checked_sets') || '{}');
     let customInputs = JSON.parse(localStorage.getItem('ff_custom_inputs') || '{}');
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
-    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Bänkpress","Pin Squats","Militärpress"]');
+    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Pin Squats","Bänkpress"]');
     let chartInstance = null;
 
+    // ================= 3. INIT =================
     window.addEventListener('DOMContentLoaded', () => {
       generateIconFile();
       loadProfile();
+      // Säkerställ att om week=2-7, vi inte startar på EXAM.
+      if (currentWeek > 1 && currentWeek < 8) currentDayKey = 'day1';
       renderWeekPills();
       renderDayPills();
       renderExercises();
@@ -454,27 +442,23 @@
       } catch (e) {}
     }
 
+    // ================= 5. RENDERING =================
     function renderWeekPills() {
       const container = document.getElementById('weekPillsContainer');
       container.innerHTML = weeksConfig.map(w => {
         const isActive = w.id === currentWeek;
-        return `
-          <button onclick="selectWeek(${w.id})" class="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition ${
-            isActive
-              ? 'bg-[#f97316] text-zinc-950 shadow-md shadow-orange-500/20'
-              : 'bg-[#18181f] text-zinc-300 border border-zinc-800'
-          }">
-            ${w.label}
-          </button>
-        `;
+        return `<button onclick="selectWeek(${w.id})" class="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition ${isActive ? 'bg-[#f97316] text-zinc-950 shadow-md shadow-orange-500/20' : 'bg-[#18181f] text-zinc-300 border border-zinc-800'}">${w.label}</button>`;
       }).join('');
     }
 
     function selectWeek(weekId) {
       currentWeek = weekId;
       localStorage.setItem('ff_current_week', currentWeek);
-      if (weekId === 1 || weekId === 8) { currentDayKey = 'exam'; } 
-      else if (currentDayKey === 'exam') { currentDayKey = 'day1'; }
+      if (weekId === 1 || weekId === 8) {
+        if (currentDayKey === 'day4') currentDayKey = 'exam';
+      } else {
+        if (currentDayKey === 'exam') currentDayKey = 'day4';
+      }
       activeExerciseIdx = 0;
       renderWeekPills();
       renderDayPills();
@@ -482,19 +466,15 @@
     }
 
     function renderDayPills() {
-      const keys = ['exam', 'day1', 'day2', 'day3', 'day4'];
+      const keys = ['day1', 'day2', 'day3'];
+      if (currentWeek === 1 || currentWeek === 8) keys.push('exam');
+      else keys.push('day4');
+
       const container = document.getElementById('dayPillsContainer');
       container.innerHTML = keys.map(k => {
         const active = k === currentDayKey;
-        return `
-          <button onclick="selectDay('${k}')" class="px-3 py-1.5 rounded-lg text-[11px] font-extrabold uppercase whitespace-nowrap border transition ${
-            active
-              ? 'bg-zinc-800 text-orange-400 border-orange-500/60'
-              : 'bg-[#121216] text-zinc-400 border-zinc-800/80'
-          }">
-            ${workoutTemplates[k].name}
-          </button>
-        `;
+        const obj = k === 'day3' ? {name: 'DAG 3: VO2 & BACKE'} : workoutDays.find(d => d.id === k);
+        return `<button onclick="selectDay('${k}')" class="px-3 py-1.5 rounded-lg text-[11px] font-extrabold uppercase whitespace-nowrap border transition ${active ? 'bg-zinc-800 text-orange-400 border-orange-500/60' : 'bg-[#121216] text-zinc-400 border-zinc-800/80'}">${obj.name}</button>`;
       }).join('');
     }
 
@@ -530,7 +510,7 @@
       document.getElementById('exInfoContent').innerHTML = `
         <div class="text-center space-y-4">
           <h3 class="text-xl font-black text-white uppercase tracking-wider">${title}</h3>
-          <div class="py-4 bg-zinc-950 rounded-xl border border-zinc-800">${getExSvg(svgType)}</div>
+          <div class="py-6 bg-zinc-950 rounded-xl border border-zinc-800 shadow-inner">${getExSvg(svgType)}</div>
           <p class="text-sm text-zinc-300 leading-relaxed text-left">${infoText}</p>
         </div>
       `;
@@ -544,7 +524,7 @@
 
     function highlightCardOnly(idx) {
       activeExerciseIdx = idx;
-      const list = getExercisesForDay(currentDayKey, currentWeek);
+      let list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       list.forEach((_, i) => {
         const card = document.getElementById('ex-card-' + i);
         const dot = document.getElementById('ex-dot-' + i);
@@ -560,74 +540,77 @@
     }
 
     function renderExercises() {
+      const weight = parseFloat(localStorage.getItem('ff_weight') || '70');
       const height = parseFloat(localStorage.getItem('ff_height') || '167');
       const weekObj = weeksConfig.find(w => w.id === currentWeek) || weeksConfig[0];
       const nightMult = nightMode ? 0.85 : 1.0;
-      const list = getExercisesForDay(currentDayKey, currentWeek);
+      
+      let list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       const container = document.getElementById('exercisesListContainer');
+
+      // Dynamisk skalningsfaktor baserad på Exam-resultatet i Trap Bar (Mål 2x Kroppsvikt)
+      let powerFactor = 1.0;
+      const savedTrap = parseFloat(user1RMs['trapbar']);
+      if (savedTrap > 0) {
+        powerFactor = savedTrap / (weight * 2);
+        powerFactor = Math.max(0.5, Math.min(powerFactor, 1.5)); // Spärr mot felinmatningar
+      }
 
       container.innerHTML = list.map((ex, idx) => {
         const isCurrent = idx === activeExerciseIdx;
-        const isVar = !!activeVariants[ex.id];
-        const title = isVar ? ex.var : ex.std;
-        const altTitle = isVar ? ex.std : ex.var;
+        const isVar = !!activeVariants[ex.id || idx];
+        const title = isVar && ex.var ? ex.var : ex.std;
+        const altTitle = isVar && ex.var ? ex.std : ex.var;
 
+        // Räkna ut målvärde för rubrik
         let targetVal = 0;
-        if (ex.mode === 'exam_rm' || ex.mode === 'pct_rm') {
-          targetVal = Math.round(get1RM(ex.ref) * (ex.pct || 1.0) * weekObj.mult * nightMult / 2.5) * 2.5;
-        } else if (ex.mode === 'exam_sprint') {
-          targetVal = get1RM(ex.ref);
-        } else if (ex.mode === 'height50') {
-          targetVal = Math.round(height * ex.goalFactor);
-        } else if (ex.mode === 'fixedKg') {
-          targetVal = nightMode ? Math.round(ex.fixedGoal * 0.85) : ex.fixedGoal;
-        }
-        
-        const goalLine = ex.goalText ? ex.goalText.replace('{val}', targetVal) : '';
+        if (ex.isExam && ex.examType === 'trapbar') targetVal = Math.round(weight * 2);
+        else if (ex.isExam && ex.examType === 'sprint') targetVal = 16;
+        else if (ex.isExam && ex.examType === 'boxjump') targetVal = Math.round(height * 0.5);
+        else if (ex.fixedKg !== undefined) targetVal = nightMode ? Math.round(ex.fixedKg * 0.85) : ex.fixedKg;
+        else if (ex.baseKg > 0) targetVal = Math.round((ex.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
 
-        const setsHtml = ex.sets.map((sObj, sIdx) => {
-          const setNum = sIdx + 1;
-          const setKey = `w${currentWeek}_${currentDayKey}_${ex.id}_s${setNum}_${title}`;
+        // Om det inte är exam utan vanligt pass
+        let goalLine = ex.isExam ? ex.info : '';
+        if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg. ${ex.info}`;
+        if (currentDayKey === 'day3') goalLine = ex.info; // För löpningen
+
+        // Skapa set-raderna
+        let setsHtml = '';
+        for (let s = 1; s <= ex.sets; s++) {
+          const setKey = `w${currentWeek}_${currentDayKey}_${ex.id||idx}_s${s}_${title}`;
           const isChecked = !!checkedSets[setKey];
 
           let calcDefault = 0;
-          if (ex.mode === 'exam_rm' || ex.mode === 'pct_rm') {
-            calcDefault = Math.round(get1RM(ex.ref) * (ex.pct || 1.0) * weekObj.mult * nightMult / 2.5) * 2.5;
-          } else if (ex.mode === 'exam_sprint') {
-            calcDefault = get1RM(ex.ref);
-          } else if (ex.mode === 'height50') {
-            calcDefault = Math.round(height * ex.goalFactor);
-          } else if (sObj.fixedVal !== undefined) {
-            calcDefault = nightMode && ex.mode === 'fixedKg' ? Math.round(sObj.fixedVal * 0.85) : sObj.fixedVal;
-          }
+          if (ex.isExam && ex.examType === 'trapbar') calcDefault = savedTrap || Math.round(weight * 2);
+          else if (ex.isExam && ex.examType === 'sprint') calcDefault = user1RMs['sprint'] || 16;
+          else if (ex.isExam && ex.examType === 'boxjump') calcDefault = user1RMs['boxjump'] || Math.round(height * 0.5);
+          else if (ex.fixedKg !== undefined) calcDefault = nightMode ? Math.round(ex.fixedKg * 0.85) : ex.fixedKg;
+          else if (ex.baseKg > 0) calcDefault = Math.round((ex.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
 
           const displayVal = customInputs[setKey] !== undefined ? customInputs[setKey] : calcDefault;
-          const repLabel = nightMode && (sObj.reps === '1RM' || sObj.reps === '16 SEK' || sObj.reps === '30S MAX') ? 'TEMPO' : sObj.reps;
+          const repLabel = nightMode && (ex.reps === '1RM' || ex.reps === '30S MAX') ? 'TEMPO' : ex.reps;
 
-          return `
+          setsHtml += `
             <div class="ff-set-row px-3.5 py-3 flex items-center justify-between gap-2">
-              <span class="text-xs font-bold uppercase text-zinc-400 w-14">SET ${setNum}</span>
+              <span class="text-xs font-bold uppercase text-zinc-400 w-14">SET ${s}</span>
               <div class="flex items-center gap-2">
-                <input
-                  type="text"
-                  inputmode="decimal"
-                  id="input-${setKey}"
-                  value="${displayVal}"
+                <input type="text" inputmode="decimal" id="input-${setKey}" value="${displayVal}"
                   onclick="event.stopPropagation(); highlightCardOnly(${idx})"
                   onfocus="highlightCardOnly(${idx})"
                   oninput="saveTypedInput('${setKey}', this.value)"
-                  class="w-20 h-11 rounded-lg bg-[#18181f] border border-zinc-700 text-white font-bold text-sm text-center focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+                  class="w-20 h-11 rounded-lg bg-[#18181f] border border-zinc-700 text-white font-bold text-sm text-center focus:outline-none focus:border-orange-500">
                 <div class="px-3.5 h-11 rounded-lg bg-[#18181f] border border-orange-500/70 text-zinc-200 font-bold text-xs flex items-center justify-center min-w-[74px]">
                   ${repLabel}
                 </div>
               </div>
-              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx}, '${ex.mode}', '${ex.ref}')"
+              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx}, ${ex.isExam}, '${ex.examType}')"
                 class="ff-check-box ${isChecked ? 'checked' : ''}">
                 ${isChecked ? '<span class="text-lg font-black">✓</span>' : ''}
               </button>
             </div>
           `;
-        }).join('');
+        }
 
         return `
           <div id="ex-card-${idx}" onclick="highlightCardOnly(${idx})" class="${isCurrent ? 'ff-card-active' : 'ff-panel'} p-4 space-y-3.5 relative transition">
@@ -638,7 +621,7 @@
                 <span class="text-xs font-black uppercase tracking-wider text-[#f97316]">ÖVNING ${idx + 1}</span>
                 <button onclick="event.stopPropagation(); showExerciseInfo('${title}', '${ex.info}', '${ex.svgType}')" class="text-zinc-500 hover:text-white px-1 py-0.5">ℹ️</button>
               </div>
-              ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1"><span>⇄</span><span>Byt: ${altTitle}</span></button>` : ''}
+              ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id||idx}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1"><span>⇄</span><span>Byt: ${altTitle}</span></button>` : ''}
             </div>
 
             <div>
@@ -653,7 +636,8 @@
       }).join('');
     }
 
-    function toggleSetComplete(setKey, exTitle, restSec, cardIdx, mode, refId) {
+    // ================= 6. LOGGNING + TIMERS =================
+    function toggleSetComplete(setKey, exTitle, restSec, cardIdx, isExam, examType) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
       const rawText = inputEl ? String(inputEl.value).replace(',', '.') : '0';
@@ -668,9 +652,9 @@
       localStorage.setItem('ff_checked_sets', JSON.stringify(checkedSets));
 
       if (checkedSets[setKey]) {
-        // Uppdatera Dynamisk 1RM Profile om vi är i Exam-passet (V1 eller V8)
-        if (currentDayKey === 'exam' && (mode === 'exam_rm' || mode === 'exam_sprint')) {
-          user1RMs[refId] = numericVal;
+        // Uppdatera Dynamisk Exam 1RM
+        if (isExam && examType) {
+          user1RMs[examType] = numericVal;
           localStorage.setItem('ff_1rms', JSON.stringify(user1RMs));
           update1RMUI();
         }
@@ -688,17 +672,14 @@
         playBeep(880, 0.14);
         openPolisfysRestTimer(restSec, 'VILA TILL NÄSTA SET');
       }
-
       renderExercises();
     }
 
     function goToNextExercise() {
-      const list = getExercisesForDay(currentDayKey, currentWeek);
-      if (activeExerciseIdx < list.length - 1) {
-        activeExerciseIdx++;
-      } else {
-        activeExerciseIdx = 0;
-      }
+      const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
+      if (activeExerciseIdx < list.length - 1) activeExerciseIdx++;
+      else activeExerciseIdx = 0;
+      
       highlightCardOnly(activeExerciseIdx);
       const card = document.getElementById('ex-card-' + activeExerciseIdx);
       if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -706,7 +687,6 @@
       openPolisfysRestTimer(90, 'VILA TILL NÄSTA ÖVNING');
     }
 
-    // ================= PAUSA / AVSLUTA PASS =================
     function toggleWorkoutSession() {
       const btnText = document.getElementById('startPassBtnText');
       const icon = document.getElementById('startPassIcon');
@@ -741,7 +721,6 @@
       passRunning = false;
       clearInterval(passInterval);
       passElapsedSec = 0;
-      
       document.getElementById('startPassBtnText').textContent = 'STARTA PASSET';
       document.getElementById('startPassIcon').textContent = '▶';
       
@@ -754,7 +733,6 @@
       playBeep(1046, 0.3);
     }
 
-    // ================= POLISFYS VILOTIMER =================
     function openPolisfysRestTimer(seconds, labelText) {
       clearInterval(restTimerInt);
       restTotalSec = seconds;
@@ -792,7 +770,7 @@
       document.getElementById('polisfysTimerOverlay').classList.add('hidden');
     }
 
-    // ================= MODALER & LOGIK =================
+    // ================= 7. MODALER & PROFIL =================
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
@@ -812,7 +790,7 @@
 
     function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); }
     function renderChartFilter() {
-      const all = ['Trap Bar Marklyft', 'Deadlifts (Konventionell)', 'Bänkpress', 'Militärpress', 'Knäböj', 'Pin Squats', 'Sprint 100 m', 'Yxbacken (Väst/Säck)'];
+      const all = ['Trap Bar Marklyft', 'Pin Squats', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'];
       document.getElementById('chartFilterContainer').innerHTML = all.map(name => {
         const active = chartSelected.includes(name);
         return `<button onclick="toggleChartEx('${name}')" class="px-2.5 py-1 rounded-lg text-[11px] border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">${active ? '✓ ' : ''}${name}</button>`;
@@ -867,11 +845,12 @@
     }
 
     function update1RMUI() {
+      const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
+      const h = parseFloat(String(document.getElementById('profHeightInput').value).replace(',', '.')) || 167;
       document.getElementById('baselineInputsContainer').innerHTML = `
-        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Knäböj</div><div class="font-mono font-bold text-orange-400">${get1RM('squat')} kg</div></div>
-        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Bänkpress</div><div class="font-mono font-bold text-orange-400">${get1RM('bench')} kg</div></div>
-        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Marklyft</div><div class="font-mono font-bold text-orange-400">${get1RM('deadlift')} kg</div></div>
-        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Militärpress</div><div class="font-mono font-bold text-orange-400">${get1RM('ohp')} kg</div></div>
+        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Trap Bar</div><div class="font-mono font-bold text-orange-400">${user1RMs['trapbar'] || Math.round(w*2)} kg</div></div>
+        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Sprint 100m</div><div class="font-mono font-bold text-orange-400">${user1RMs['sprint'] || 16} sek</div></div>
+        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Boxhopp</div><div class="font-mono font-bold text-orange-400">${user1RMs['boxjump'] || Math.round(h*0.5)} cm</div></div>
       `;
     }
 
@@ -894,13 +873,13 @@
     }
 
     function startNewCycle() {
-      if(confirm('Är du säker på att du vill starta en ny 8-veckorscykel? Dina loggade pass nollställs, men dina nuvarande 1RM och din kroppsvikt sparas som baslinje för den nya cykeln.')) {
+      if(confirm('Starta en ny 8-veckorscykel?\nDina avklarade set nollställs. Din kroppsvikt och dina senast loggade Exam-resultat sparas som baslinje för progressionen.')) {
         localStorage.removeItem('ff_checked_sets');
         localStorage.removeItem('ff_custom_inputs');
         checkedSets = {}; customInputs = {};
         selectWeek(1);
         closeModal('profileModal');
-        alert('Ny cykel startad! Du är nu på Vecka 1 och din progression bygger på dina senaste Exam-resultat.');
+        alert('Ny cykel startad! Din progression baseras nu på de styrkevärden du hade i slutet av förra cykeln.');
       }
     }
 
