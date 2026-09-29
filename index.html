@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - KOMPLETT MED DYNAMISK 8-VECKORS LÖPPROGRESSION -->
+<!-- FRONTLINE FIT - PAUSA/ÅTERUPPTA & SEPARAT AVSLUTA-KNAPP -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -77,7 +77,7 @@
 </head>
 <body class="min-h-screen pb-28">
 
-  <!-- ================= HUVUDCONTAINER (BILD 1 UI) ================= -->
+  <!-- ================= HUVUDCONTAINER ================= -->
   <div class="max-w-md mx-auto px-4 pt-5 space-y-4">
 
     <!-- TOPP-HEADER -->
@@ -126,7 +126,7 @@
       </button>
     </div>
 
-    <!-- 8-VECKORS PROGRESSIONSPiller -->
+    <!-- 8-VECKORS PROGRESSION -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
@@ -135,7 +135,7 @@
     <!-- STARTA PASSET PANEL -->
     <div class="ff-panel p-4">
       <button onclick="toggleWorkoutSession()" id="startPassBtn" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition">
-        <span>▶</span>
+        <span id="startPassIcon">▶</span>
         <span id="startPassBtnText">STARTA PASSET</span>
       </button>
     </div>
@@ -145,17 +145,24 @@
 
   </div>
 
-  <!-- FAST BOTTENKNAPP: NÄSTA ÖVNING -->
+  <!-- FAST BOTTENKNAPP: AVSLUTA & NÄSTA ÖVNING -->
   <div class="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/95 to-transparent pt-3 pb-4 px-4">
-    <div class="max-w-md mx-auto">
-      <button onclick="goToNextExercise()" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl">
+    <div class="max-w-md mx-auto flex gap-2">
+      <!-- Avsluta-knapp (Dold som standard) -->
+      <button id="endPassBtn" onclick="endWorkoutSession()" class="hidden w-[30%] bg-red-600 hover:bg-red-500 active:scale-[0.99] text-white font-black text-[11px] uppercase tracking-wider py-3 rounded-xl flex flex-col items-center justify-center shadow-xl transition-all">
+        <span class="text-sm">⏹</span>
+        <span>AVSLUTA</span>
+      </button>
+      
+      <!-- Nästa-knapp -->
+      <button id="nextExBtn" onclick="goToNextExercise()" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl transition-all">
         <span>⏭</span>
         <span>NÄSTA ÖVNING</span>
       </button>
     </div>
   </div>
 
-  <!-- ================= POLISFYS NEDRÄKNINGSTIMER (BILD 3) ================= -->
+  <!-- ================= POLISFYS NEDRÄKNINGSTIMER ================= -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
       <div id="restTimerHeaderLabel" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
@@ -182,7 +189,8 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: PRE-SHIFT MOBILITY MED SVG-FIGURER ================= -->
+  <!-- ================= MODALER ================= -->
+  <!-- Mobility -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -197,7 +205,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: STATISTIK & GRAF ================= -->
+  <!-- Statistik -->
   <div id="statsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -218,7 +226,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: ANDNING & HLR ================= -->
+  <!-- Andning & HLR -->
   <div id="breathModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-6 my-6">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -253,7 +261,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: PROFIL, KOSTSCHEMA (2650 KCAL) & IKON ================= -->
+  <!-- Profil & Ikon -->
   <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -278,12 +286,12 @@
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
 
       <div class="space-y-2 text-xs">
-        <div class="font-black text-orange-400 uppercase tracking-wider">Dagsmeny Träningsdag (~2 650 kcal / 161g Protein)</div>
-        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>1. Frukost (600 kcal | 32g P):</strong> 80g havregryn, 2 dl mjölk, 2 ägg, 15g jordnötssmör, bär.</div>
-        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>2. Lunch (680 kcal | 42g P):</strong> 150g kyckling, 85g okokt ris, 150g broccoli, 1 msk olivolja.</div>
-        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>3. Pre-Pass (350 kcal | 27g P):</strong> 250g kvarg, 1 banan, 2 riskakor (eller shake + banan).</div>
-        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>4. Middag (670 kcal | 40g P):</strong> 150g nötfärs (10%), 90g okokt pasta, krossade tomater.</div>
-        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>5. Kvällsmål (350 kcal | 20g P):</strong> 2 skivor grovt rågbröd, 150g keso, 4 skivor kalkon.</div>
+        <div class="font-black text-orange-400 uppercase tracking-wider">Dagsmeny Träningsdag (~2 650 kcal)</div>
+        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>1. Frukost:</strong> 80g havregryn, 2 dl mjölk, 2 ägg, 15g jordnötssmör, bär.</div>
+        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>2. Lunch:</strong> 150g kyckling, 85g okokt ris, 150g broccoli, 1 msk olivolja.</div>
+        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>3. Pre-Pass:</strong> 250g kvarg, 1 banan, 2 riskakor (eller shake + banan).</div>
+        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>4. Middag:</strong> 150g nötfärs (10%), 90g okokt pasta, krossade tomater.</div>
+        <div class="p-3 bg-zinc-950 rounded-xl border border-zinc-800"><strong>5. Kvällsmål:</strong> 2 skivor grovt rågbröd, 150g keso, 4 skivor kalkon.</div>
       </div>
 
       <div class="p-4 bg-zinc-950 rounded-xl border border-yellow-500/40 flex items-center justify-between gap-3">
@@ -311,7 +319,6 @@
       { id: 8, label: 'V8 EXAM', mult: 1.02 }
     ];
 
-    // Dynamisk veckoprogression för PASS 3: VO2 & BACKE (Vecka 1–8)
     const runningProgressionByWeek = {
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
       2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad (5 backvändor / 4×800m)' },
@@ -320,7 +327,7 @@
       5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering (7 backvändor / 6×800m med 75s vila)' },
       6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym (8 backvändor / 7×800m / 45 min säck)' },
       7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power (Tung 15kg explosiv backe + 8×800m)' },
-      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering inför maxtest' }
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
     };
 
     function getExercisesForDay(dayKey, weekId) {
@@ -437,19 +444,19 @@
       {
         title: '1. Rear Foot Elevated Hip Flexor',
         dose: '2 × 45 sek / sida',
-        desc: 'Bakre foten på bänk/kant. Spänn sätet hårt, tippa bäckenet lätt bakåt och skjut fram höften utan att svanka.',
+        desc: 'Bakre foten på bänk/kant. Spänn sätet hårt, tippa bäckenet lätt bakåt och skjut fram höften.',
         svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><rect x="140" y="60" width="30" height="35" rx="4" fill="#27272a" stroke="#3b82f6" stroke-width="2"/><circle cx="85" cy="25" r="9" fill="#3b82f6"/><line x1="85" y1="34" x2="85" y2="65" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><polyline points="85,65 55,65 55,95" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/><polyline points="85,65 115,88 145,65" fill="none" stroke="#3b82f6" stroke-width="5" stroke-linecap="round"/></svg>`
       },
       {
         title: '2. Lizard Drill med Rotation',
         dose: '2 × 8 reps / sida',
-        desc: 'Kliv fram i ett djupt utfallssteg med båda händerna i golvet. Rotera inre armen rakt upp mot taket och följ med blicken.',
+        desc: 'Kliv fram i ett djupt utfallssteg med båda händerna i golvet. Rotera inre armen rakt upp.',
         svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="70" cy="45" r="8" fill="#f97316"/><line x1="75" y1="52" x2="115" y2="68" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="75" y1="52" x2="75" y2="93" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/><line x1="75" y1="52" x2="85" y2="16" stroke="#10b981" stroke-width="4" stroke-linecap="round"/><polyline points="115,68 65,62 65,93" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/><line x1="115" y1="68" x2="165" y2="93" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/></svg>`
       },
       {
         title: '3. Quadruped Thoracic Rotation',
         dose: '2 × 10 reps / sida',
-        desc: 'Stå på alla fyra med ena handen bakom nacken. För armbågen mot motsatt knä och öppna sedan upp bröstet mot taket.',
+        desc: 'Stå på alla fyra med ena handen bakom nacken. För armbågen mot motsatt knä och öppna sedan upp.',
         svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="65" cy="48" r="8" fill="#3b82f6"/><line x1="74" y1="52" x2="130" y2="55" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="80" y1="53" x2="80" y2="93" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/><polyline points="80,53 60,26 72,42" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/><polyline points="130,55 130,93 155,93" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>`
       }
     ];
@@ -459,9 +466,15 @@
     let currentDayKey = 'exam';
     let activeExerciseIdx = 0;
     let nightMode = false;
-    let passRunning = false;
+
+    // Timer States
+    let passState = 'stopped'; // 'stopped' | 'running' | 'paused'
     let passElapsedSec = 0;
     let passInterval = null;
+
+    let restTotalSec = 90;
+    let restLeftSec = 90;
+    let restTimerInt = null;
 
     let activeVariants = JSON.parse(localStorage.getItem('ff_variants') || '{}');
     let checkedSets = JSON.parse(localStorage.getItem('ff_checked_sets') || '{}');
@@ -469,10 +482,6 @@
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
     let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Sprint 100 m","Boxhopp","Back Squats"]');
     let chartInstance = null;
-
-    let restTotalSec = 90;
-    let restLeftSec = 90;
-    let restTimerInt = null;
 
     // ================= 3. INIT =================
     window.addEventListener('DOMContentLoaded', () => {
@@ -484,7 +493,6 @@
       renderMobilityModal();
     });
 
-    // ================= 4. LJUD =================
     function playBeep(freq = 880, dur = 0.12) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -496,6 +504,15 @@
         osc.connect(g); g.connect(ctx.destination);
         osc.start(); osc.stop(ctx.currentTime + dur);
       } catch (e) {}
+    }
+
+    function speakText(txt) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = 'sv-SE';
+      u.rate = 1.05;
+      window.speechSynthesis.speak(u);
     }
 
     // ================= 5. RENDERING AV VECKOR, PASS & ÖVNINGAR =================
@@ -694,7 +711,7 @@
       }).join('');
     }
 
-    // ================= 6. LOGGNING + POLISFYS NEDRÄKNINGSTIMER =================
+    // ================= 6. LOGGNING + PASSTIMER =================
     function toggleSetComplete(setKey, exTitle, restSec, cardIdx) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
@@ -741,6 +758,61 @@
       openPolisfysRestTimer(90, 'VILA TILL NÄSTA ÖVNING');
     }
 
+    // --- PAUSA & AVSLUTA PASS LOGIK ---
+    function toggleWorkoutSession() {
+      const btnText = document.getElementById('startPassBtnText');
+      const icon = document.getElementById('startPassIcon');
+      const endBtn = document.getElementById('endPassBtn');
+      const nextBtn = document.getElementById('nextExBtn');
+
+      if (passState === 'stopped' || passState === 'paused') {
+        passState = 'running';
+        playBeep(880, 0.18);
+        endBtn.classList.remove('hidden');
+        nextBtn.classList.remove('w-full');
+        nextBtn.classList.add('w-[68%]');
+        icon.textContent = '⏸';
+
+        passInterval = setInterval(() => {
+          passElapsedSec++;
+          const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
+          const s = String(passElapsedSec % 60).padStart(2, '0');
+          btnText.textContent = `PAUSA (${m}:${s})`;
+        }, 1000);
+        
+        const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
+        const s = String(passElapsedSec % 60).padStart(2, '0');
+        btnText.textContent = `PAUSA (${m}:${s})`;
+
+      } else if (passState === 'running') {
+        passState = 'paused';
+        clearInterval(passInterval);
+        icon.textContent = '▶';
+        const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
+        const s = String(passElapsedSec % 60).padStart(2, '0');
+        btnText.textContent = `ÅTERUPPTA (${m}:${s})`;
+      }
+    }
+
+    function endWorkoutSession() {
+      passState = 'stopped';
+      clearInterval(passInterval);
+      passElapsedSec = 0;
+      
+      document.getElementById('startPassBtnText').textContent = 'STARTA PASSET';
+      document.getElementById('startPassIcon').textContent = '▶';
+      
+      const endBtn = document.getElementById('endPassBtn');
+      const nextBtn = document.getElementById('nextExBtn');
+      endBtn.classList.add('hidden');
+      nextBtn.classList.remove('w-[68%]');
+      nextBtn.classList.add('w-full');
+
+      playBeep(1046, 0.3);
+      speakText('Pass avslutat. Bra jobbat!');
+    }
+
+    // --- POLISFYS VILOTIMER ---
     function openPolisfysRestTimer(seconds, labelText) {
       clearInterval(restTimerInt);
       restTotalSec = seconds;
@@ -781,24 +853,6 @@
     function skipPolisfysRest() {
       clearInterval(restTimerInt);
       document.getElementById('polisfysTimerOverlay').classList.add('hidden');
-    }
-
-    function toggleWorkoutSession() {
-      passRunning = !passRunning;
-      const btnText = document.getElementById('startPassBtnText');
-      if (passRunning) {
-        passElapsedSec = 0;
-        playBeep(880, 0.18);
-        passInterval = setInterval(() => {
-          passElapsedSec++;
-          const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
-          const s = String(passElapsedSec % 60).padStart(2, '0');
-          btnText.textContent = `PASS PÅGÅR (${m}:${s}) – AVSLUTA`;
-        }, 1000);
-      } else {
-        clearInterval(passInterval);
-        btnText.textContent = 'STARTA PASSET';
-      }
     }
 
     // ================= 7. MODALER: MOBILITY, GRAF, ANDNING & PROFIL =================
@@ -900,6 +954,7 @@
       a.click();
     }
 
+    // Box Breathing
     let breathInt = null;
     function toggleBoxBreath() {
       const circle = document.getElementById('breathCircle');
@@ -930,6 +985,7 @@
       breathInt = setInterval(run, 4000);
     }
 
+    // HLR
     let hlrInt = null, hlrBeat = null;
     function toggleHLR() {
       const btn = document.getElementById('hlrBtn');
