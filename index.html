@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - VARIANTER INFO & KOMPLETT LOGGBOK -->
+<!-- FRONTLINE FIT - STÄDAD KOD, RÖRLIGHET TILLBAKA, HLR BORTTAGET -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -107,7 +107,7 @@
         </div>
         <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[11px] uppercase tracking-wider py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
           <span class="text-orange-500">📈</span>
-          <span>STATISTIK & GRAF</span>
+          <span>STATISTIK & LOGG</span>
         </button>
       </div>
     </header>
@@ -219,7 +219,6 @@
         <canvas id="strengthChart" height="230"></canvas>
       </div>
       
-      <!-- Ny Loggboksvy i Stats -->
       <div class="pt-4 border-t border-zinc-800">
         <h3 class="text-sm font-black text-white uppercase tracking-wider mb-3">Senaste Aktivitet (Loggbok)</h3>
         <div id="historyLogList" class="space-y-2 max-h-60 overflow-y-auto pr-2 no-scrollbar"></div>
@@ -231,8 +230,8 @@
     <div class="max-w-md mx-auto ff-panel p-5 space-y-6 my-6">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
         <div>
-          <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">TAKTISK ÅTERHÄMTNING & AKUT</span>
-          <h2 class="text-lg font-black text-white uppercase">🫁 Box Breathing & HLR</h2>
+          <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">TAKTISK ÅTERHÄMTNING</span>
+          <h2 class="text-lg font-black text-white uppercase">🫁 Box Breathing</h2>
         </div>
         <button onclick="closeModal('breathModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
@@ -245,12 +244,6 @@
           </div>
         </div>
         <button onclick="toggleBoxBreath()" id="breathBtn" class="w-full py-3 rounded-xl bg-blue-600 text-white font-black text-xs uppercase tracking-wider">Starta Andning</button>
-      </div>
-      <div class="p-4 bg-zinc-950 rounded-xl border border-red-900/50 text-center space-y-3">
-        <div class="text-xs font-bold uppercase text-red-400 tracking-wider">❤️ HLR-Metronom (30:2 • 110 BPM)</div>
-        <div id="hlrTimeText" class="text-3xl font-mono font-black text-white">02:00</div>
-        <div id="hlrStatusText" class="text-xs font-bold text-red-300 uppercase">Standby</div>
-        <button onclick="toggleHLR()" id="hlrBtn" class="w-full py-3 rounded-xl bg-red-600 text-white font-black text-xs uppercase tracking-wider">▶ Starta HLR (110 BPM)</button>
       </div>
     </div>
   </div>
@@ -285,9 +278,9 @@
           <div class="text-[9px] text-zinc-400 uppercase">Styr din progression</div>
         </div>
         <!-- EXAM DATUM LOGG -->
-        <div id="examDatesContainer" class="text-[10px] text-zinc-300 bg-zinc-900 px-2 py-1 rounded border border-zinc-800 flex justify-between">
-          <span>Första test: <span id="firstExamDate">Laddar...</span></span>
-          <span>Senaste: <span id="lastExamDate">Laddar...</span></span>
+        <div class="text-[10px] text-zinc-300 bg-zinc-900 px-2 py-1.5 rounded border border-zinc-800 flex justify-between">
+          <span>Första test: <span id="firstExamDate" class="font-bold text-white">Aldrig</span></span>
+          <span>Senaste: <span id="lastExamDate" class="font-bold text-white">Aldrig</span></span>
         </div>
         <div class="grid grid-cols-3 gap-2" id="baselineInputsContainer"></div>
       </div>
@@ -333,7 +326,6 @@
       8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
     };
 
-    // Struktur anpassad för unika standard- och variant-beskrivningar & ikoner
     const workoutDays = [
       {
         id: 'day1',
@@ -543,7 +535,6 @@
       });
     }
 
-    // Helper för att hämta det senaste datumet från en loggarray
     function getLastDateFor(title) {
       const hist = logs[title] || [];
       return hist.length > 0 ? hist[hist.length - 1].date : 'Aldrig';
@@ -674,7 +665,6 @@
         if (!logs[exTitle]) logs[exTitle] = [];
         const today = new Date().toISOString().slice(5, 10);
         
-        // Uppdaterar arrayen så att sista posten alltid är den senaste
         logs[exTitle].push({ date: today, kg: numericVal, ex: exTitle });
         localStorage.setItem('ff_logs', JSON.stringify(logs));
 
@@ -809,9 +799,7 @@
       Object.keys(logs).forEach(exName => {
         logs[exName].forEach(entry => flatLogs.push({...entry, ex: exName}));
       });
-      // Sortera nyast först
       flatLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
-      // Begränsa till max 15 senaste för UIn
       const recent = flatLogs.slice(0, 15);
       
       const container = document.getElementById('historyLogList');
@@ -830,7 +818,6 @@
         </div>
       `).join('');
     }
-
 
     // ================= 8. MODALER =================
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -875,15 +862,6 @@
       let step = 0;
       const run = () => { const p = phases[step % 4]; document.getElementById('breathLabel').textContent = p.t; circle.style.transform = p.s; playBeep(520, 0.08); step++; };
       run(); breathInt = setInterval(run, 4000);
-    }
-
-    let hlrInt = null, hlrBeat = null;
-    function toggleHLR() {
-      const btn = document.getElementById('hlrBtn');
-      if (hlrInt) { clearInterval(hlrInt); clearInterval(hlrBeat); hlrInt = null; hlrBeat = null; btn.textContent = '▶ Starta HLR (110 BPM)'; document.getElementById('hlrStatusText').textContent = 'Stoppad'; return; }
-      let sec = 120, comp = 0; btn.textContent = '⏹ Stoppa HLR';
-      hlrBeat = setInterval(() => { comp = (comp % 32) + 1; if (comp <= 30) { playBeep(800, 0.05); document.getElementById('hlrStatusText').textContent = `KOMPRESSION ${comp} / 30`; } else { playBeep(440, 0.2); document.getElementById('hlrStatusText').textContent = '2 INBLÅSNINGAR!'; } }, 545);
-      hlrInt = setInterval(() => { sec--; const m = String(Math.floor(sec / 60)).padStart(2, '0'); const s = String(sec % 60).padStart(2, '0'); document.getElementById('hlrTimeText').textContent = `${m}:${s}`; if (sec <= 0) toggleHLR(); }, 1000);
     }
 
     function loadProfile() {
