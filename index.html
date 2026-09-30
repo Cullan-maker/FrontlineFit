@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - FIXAD KOD (ALLT FUNGERAR + HLR BORTTAGET) -->
+<!-- FRONTLINE FIT - SKÄRMVAKENHET (WAKE LOCK) INKLUDERAD -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -309,7 +309,6 @@
         </div>
       </div>
 
-      <!-- Pulszoner Container -->
       <div class="p-3.5 bg-zinc-950 rounded-xl border border-red-500/40 space-y-2">
         <div class="flex justify-between items-center">
           <div class="text-xs font-black text-red-400 uppercase">Dina Pulszoner</div>
@@ -320,7 +319,7 @@
 
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
 
-      <!-- Dina 1RM Base Stats -->
+      <!-- Dina 1RM Base Stats med EXAM Datumlogg -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-orange-500/40 space-y-3">
         <div class="flex justify-between items-center">
           <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
@@ -344,6 +343,23 @@
   </div>
 
   <script>
+    // ================= WAKE LOCK (HÅLLER SKÄRMEN VAKEN) =================
+    let wakeLock = null;
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator) {
+        try {
+          wakeLock = await navigator.wakeLock.request('screen');
+        } catch (err) {}
+      }
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') requestWakeLock();
+    });
+    document.addEventListener('click', () => {
+      if (!wakeLock) requestWakeLock();
+    }, { once: true });
+
+
     // ================= 1. DYNAMISK PROGRESSION & PASSDATA =================
     const weeksConfig = [
       { id: 1, label: 'V1 EXAM', mult: 1.0 },
@@ -404,7 +420,7 @@
         name: 'EXAM / TESTPASS',
         exercises: [
           { id: 'e_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', stdInfo: 'Maxtest Trap Bar. Målet är 2x kroppsvikt. Detta styr progressionen framåt.', varInfo: 'Maxtest konventionellt marklyft. Målet är 2x kroppsvikt.', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'e_2', std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK / CM', rest: 120, isExam: true, examType: 'sprint', stdInfo: 'Målet är max 16 sekunder på 100 meter.', varInfo: 'Maxtest i längd. Tre jämfotahopp i rad, mät total sträcka.', stdSvg: 'sprint', varSvg: 'sprint' },
+          { id: 'e_2', std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK / CM', rest: 120, isExam: true, examType: 'sprint', stdInfo: 'Målet är max 16 sekunder på 100 meter.', varInfo: 'Maxtest i längd. Tre jämfotahopp i rad – mät total sträcka.', stdSvg: 'sprint', varSvg: 'sprint' },
           { id: 'e_3', std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', stdInfo: 'Jämfotahopp på låda. Målet är att klara 50% av din kroppslängd i höjd.', varInfo: 'Maxtest från knästående. Hoppa jämfota upp på högsta möjliga låda.', stdSvg: 'sprint', varSvg: 'sprint' }
         ]
       }
@@ -475,7 +491,7 @@
     // ================= 3. INIT =================
     window.addEventListener('DOMContentLoaded', () => {
       generateIconFile();
-      loadProfile(); // Laddar pulszoner (inkl hrZonesContainer) 
+      loadProfile();
       if (currentWeek > 1 && currentWeek < 8) currentDayKey = 'day1';
       renderWeekPills();
       renderDayPills();
@@ -636,7 +652,7 @@
 
         let goalLine = ex.isExam ? 'Maxtest.' : '';
         if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg.`;
-        if (currentDayKey === 'day3') goalLine = ''; // För löpning, infon räcker.
+        if (currentDayKey === 'day3') goalLine = ''; // För löpning räcker infoText.
 
         let setsHtml = '';
         for (let s = 1; s <= ex.sets; s++) {
