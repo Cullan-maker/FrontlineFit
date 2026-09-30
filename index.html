@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - FELFRI VERSION UTAN DUBBLETTER, HLR BORTTAGET -->
+<!-- FRONTLINE FIT - NYA ÖVNINGAR & POLICE FITNESS STANDARDS (10 TESTER) -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -105,10 +105,17 @@
             <span>ANDNING</span>
           </button>
         </div>
-        <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[11px] uppercase tracking-wider py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
-          <span class="text-orange-500">📈</span>
-          <span>STATISTIK & LOGG</span>
-        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5">
+            <span class="text-orange-500">📈</span>
+            <span>STATISTIK</span>
+          </button>
+          <!-- NY KNAPP: POLICE STANDARDS -->
+          <button onclick="openModal('standardsModal')" class="w-full bg-[#eab308]/20 hover:bg-[#eab308]/40 border border-[#eab308]/50 text-yellow-500 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5">
+            <span>👮</span>
+            <span>STANDARDS</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -187,7 +194,37 @@
     </div>
   </div>
 
-  <!-- ================= MODALER: MOBILITY, STATS, ANDNING, PROFIL ================= -->
+  <!-- ================= MODALER: STANDARDS, MOBILITY, STATS, ANDNING, PROFIL ================= -->
+
+  <!-- NY MODAL: POLICE FITNESS STANDARDS (Yu Perform) -->
+  <div id="standardsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
+    <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-yellow-500/40">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <div>
+          <span class="text-[10px] font-mono uppercase text-yellow-500 font-bold">IF YOU CAN'T PASS THESE...</span>
+          <h2 class="text-lg font-black text-white uppercase">👮 Police Standards</h2>
+        </div>
+        <button onclick="closeModal('standardsModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
+      </div>
+      <p class="text-[11px] text-zinc-400 italic">"If you can tick off all 10 standards below, you'll be of a solid standard when you get out in the real world."</p>
+      
+      <!-- Progress Bar -->
+      <div class="space-y-1.5">
+        <div class="flex justify-between text-xs font-bold">
+          <span class="text-zinc-300">Klarade krav:</span>
+          <span id="stdProgressText" class="text-yellow-500">0 / 10</span>
+        </div>
+        <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden">
+          <div id="stdProgressBar" class="h-full bg-yellow-500 transition-all duration-500 w-0"></div>
+        </div>
+      </div>
+
+      <div id="standardsChecklist" class="space-y-2.5">
+        <!-- Genereras via JS -->
+      </div>
+    </div>
+  </div>
+
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -277,7 +314,6 @@
           <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
           <div class="text-[9px] text-zinc-400 uppercase">Styr din progression</div>
         </div>
-        <!-- EXAM DATUM LOGG -->
         <div class="text-[10px] text-zinc-300 bg-zinc-900 px-2 py-1.5 rounded border border-zinc-800 flex justify-between">
           <span>Första test: <span id="firstExamDate" class="font-bold text-white">Aldrig</span></span>
           <span>Senaste: <span id="lastExamDate" class="font-bold text-white">Aldrig</span></span>
@@ -303,7 +339,7 @@
   </div>
 
   <script>
-    // ================= 1. DYNAMISK PROGRESSION & DATA =================
+    // ================= 1. DYNAMISK PROGRESSION & PASSDATA (INKL NYA ÖVNINGAR) =================
     const weeksConfig = [
       { id: 1, label: 'V1 EXAM', mult: 1.0 },
       { id: 2, label: 'VECKA 2', mult: 0.82 },
@@ -326,15 +362,16 @@
       8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
     };
 
+    // Uppdaterade pass med de nya övningarna från bilderna
     const workoutDays = [
       {
         id: 'day1',
         name: 'DAG 1: UNDERKROPP',
         exercises: [
-          { std: 'Pin Squats', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 85, stdInfo: 'Starta från pinnar i bottenläget. Bygger brutal startstyrka.', varInfo: 'Klassisk knäböj med stången på nacken. Fullt djup och stark bål.', stdSvg: 'squat', varSvg: 'squat' },
-          { std: 'Reaktiv Sprint (20m)', var: 'Kneeling Jumps', sets: 5, reps: '3 REPS', rest: 75, baseKg: 0, stdInfo: 'Starta från magliggande/knästående. Handlar enbart om maximal acceleration.', varInfo: 'Explosivt upphopp från knästående till jämfota landning. Ren höftkraft.', stdSvg: 'sprint', varSvg: 'sprint' },
+          { std: 'Zercher Squat', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 75, stdInfo: '"Carry anyone or anything". Håll stången i armvecken. Stark bål, gå djupt.', varInfo: 'Klassisk knäböj med stången på nacken. Fullt djup och stark bål.', stdSvg: 'squat', varSvg: 'squat' },
+          { std: 'Split Squats', var: 'Kneeling Jumps', sets: 3, reps: '8/BEN', rest: 90, baseKg: 40, stdInfo: '"Big, strong & resilient legs". Håll hantlar, kliv fram och sänk knät djupt.', varInfo: 'Explosivt upphopp från knästående till jämfota landning. Ren höftkraft.', stdSvg: 'squat', varSvg: 'sprint' },
           { std: 'Utfallssteg (Väst/Säck)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, stdInfo: 'Sandsäck på axlarna. Skyddar knän och bygger stabilitet för benen.', varInfo: 'Rumänska marklyft med skivstång. Håll benen lätt böjda och fäll i höften.', stdSvg: 'squat', varSvg: 'pull' },
-          { std: 'HII: Sled/Bike Sprint', var: 'Triple Broad Jumps', sets: 4, reps: '30 SEK', rest: 90, baseKg: 0, stdInfo: 'Maximal sprint på cykel eller med släde i 30 sekunder.', varInfo: 'Tre maxlängdhopp i sträck. Landa och studsa iväg direkt utan vila.', stdSvg: 'sprint', varSvg: 'sprint' },
+          { std: 'Triple Broad Jumps', var: 'Sled Push/Pull', sets: 4, reps: '3 HOPP', rest: 90, baseKg: 0, stdInfo: 'Tre maxlängdhopp i sträck. Landa och studsa iväg direkt utan vila.', varInfo: 'Skjut och dra släde 15m (Kroppsvikt + släde). Bygger ren benpower.', stdSvg: 'sprint', varSvg: 'pull' },
           { std: 'Plankan (Väst/Säck)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, stdInfo: 'Stärk bålpansaret mot en yttre belastning (t.ex. vikt eller säck).', varInfo: 'Rulla ut hjulet kontrollerat tills näsan nuddar golvet. Dra tillbaka med magen.', stdSvg: 'press', varSvg: 'press' }
         ]
       },
@@ -342,20 +379,20 @@
         id: 'day2',
         name: 'DAG 2: ÖVERKROPP',
         exercises: [
-          { std: 'Push Press', var: 'BB OHP', sets: 4, reps: '5 REPS', rest: 120, baseKg: 55, stdInfo: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', varInfo: 'Strikt militärpress utan bentryck. Lås knän och pressa stången i en rak linje.', stdSvg: 'press', varSvg: 'press' },
+          { std: 'Power Clean + Jerk', var: 'Push Press', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, stdInfo: '"Explosive & powerful". Frivändning följt av en stöt över huvudet.', varInfo: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', stdSvg: 'pull', varSvg: 'press' },
           { std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, stdInfo: 'Häng två handdukar över stången och dra upp bröstkorgen. Extrem greppträning.', varInfo: 'Fäst en vikt i bältet eller kläm en hantel mellan fötterna. Haka över stången.', stdSvg: 'pull', varSvg: 'pull' },
           { std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, stdInfo: 'Dips i ställning med väst. Fullt djup (90 grader i armbågen).', varInfo: 'Häng på extra vikt. Luta lätt framåt för att koppla in bröstet mer.', stdSvg: 'press', varSvg: 'press' },
           { std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, stdInfo: 'Isolerande bröstövning i dragmaskin för full kontraktion.', varInfo: 'Klassisk bänkpress. Plantera fötterna, brösta upp dig och pressa.', stdSvg: 'press', varSvg: 'press' },
-          { std: 'Seated Good Mornings', var: 'BB Rows', sets: 3, reps: '8 REPS', rest: 90, baseKg: 60, stdInfo: 'Stark ländrygg. Sitt på bänk och fäll överkroppen framåt med stång på nacken.', varInfo: 'Framåtlutad skivstångsrodd. Dra stången mot naveln med armbågarna nära kroppen.', stdSvg: 'pull', varSvg: 'pull' }
+          { std: 'Bicep Curls (Bonus)', var: 'BB Rows', sets: 3, reps: '10 REPS', rest: 60, baseKg: 30, stdInfo: '"Develop massive guns, build presence". Klassiska curls med hantel eller stång.', varInfo: 'Framåtlutad skivstångsrodd. Dra stången mot naveln med armbågarna nära kroppen.', stdSvg: 'pull', varSvg: 'pull' }
         ]
       },
       {
         id: 'day4',
         name: 'DAG 4: 911STRONG',
         exercises: [
-          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, stdInfo: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen snarare än att dra med ryggen.', varInfo: 'Konventionellt marklyft med rak stång. Stången nära smalbenen hela vägen.', stdSvg: 'pull', varSvg: 'pull' },
-          { std: 'Mixed Modality (EMOM)', var: 'Power Cleans', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, stdInfo: 'Cirkelträning med t.ex. wallballs och kettlebells. Varje minut (EMOM).', varInfo: 'Frivändning. Explosiv höftsträckning, accelerera stången och fånga mjukt på axlarna.', stdSvg: 'pull', varSvg: 'pull' },
-          { std: 'Farmers Walk / Säck', var: 'Sandbag Shouldering', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, stdInfo: 'Bär tunga vikter i händerna med stolt hållning och korta, snabba steg.', varInfo: 'Lyft en tung sandsäck från golvet upp över ena axeln. Byt axel varje rep.', stdSvg: 'sprint', varSvg: 'pull' }
+          { std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, stdInfo: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen snarare än att dra med ryggen.', varInfo: '"Develop maximal strength". Konventionellt marklyft med rak stång.', stdSvg: 'pull', varSvg: 'pull' },
+          { std: 'Single Arm Carry', var: 'Farmers Walk', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, stdInfo: '"Protects your spine, skull-drag resistive". Bär en tung väska/hantel i ena handen.', varInfo: 'Bär tunga vikter i båda händerna med stolt hållning och korta, snabba steg.', stdSvg: 'pull', varSvg: 'sprint' },
+          { std: 'Sandbag Shouldering', var: 'Power Cleans', sets: 4, reps: '4 REPS', rest: 120, baseKg: 50, stdInfo: 'Lyft en tung sandsäck från golvet upp över ena axeln. Byt axel varje rep.', varInfo: 'Explosiv höftsträckning, accelerera stången och fånga mjukt på axlarna.', stdSvg: 'pull', varSvg: 'pull' }
         ]
       },
       {
@@ -372,7 +409,7 @@
     function getDay3Exercises(weekId) {
       const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
       return [
-        { id: 'd3_1', std: 'Yxbacken (Väst/Säck)', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, stdInfo: `${rp.phaseNote}. Backintervaller med tung utrustning.`, varInfo: 'Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.', stdSvg: 'sprint', varSvg: 'sprint' },
+        { id: 'd3_1', std: 'Full Kit Running', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, stdInfo: `${rp.phaseNote}. "Suspect is known to run". Löpning i full utrustning (väst/säck).`, varInfo: 'Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.', stdSvg: 'sprint', varSvg: 'sprint' },
         { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, stdInfo: 'Bygger syreupptagning. Håll jämnt måltempo på 800 meter.', varInfo: '4 minuters arbete på 90-95% av maxpuls för att optimera VO2-Max.', stdSvg: 'sprint', varSvg: 'sprint' },
         { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, stdInfo: 'Zon 2 arbete med bear hug säck. Håll pulsen jämn och bär utrustningen högt.', varInfo: 'Gå raskt med tung ryggsäck. Håll ett tempo där du precis kan föra ett samtal.', stdSvg: 'sprint', varSvg: 'sprint' }
       ];
@@ -390,6 +427,21 @@
       if(type==='press') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="40" r="10" fill="#f4f4f5"/><line x1="20" y1="15" x2="80" y2="15" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="95" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,50 30,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,50 70,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
       return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
     }
+
+    // ================= POLICE FITNESS STANDARDS DATA =================
+    const policeStandards = [
+      { id: 's1', text: 'Run: 3KM under 15 min' },
+      { id: 's2', text: 'Sprint: 100M under 16s' },
+      { id: 's3', text: 'Swim: 50m under :90s' },
+      { id: 's4', text: 'Box jump: 30 inch (males)' },
+      { id: 's5', text: 'Dips: Bodyweight x 5 reps' },
+      { id: 's6', text: 'Pull-up/Chin-up: Bodyweight x 3 reps' },
+      { id: 's7', text: 'Illinois agility test: sub :18s' },
+      { id: 's8', text: 'Sled push/pull (BW+sled): 15M' },
+      { id: 's9', text: 'IMTP (Iso Mid Thigh Pull): M 3000N+' },
+      { id: 's10', text: 'Farmers carry: 100M (70% BW) under :90s OR Deadhang :90s' }
+    ];
+    let userStandards = JSON.parse(localStorage.getItem('ff_standards') || '{}');
 
     // ================= 2. APP STATE =================
     let currentWeek = parseInt(localStorage.getItem('ff_current_week') || '1');
@@ -409,7 +461,7 @@
     let checkedSets = JSON.parse(localStorage.getItem('ff_checked_sets') || '{}');
     let customInputs = JSON.parse(localStorage.getItem('ff_custom_inputs') || '{}');
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
-    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Pin Squats","Bänkpress"]');
+    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Zercher Squat","Bänkpress"]');
     let chartInstance = null;
 
     // ================= 3. INIT =================
@@ -423,6 +475,7 @@
       renderMobilityModal();
       updateExamDates();
       renderHistoryLog();
+      renderStandards();
     });
 
     function playBeep(freq = 880, dur = 0.12) {
@@ -822,9 +875,36 @@
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
+    // POLICE STANDARDS
+    function renderStandards() {
+      let doneCount = 0;
+      const html = policeStandards.map((std, i) => {
+        const isDone = !!userStandards[std.id];
+        if (isDone) doneCount++;
+        return `
+          <div onclick="toggleStandard('${std.id}')" class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${isDone ? 'bg-yellow-500/10 border-yellow-500/50' : 'bg-zinc-900 border-zinc-800'}">
+            <div class="w-6 h-6 rounded flex items-center justify-center shrink-0 border ${isDone ? 'bg-yellow-500 border-yellow-500 text-zinc-950' : 'bg-zinc-950 border-zinc-700'}">
+              ${isDone ? '<span class="font-black text-sm">✓</span>' : ''}
+            </div>
+            <div class="text-xs ${isDone ? 'text-yellow-400 font-bold' : 'text-zinc-300'}">${i+1}. ${std.text}</div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('standardsChecklist').innerHTML = html;
+      document.getElementById('stdProgressText').textContent = `${doneCount} / 10`;
+      document.getElementById('stdProgressBar').style.width = `${(doneCount/10)*100}%`;
+    }
+
+    function toggleStandard(id) {
+      userStandards[id] = !userStandards[id];
+      localStorage.setItem('ff_standards', JSON.stringify(userStandards));
+      if(userStandards[id]) playBeep(880, 0.1);
+      renderStandards();
+    }
+
     function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); renderHistoryLog(); }
     function renderChartFilter() {
-      const all = ['Trap Bar Marklyft', 'Pin Squats', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'];
+      const all = ['Trap Bar Marklyft', 'Zercher Squat', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'];
       document.getElementById('chartFilterContainer').innerHTML = all.map(name => {
         const active = chartSelected.includes(name);
         return `<button onclick="toggleChartEx('${name}')" class="px-2.5 py-1 rounded-lg text-[11px] border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">${active ? '✓ ' : ''}${name}</button>`;
