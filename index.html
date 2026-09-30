@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - SKÄRMVAKENHET (WAKE LOCK) INKLUDERAD -->
+<!-- FRONTLINE FIT - REN OCH FELFRI KOD -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -13,160 +13,96 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      background-color: #0a0a0c;
-      color: #f4f4f5;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-    input {
-      -webkit-user-select: text !important;
-      user-select: text !important;
-    }
+    body { background-color: #0a0a0c; color: #f4f4f5; font-family: system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+    input { -webkit-user-select: text !important; user-select: text !important; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    .ff-panel {
-      background-color: #141418;
-      border: 1px solid #26262c;
-      border-radius: 1rem;
-    }
-    .ff-card-active {
-      background-color: #141418;
-      border: 1.5px solid #ea580c;
-      border-radius: 1.1rem;
-      box-shadow: 0 0 25px rgba(234, 88, 12, 0.12);
-    }
-    .ff-set-row {
-      background-color: #0d0d10;
-      border: 1px solid #1f1f26;
-      border-radius: 0.85rem;
-    }
-    .ff-check-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 0.65rem;
-      background-color: #27272f;
-      border: 1.5px solid #3f3f4a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .ff-check-box.checked {
-      background-color: #f97316;
-      border-color: #fb923c;
-      color: #09090b;
-    }
-
-    .polisfys-sheet {
-      background: linear-gradient(180deg, #0f172a 0%, #0b1120 100%);
-      border-top: 1px solid rgba(59, 130, 246, 0.25);
-      box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.85);
-    }
-    .timer-ring-circle {
-      transition: stroke-dashoffset 0.35s linear;
-      transform: rotate(-90deg);
-      transform-origin: 50% 50%;
-    }
-    .breath-circle {
-      transition: transform 4s ease-in-out, border-color 0.4s ease;
-    }
+    .ff-panel { background-color: #141418; border: 1px solid #26262c; border-radius: 1rem; }
+    .ff-card-active { background-color: #141418; border: 1.5px solid #ea580c; border-radius: 1.1rem; box-shadow: 0 0 25px rgba(234, 88, 12, 0.12); }
+    .ff-set-row { background-color: #0d0d10; border: 1px solid #1f1f26; border-radius: 0.85rem; }
+    .ff-check-box { width: 44px; height: 44px; border-radius: 0.65rem; background-color: #27272f; border: 1.5px solid #3f3f4a; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
+    .ff-check-box.checked { background-color: #f97316; border-color: #fb923c; color: #09090b; }
+    .polisfys-sheet { background: linear-gradient(180deg, #0f172a 0%, #0b1120 100%); border-top: 1px solid rgba(59, 130, 246, 0.25); box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.85); }
+    .timer-ring-circle { transition: stroke-dashoffset 0.35s linear; transform: rotate(-90deg); transform-origin: 50% 50%; }
+    .breath-circle { transition: transform 4s ease-in-out, border-color 0.4s ease; }
   </style>
 </head>
 <body class="min-h-screen pb-28">
 
-  <!-- ================= HUVUDCONTAINER ================= -->
   <div class="max-w-md mx-auto px-4 pt-5 space-y-4">
-
     <!-- TOPP-HEADER -->
     <header class="flex items-start justify-between gap-3">
       <div>
         <h1 class="text-3xl font-black tracking-tight leading-none text-white uppercase">
-          FRONTLINE<br>
-          <span class="text-[#f97316]">FIT</span>
+          FRONTLINE<br><span class="text-[#f97316]">FIT</span>
         </h1>
         <button onclick="openModal('profileModal')" class="mt-2 flex items-center gap-2 text-[11px] font-mono text-zinc-400 hover:text-white transition-colors">
-          <span id="headerWeightHeight">41 ÅR | 70 KG | 167 CM</span>
-          <span>✏️</span>
-          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          <span id="headerWeightHeight">41 ÅR | 70 KG | 167 CM</span><span>✏️</span><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
         </button>
       </div>
-
       <div class="w-[215px] space-y-2">
         <div class="grid grid-cols-2 gap-2">
           <button onclick="openModal('mobilityModal')" class="bg-[#2563eb] hover:bg-blue-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight shadow-md transition-colors">
-            <span>🏃 PRE-</span>
-            <span>SHIFT</span>
+            <span>🏃 PRE-</span><span>SHIFT</span>
           </button>
           <button onclick="openModal('breathModal')" class="bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight transition-colors">
-            <span class="text-orange-500 text-sm">🫁</span>
-            <span>ANDNING</span>
+            <span class="text-orange-500 text-sm">🫁</span><span>ANDNING</span>
           </button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
-            <span class="text-orange-500">📈</span>
-            <span>STATISTIK</span>
+          <button onclick="openModal('statsModal')" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
+            <span class="text-orange-500">📈</span><span>STATISTIK</span>
           </button>
           <button onclick="openModal('standardsModal')" class="w-full bg-[#eab308]/20 hover:bg-[#eab308]/40 border border-[#eab308]/50 text-yellow-500 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
-            <span>👮</span>
-            <span>STANDARDS</span>
+            <span>👮</span><span>STANDARDS</span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- NATTPASS / SLITEN? KORT -->
+    <!-- NATTPASS -->
     <div class="ff-panel p-4 flex items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-1.5 text-sm font-bold text-white">
-          <span class="text-orange-500">🌙</span>
-          <span>Nattpass / Sliten?</span>
+          <span class="text-orange-500">🌙</span><span>Nattpass / Sliten?</span>
         </div>
-        <p class="text-[11px] text-zinc-400 mt-0.5">Sänker volym/vikter & skyddar CNS. Optimalt för 40+ återhämtning.</p>
+        <p class="text-[11px] text-zinc-400 mt-0.5">Sänker volym/vikter & skyddar CNS. Optimalt för 40+.</p>
       </div>
       <button onclick="toggleNightMode()" id="nightToggleBtn" class="w-14 h-8 rounded-full bg-zinc-700 p-1 transition-colors duration-200 flex items-center shrink-0">
         <div id="nightToggleKnob" class="w-6 h-6 rounded-full bg-zinc-200 shadow-md transform transition-transform duration-200"></div>
       </button>
     </div>
 
-    <!-- 8-VECKORS PROGRESSION -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
     </div>
 
-    <!-- STARTA PASSET PANEL -->
+    <!-- STARTA PASS -->
     <div class="ff-panel p-4">
       <button onclick="toggleWorkoutSession()" id="startPassBtn" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition">
-        <span id="startPassIcon">▶</span>
-        <span id="startPassBtnText">STARTA PASSET</span>
+        <span id="startPassIcon">▶</span><span id="startPassBtnText">STARTA PASSET</span>
       </button>
     </div>
 
-    <!-- ÖVNINGSKORT LISTA -->
+    <!-- ÖVNINGAR -->
     <div id="exercisesListContainer" class="space-y-4"></div>
-
   </div>
 
-  <!-- FAST BOTTENKNAPP: AVSLUTA & NÄSTA ÖVNING -->
+  <!-- BOTTENMENY -->
   <div class="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/95 to-transparent pt-3 pb-4 px-4">
     <div class="max-w-md mx-auto flex gap-2">
       <button id="endPassBtn" onclick="endWorkoutSession()" class="hidden w-[30%] bg-red-600 hover:bg-red-500 active:scale-[0.99] text-white font-black text-[11px] uppercase tracking-wider py-3 rounded-xl flex flex-col items-center justify-center shadow-xl transition-all">
-        <span class="text-sm">⏹</span>
-        <span>AVSLUTA</span>
+        <span class="text-sm">⏹</span><span>AVSLUTA</span>
       </button>
-      
       <button id="nextExBtn" onclick="goToNextExercise()" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl transition-all">
-        <span>⏭</span>
-        <span>NÄSTA ÖVNING</span>
+        <span>⏭</span><span>NÄSTA ÖVNING</span>
       </button>
     </div>
   </div>
 
-  <!-- ================= POLISFYS NEDRÄKNINGSTIMER ================= -->
+  <!-- VILOTIMER -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
       <div id="restTimerHeaderLabel" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">VILA TILL NÄSTA SET</div>
@@ -185,9 +121,7 @@
     </div>
   </div>
 
-  <!-- ================= UNIKA MODALER ================= -->
-
-  <!-- INFO & TEKNIK -->
+  <!-- MODAL: INFO & TEKNIK -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
     <div class="max-w-md w-full ff-panel p-6 border-orange-500/50 relative shadow-2xl shadow-orange-500/10">
       <button onclick="closeModal('exInfoModal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-lg font-black">✕</button>
@@ -195,7 +129,7 @@
     </div>
   </div>
 
-  <!-- POLICE STANDARDS -->
+  <!-- MODAL: POLICE STANDARDS -->
   <div id="standardsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-yellow-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -206,12 +140,8 @@
         <button onclick="closeModal('standardsModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
       <p class="text-[11px] text-zinc-400 italic">"If you can tick off all 10 standards below, you'll be of a solid standard when you get out in the real world."</p>
-      
       <div class="space-y-1.5">
-        <div class="flex justify-between text-xs font-bold">
-          <span class="text-zinc-300">Klarade krav:</span>
-          <span id="stdProgressText" class="text-yellow-500">0 / 10</span>
-        </div>
+        <div class="flex justify-between text-xs font-bold"><span class="text-zinc-300">Klarade krav:</span><span id="stdProgressText" class="text-yellow-500">0 / 10</span></div>
         <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden">
           <div id="stdProgressBar" class="h-full bg-yellow-500 transition-all duration-500 w-0"></div>
         </div>
@@ -220,7 +150,7 @@
     </div>
   </div>
 
-  <!-- MOBILITY -->
+  <!-- MODAL: MOBILITY -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -234,7 +164,7 @@
     </div>
   </div>
 
-  <!-- STATS & LOGG -->
+  <!-- MODAL: STATS -->
   <div id="statsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -252,7 +182,6 @@
       <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
         <canvas id="strengthChart" height="230"></canvas>
       </div>
-      
       <div class="pt-4 border-t border-zinc-800">
         <h3 class="text-sm font-black text-white uppercase tracking-wider mb-3">Senaste Aktivitet (Loggbok)</h3>
         <div id="historyLogList" class="space-y-2 max-h-60 overflow-y-auto pr-2 no-scrollbar"></div>
@@ -260,7 +189,7 @@
     </div>
   </div>
 
-  <!-- ANDNING -->
+  <!-- MODAL: ANDNING -->
   <div id="breathModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-6 my-6 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -283,7 +212,7 @@
     </div>
   </div>
 
-  <!-- PROFIL & INSTÄLLNINGAR -->
+  <!-- MODAL: PROFIL -->
   <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -293,7 +222,6 @@
         </div>
         <button onclick="closeModal('profileModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
-
       <div class="grid grid-cols-3 gap-2">
         <div class="bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
           <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Ålder</label>
@@ -308,22 +236,14 @@
           <input type="text" inputmode="numeric" id="profHeightInput" value="167" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-2 py-1.5 rounded-lg border border-zinc-700 text-center">
         </div>
       </div>
-
       <div class="p-3.5 bg-zinc-950 rounded-xl border border-red-500/40 space-y-2">
-        <div class="flex justify-between items-center">
-          <div class="text-xs font-black text-red-400 uppercase">Dina Pulszoner</div>
-          <div class="text-[9px] text-zinc-400 uppercase">Tanaka-formeln</div>
-        </div>
+        <div class="flex justify-between items-center"><div class="text-xs font-black text-red-400 uppercase">Dina Pulszoner</div><div class="text-[9px] text-zinc-400 uppercase">Tanaka-formeln</div></div>
         <div class="grid grid-cols-2 gap-2" id="hrZonesContainer"></div>
       </div>
-
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
-
-      <!-- Dina 1RM Base Stats med EXAM Datumlogg -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-orange-500/40 space-y-3">
         <div class="flex justify-between items-center">
-          <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
-          <div class="text-[9px] text-zinc-400 uppercase">Styr din progression</div>
+          <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div><div class="text-[9px] text-zinc-400 uppercase">Styr din progression</div>
         </div>
         <div class="text-[10px] text-zinc-300 bg-zinc-900 px-2 py-1.5 rounded border border-zinc-800 flex justify-between">
           <span>Första test: <span id="firstExamDate" class="font-bold text-white">Aldrig</span></span>
@@ -331,56 +251,34 @@
         </div>
         <div class="grid grid-cols-3 gap-2" id="baselineInputsContainer"></div>
       </div>
-
       <div class="pt-4 border-t border-zinc-800 space-y-3">
         <button onclick="startNewCycle()" class="w-full px-4 py-3.5 rounded-xl bg-red-950/50 border border-red-700/60 hover:bg-red-900/60 text-red-400 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors">
           <span>🔄</span> STARTA NY 8-VECKORS CYKEL
         </button>
       </div>
-
       <div class="hidden"><a id="downloadIconLink" download="icon.png"></a></div>
     </div>
   </div>
 
+  <!-- ================= JAVASCRIPT LOGIK ================= -->
   <script>
-    // ================= WAKE LOCK (HÅLLER SKÄRMEN VAKEN) =================
-    let wakeLock = null;
-    async function requestWakeLock() {
-      if ('wakeLock' in navigator) {
-        try {
-          wakeLock = await navigator.wakeLock.request('screen');
-        } catch (err) {}
-      }
-    }
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') requestWakeLock();
-    });
-    document.addEventListener('click', () => {
-      if (!wakeLock) requestWakeLock();
-    }, { once: true });
-
-
-    // ================= 1. DYNAMISK PROGRESSION & PASSDATA =================
+    // 1. DATA
     const weeksConfig = [
-      { id: 1, label: 'V1 EXAM', mult: 1.0 },
-      { id: 2, label: 'VECKA 2', mult: 0.82 },
-      { id: 3, label: 'VECKA 3', mult: 0.87 },
-      { id: 4, label: 'VECKA 4', mult: 0.75 },
-      { id: 5, label: 'VECKA 5', mult: 0.90 },
-      { id: 6, label: 'VECKA 6', mult: 0.93 },
-      { id: 7, label: 'VECKA 7', mult: 0.96 },
-      { id: 8, label: 'V8 EXAM', mult: 1.02 }
+      { id: 1, label: 'V1 EXAM', mult: 1.0 }, { id: 2, label: 'VECKA 2', mult: 0.82 },
+      { id: 3, label: 'VECKA 3', mult: 0.87 }, { id: 4, label: 'VECKA 4', mult: 0.75 },
+      { id: 5, label: 'VECKA 5', mult: 0.90 }, { id: 6, label: 'VECKA 6', mult: 0.93 },
+      { id: 7, label: 'VECKA 7', mult: 0.96 }, { id: 8, label: 'V8 EXAM', mult: 1.02 }
     ];
 
     const runningProgressionByWeek = {
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
       2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
       3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload (Utan väst)' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknikfokus' },
       5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
       6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
       7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
-      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka (Lätt)' }
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
     };
 
     const workoutDays = [
@@ -446,13 +344,6 @@
       { title: '3. Quadruped Thoracic Rotation', dose: '2 × 10 reps / sida', desc: 'Stå på alla fyra med ena handen bakom nacken. För armbågen mot motsatt knä och öppna upp bröstet.', svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="65" cy="48" r="8" fill="#3b82f6"/><line x1="74" y1="52" x2="130" y2="55" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="80" y1="53" x2="80" y2="93" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/><polyline points="80,53 60,26 72,42" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/><polyline points="130,55 130,93 155,93" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>` }
     ];
 
-    function getExSvg(type) {
-      if(type==='squat') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="20" r="10" fill="#f4f4f5"/><line x1="20" y1="35" x2="80" y2="35" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="30" x2="50" y2="60" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,60 30,80 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,60 70,80 70,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
-      if(type==='pull') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="30" r="10" fill="#f4f4f5"/><line x1="20" y1="90" x2="80" y2="90" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="40" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,70 30,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 70,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="45" x2="50" y2="90" stroke="#f4f4f5" stroke-width="4"/></svg>`;
-      if(type==='press') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="40" r="10" fill="#f4f4f5"/><line x1="20" y1="15" x2="80" y2="15" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="95" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,50 30,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,50 70,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
-      return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
-    }
-
     const policeStandards = [
       { id: 's1', text: 'Run: 3KM under 15 min' },
       { id: 's2', text: 'Sprint: 100M under 16s' },
@@ -465,14 +356,19 @@
       { id: 's9', text: 'IMTP (Iso Mid Thigh Pull): M 3000N+' },
       { id: 's10', text: 'Farmers carry: 100M (70% BW) under :90s OR Deadhang :90s' }
     ];
-    let userStandards = JSON.parse(localStorage.getItem('ff_standards') || '{}');
 
-    // ================= 2. APP STATE =================
+    function getExSvg(type) {
+      if(type==='squat') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="20" r="10" fill="#f4f4f5"/><line x1="20" y1="35" x2="80" y2="35" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="30" x2="50" y2="60" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,60 30,80 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,60 70,80 70,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
+      if(type==='pull') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="30" r="10" fill="#f4f4f5"/><line x1="20" y1="90" x2="80" y2="90" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="40" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,70 30,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 70,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="45" x2="50" y2="90" stroke="#f4f4f5" stroke-width="4"/></svg>`;
+      if(type==='press') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="40" r="10" fill="#f4f4f5"/><line x1="20" y1="15" x2="80" y2="15" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="95" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,50 30,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,50 70,15" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
+      return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
+    }
+
+    // ================= 2. STATE & INIT =================
     let currentWeek = parseInt(localStorage.getItem('ff_current_week') || '1');
     let currentDayKey = 'exam';
     let activeExerciseIdx = 0;
     let nightMode = false;
-
     let passRunning = false;
     let passElapsedSec = 0;
     let passInterval = null;
@@ -486,9 +382,18 @@
     let customInputs = JSON.parse(localStorage.getItem('ff_custom_inputs') || '{}');
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
     let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Zercher Squat","Bänkpress"]');
+    let userStandards = JSON.parse(localStorage.getItem('ff_standards') || '{}');
     let chartInstance = null;
 
-    // ================= 3. INIT =================
+    let wakeLock = null;
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator) {
+        try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
+      }
+    }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') requestWakeLock(); });
+    document.addEventListener('click', () => { if (!wakeLock) requestWakeLock(); }, { once: true });
+
     window.addEventListener('DOMContentLoaded', () => {
       generateIconFile();
       loadProfile();
@@ -502,20 +407,7 @@
       renderStandards();
     });
 
-    function playBeep(freq = 880, dur = 0.12) {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const g = ctx.createGain();
-        osc.frequency.value = freq;
-        g.gain.setValueAtTime(0.2, ctx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
-        osc.connect(g); g.connect(ctx.destination);
-        osc.start(); osc.stop(ctx.currentTime + dur);
-      } catch (e) {}
-    }
-
-    // ================= 4. RENDERING =================
+    // ================= 3. FUNKTIONER =================
     function renderWeekPills() {
       const container = document.getElementById('weekPillsContainer');
       container.innerHTML = weeksConfig.map(w => {
@@ -527,24 +419,16 @@
     function selectWeek(weekId) {
       currentWeek = weekId;
       localStorage.setItem('ff_current_week', currentWeek);
-      if (weekId === 1 || weekId === 8) {
-        if (currentDayKey === 'day4') currentDayKey = 'exam';
-      } else {
-        if (currentDayKey === 'exam') currentDayKey = 'day4';
-      }
+      if (weekId === 1 || weekId === 8) { if (currentDayKey === 'day4') currentDayKey = 'exam'; }
+      else { if (currentDayKey === 'exam') currentDayKey = 'day4'; }
       activeExerciseIdx = 0;
-      renderWeekPills();
-      renderDayPills();
-      renderExercises();
+      renderWeekPills(); renderDayPills(); renderExercises();
     }
 
     function renderDayPills() {
       const keys = ['day1', 'day2', 'day3'];
-      if (currentWeek === 1 || currentWeek === 8) keys.push('exam');
-      else keys.push('day4');
-
-      const container = document.getElementById('dayPillsContainer');
-      container.innerHTML = keys.map(k => {
+      if (currentWeek === 1 || currentWeek === 8) keys.push('exam'); else keys.push('day4');
+      document.getElementById('dayPillsContainer').innerHTML = keys.map(k => {
         const active = k === currentDayKey;
         const obj = k === 'day3' ? {name: 'DAG 3: VO2 & BACKE'} : workoutDays.find(d => d.id === k);
         return `<button onclick="selectDay('${k}')" class="px-3 py-1.5 rounded-lg text-[11px] font-extrabold uppercase whitespace-nowrap border transition ${active ? 'bg-zinc-800 text-orange-400 border-orange-500/60' : 'bg-[#121216] text-zinc-400 border-zinc-800/80'}">${obj.name}</button>`;
@@ -554,8 +438,7 @@
     function selectDay(dayKey) {
       currentDayKey = dayKey;
       activeExerciseIdx = 0;
-      renderDayPills();
-      renderExercises();
+      renderDayPills(); renderExercises();
     }
 
     function toggleNightMode() {
@@ -575,8 +458,7 @@
     function swapVariant(exId) {
       activeVariants[exId] = !activeVariants[exId];
       localStorage.setItem('ff_variants', JSON.stringify(activeVariants));
-      playBeep(660, 0.08);
-      renderExercises();
+      playBeep(660, 0.08); renderExercises();
     }
 
     function showExerciseInfo(title, infoText, svgType) {
@@ -638,7 +520,6 @@
         const isVar = !!activeVariants[ex.id || idx];
         const title = isVar && ex.var ? ex.var : ex.std;
         const altTitle = isVar && ex.var ? ex.std : ex.var;
-        
         const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
         const svgImage = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
         const lastLogDate = getLastDateFor(title);
@@ -652,7 +533,7 @@
 
         let goalLine = ex.isExam ? 'Maxtest.' : '';
         if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg.`;
-        if (currentDayKey === 'day3') goalLine = ''; // För löpning räcker infoText.
+        if (currentDayKey === 'day3') goalLine = '';
 
         let setsHtml = '';
         for (let s = 1; s <= ex.sets; s++) {
@@ -707,9 +588,7 @@
 
             <div>
               <h2 class="text-xl font-black text-white leading-snug">${title}</h2>
-              <div class="mt-1.5 pl-2.5 border-l-2 border-zinc-600 text-xs italic text-zinc-400">
-                ${goalLine} ${infoText}
-              </div>
+              <div class="mt-1.5 pl-2.5 border-l-2 border-zinc-600 text-xs italic text-zinc-400">${goalLine} ${infoText}</div>
             </div>
             <div class="space-y-2 pt-1">${setsHtml}</div>
           </div>
@@ -717,18 +596,13 @@
       }).join('');
     }
 
-    // ================= 5. LOGGNING + TIMERS =================
     function toggleSetComplete(setKey, exTitle, restSec, cardIdx, isExam, examType) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
       const rawText = inputEl ? String(inputEl.value).replace(',', '.') : '0';
       const numericVal = parseFloat(rawText) || 0;
 
-      if (inputEl) {
-        customInputs[setKey] = inputEl.value;
-        localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs));
-      }
-
+      if (inputEl) { customInputs[setKey] = inputEl.value; localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs)); }
       checkedSets[setKey] = !checkedSets[setKey];
       localStorage.setItem('ff_checked_sets', JSON.stringify(checkedSets));
 
@@ -738,36 +612,27 @@
           localStorage.setItem('ff_1rms', JSON.stringify(user1RMs));
           update1RMUI();
         }
-
         if (!logs[exTitle]) logs[exTitle] = [];
         const today = new Date().toISOString().slice(5, 10);
-        
         logs[exTitle].push({ date: today, kg: numericVal, ex: exTitle });
         localStorage.setItem('ff_logs', JSON.stringify(logs));
 
         if (!chartSelected.includes(exTitle) && chartSelected.length < 5) {
-          chartSelected.push(exTitle);
-          localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected));
+          chartSelected.push(exTitle); localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected));
         }
 
-        updateExamDates();
-        renderHistoryLog();
-        playBeep(880, 0.14);
-        openPolisfysRestTimer(restSec, 'VILA TILL NÄSTA SET');
+        updateExamDates(); renderHistoryLog(); playBeep(880, 0.14); openPolisfysRestTimer(restSec, 'VILA TILL NÄSTA SET');
       }
       renderExercises();
     }
 
     function goToNextExercise() {
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
-      if (activeExerciseIdx < list.length - 1) activeExerciseIdx++;
-      else activeExerciseIdx = 0;
-      
+      if (activeExerciseIdx < list.length - 1) activeExerciseIdx++; else activeExerciseIdx = 0;
       highlightCardOnly(activeExerciseIdx);
       const card = document.getElementById('ex-card-' + activeExerciseIdx);
       if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      playBeep(740, 0.12);
-      openPolisfysRestTimer(90, 'VILA TILL NÄSTA ÖVNING');
+      playBeep(740, 0.12); openPolisfysRestTimer(90, 'VILA TILL NÄSTA ÖVNING');
     }
 
     function toggleWorkoutSession() {
@@ -777,56 +642,32 @@
       const nextBtn = document.getElementById('nextExBtn');
 
       if (!passRunning) {
-        passRunning = true;
-        playBeep(880, 0.18);
-        endBtn.classList.remove('hidden');
-        nextBtn.classList.remove('w-full');
-        nextBtn.classList.add('w-[68%]');
-        icon.textContent = '⏸';
-
+        passRunning = true; playBeep(880, 0.18); endBtn.classList.remove('hidden'); nextBtn.classList.remove('w-full'); nextBtn.classList.add('w-[68%]'); icon.textContent = '⏸';
         passInterval = setInterval(() => {
           passElapsedSec++;
-          const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
-          const s = String(passElapsedSec % 60).padStart(2, '0');
-          btnText.textContent = `PAUSA (${m}:${s})`;
+          const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0'); const s = String(passElapsedSec % 60).padStart(2, '0'); btnText.textContent = `PAUSA (${m}:${s})`;
         }, 1000);
       } else {
-        passRunning = false;
-        clearInterval(passInterval);
-        icon.textContent = '▶';
-        const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0');
-        const s = String(passElapsedSec % 60).padStart(2, '0');
-        btnText.textContent = `ÅTERUPPTA (${m}:${s})`;
+        passRunning = false; clearInterval(passInterval); icon.textContent = '▶';
+        const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0'); const s = String(passElapsedSec % 60).padStart(2, '0'); btnText.textContent = `ÅTERUPPTA (${m}:${s})`;
       }
     }
 
     function endWorkoutSession() {
-      passRunning = false;
-      clearInterval(passInterval);
-      passElapsedSec = 0;
-      document.getElementById('startPassBtnText').textContent = 'STARTA PASSET';
-      document.getElementById('startPassIcon').textContent = '▶';
-      
-      const endBtn = document.getElementById('endPassBtn');
-      const nextBtn = document.getElementById('nextExBtn');
-      endBtn.classList.add('hidden');
-      nextBtn.classList.remove('w-[68%]');
-      nextBtn.classList.add('w-full');
-
+      passRunning = false; clearInterval(passInterval); passElapsedSec = 0;
+      document.getElementById('startPassBtnText').textContent = 'STARTA PASSET'; document.getElementById('startPassIcon').textContent = '▶';
+      const endBtn = document.getElementById('endPassBtn'); const nextBtn = document.getElementById('nextExBtn');
+      endBtn.classList.add('hidden'); nextBtn.classList.remove('w-[68%]'); nextBtn.classList.add('w-full');
       playBeep(1046, 0.3);
     }
 
     function openPolisfysRestTimer(seconds, labelText) {
-      clearInterval(restTimerInt);
-      restTotalSec = seconds;
-      restLeftSec = seconds;
+      clearInterval(restTimerInt); restTotalSec = seconds; restLeftSec = seconds;
       document.getElementById('restTimerHeaderLabel').textContent = labelText || 'VILA TILL NÄSTA SET';
       document.getElementById('polisfysTimerOverlay').classList.remove('hidden');
       updatePolisfysRingUI();
-
       restTimerInt = setInterval(() => {
-        restLeftSec--;
-        updatePolisfysRingUI();
+        restLeftSec--; updatePolisfysRingUI();
         if (restLeftSec <= 3 && restLeftSec > 0) playBeep(660, 0.08);
         if (restLeftSec <= 0) { playBeep(1046, 0.3); skipPolisfysRest(); }
       }, 1000);
@@ -834,115 +675,60 @@
 
     function updatePolisfysRingUI() {
       const s = Math.max(0, restLeftSec);
-      const mins = String(Math.floor(s / 60)).padStart(2, '0');
-      const secs = String(s % 60).padStart(2, '0');
-      document.getElementById('polisfysTimerDigits').textContent = `${mins}:${secs}`;
-      const circumference = 477.5;
-      const fraction = restTotalSec > 0 ? s / restTotalSec : 0;
-      document.getElementById('polisfysRingProgress').style.strokeDashoffset = circumference - fraction * circumference;
+      document.getElementById('polisfysTimerDigits').textContent = `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+      document.getElementById('polisfysRingProgress').style.strokeDashoffset = 477.5 - (restTotalSec > 0 ? s/restTotalSec : 0) * 477.5;
     }
 
-    function adjustPolisfysRest(delta) {
-      restLeftSec = Math.max(5, restLeftSec + delta);
-      if (restLeftSec > restTotalSec) restTotalSec = restLeftSec;
-      updatePolisfysRingUI();
-    }
+    function adjustPolisfysRest(delta) { restLeftSec = Math.max(5, restLeftSec + delta); if (restLeftSec > restTotalSec) restTotalSec = restLeftSec; updatePolisfysRingUI(); }
+    function skipPolisfysRest() { clearInterval(restTimerInt); document.getElementById('polisfysTimerOverlay').classList.add('hidden'); }
 
-    function skipPolisfysRest() {
-      clearInterval(restTimerInt);
-      document.getElementById('polisfysTimerOverlay').classList.add('hidden');
-    }
-
-    // ================= 6. DATUM, LOGG & MODALER =================
+    // ================= 7. LOGGBOK & EXAM DATUM =================
     function getExamDates() {
       let allDates = [];
       const examNames = ['Trap Bar Marklyft', 'Deadlifts', 'Sprint 100 m', 'Triple Broad Jumps', 'Boxhopp', 'Kneeling Jumps'];
-      examNames.forEach(name => {
-        if (logs[name]) { logs[name].forEach(item => allDates.push(item.date)); }
-      });
+      examNames.forEach(name => { if (logs[name]) { logs[name].forEach(item => allDates.push(item.date)); } });
       if (allDates.length === 0) return { first: 'Aldrig', last: 'Aldrig' };
-      allDates.sort();
-      return { first: allDates[0], last: allDates[allDates.length - 1] };
+      allDates.sort(); return { first: allDates[0], last: allDates[allDates.length - 1] };
     }
-
-    function updateExamDates() {
-      const d = getExamDates();
-      document.getElementById('firstExamDate').textContent = d.first;
-      document.getElementById('lastExamDate').textContent = d.last;
-    }
-
+    function updateExamDates() { const d = getExamDates(); document.getElementById('firstExamDate').textContent = d.first; document.getElementById('lastExamDate').textContent = d.last; }
     function renderHistoryLog() {
-      let flatLogs = [];
-      Object.keys(logs).forEach(exName => {
-        logs[exName].forEach(entry => flatLogs.push({...entry, ex: exName}));
-      });
+      let flatLogs = []; Object.keys(logs).forEach(exName => { logs[exName].forEach(entry => flatLogs.push({...entry, ex: exName})); });
       flatLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
       const recent = flatLogs.slice(0, 15);
-      
       const container = document.getElementById('historyLogList');
-      if (recent.length === 0) {
-        container.innerHTML = '<div class="text-xs text-zinc-500 italic">Inga set loggade ännu.</div>';
-        return;
-      }
-
-      container.innerHTML = recent.map(r => `
-        <div class="flex items-center justify-between p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg">
-          <div>
-            <div class="text-[10px] text-zinc-400 font-mono">${r.date}</div>
-            <div class="text-xs font-bold text-white mt-0.5">${r.ex}</div>
-          </div>
-          <div class="font-mono font-black text-orange-400">${r.kg}</div>
-        </div>
-      `).join('');
+      if (recent.length === 0) { container.innerHTML = '<div class="text-xs text-zinc-500 italic">Inga set loggade ännu.</div>'; return; }
+      container.innerHTML = recent.map(r => `<div class="flex items-center justify-between p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg"><div><div class="text-[10px] text-zinc-400 font-mono">${r.date}</div><div class="text-xs font-bold text-white mt-0.5">${r.ex}</div></div><div class="font-mono font-black text-orange-400">${r.kg}</div></div>`).join('');
     }
 
     function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
     function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-    // POLICE STANDARDS
     function renderStandards() {
       let doneCount = 0;
       const html = policeStandards.map((std, i) => {
-        const isDone = !!userStandards[std.id];
-        if (isDone) doneCount++;
-        return `
-          <div onclick="toggleStandard('${std.id}')" class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${isDone ? 'bg-yellow-500/10 border-yellow-500/50' : 'bg-zinc-900 border-zinc-800'}">
-            <div class="w-6 h-6 rounded flex items-center justify-center shrink-0 border ${isDone ? 'bg-yellow-500 border-yellow-500 text-zinc-950' : 'bg-zinc-950 border-zinc-700'}">
-              ${isDone ? '<span class="font-black text-sm">✓</span>' : ''}
-            </div>
-            <div class="text-xs ${isDone ? 'text-yellow-400 font-bold' : 'text-zinc-300'}">${i+1}. ${std.text}</div>
-          </div>
-        `;
+        const isDone = !!userStandards[std.id]; if (isDone) doneCount++;
+        return `<div onclick="toggleStandard('${std.id}')" class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${isDone ? 'bg-yellow-500/10 border-yellow-500/50' : 'bg-zinc-900 border-zinc-800'}"><div class="w-6 h-6 rounded flex items-center justify-center shrink-0 border ${isDone ? 'bg-yellow-500 border-yellow-500 text-zinc-950' : 'bg-zinc-950 border-zinc-700'}">${isDone ? '<span class="font-black text-sm">✓</span>' : ''}</div><div class="text-xs ${isDone ? 'text-yellow-400 font-bold' : 'text-zinc-300'}">${i+1}. ${std.text}</div></div>`;
       }).join('');
       document.getElementById('standardsChecklist').innerHTML = html;
       document.getElementById('stdProgressText').textContent = `${doneCount} / 10`;
       document.getElementById('stdProgressBar').style.width = `${(doneCount/10)*100}%`;
     }
-
-    function toggleStandard(id) {
-      userStandards[id] = !userStandards[id];
-      localStorage.setItem('ff_standards', JSON.stringify(userStandards));
-      if(userStandards[id]) playBeep(880, 0.1);
-      renderStandards();
-    }
+    function toggleStandard(id) { userStandards[id] = !userStandards[id]; localStorage.setItem('ff_standards', JSON.stringify(userStandards)); if(userStandards[id]) playBeep(880, 0.1); renderStandards(); }
 
     function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); renderHistoryLog(); }
     function renderChartFilter() {
       const all = ['Trap Bar Marklyft', 'Zercher Squat', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'];
       document.getElementById('chartFilterContainer').innerHTML = all.map(name => {
-        const active = chartSelected.includes(name);
-        return `<button onclick="toggleChartEx('${name}')" class="px-2.5 py-1 rounded-lg text-[11px] border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">${active ? '✓ ' : ''}${name}</button>`;
+        const active = chartSelected.includes(name); return `<button onclick="toggleChartEx('${name}')" class="px-2.5 py-1 rounded-lg text-[11px] border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">${active ? '✓ ' : ''}${name}</button>`;
       }).join('');
     }
     function toggleChartEx(name) {
       if (chartSelected.includes(name)) chartSelected = chartSelected.filter(n => n !== name);
       else { if (chartSelected.length >= 5) return; chartSelected.push(name); }
-      localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected));
-      renderChartFilter(); renderChartCanvas();
+      localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected)); renderChartFilter(); renderChartCanvas();
     }
     function renderChartCanvas() {
-      const ctx = document.getElementById('strengthChart').getContext('2d');
-      if (chartInstance) chartInstance.destroy();
+      const ctx = document.getElementById('strengthChart').getContext('2d'); if (chartInstance) chartInstance.destroy();
       const colors = ['#f97316', '#3b82f6', '#10b981', '#eab308', '#ec4899'];
       const datasets = chartSelected.map((name, i) => {
         const arr = logs[name] || [];
@@ -951,8 +737,7 @@
       chartInstance = new Chart(ctx, { type: 'line', data: { labels: ['Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7', 'Set 8'], datasets }, options: { responsive: true, plugins: { legend: { labels: { color: '#f4f4f5', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } }, y: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } } } } });
     }
     function exportCSV() {
-      let csv = 'Ovning,Datum,Varde\n';
-      Object.keys(logs).forEach(k => logs[k].forEach(r => { csv += `"${k}",${r.date},${r.kg}\n`; }));
+      let csv = 'Ovning,Datum,Varde\n'; Object.keys(logs).forEach(k => logs[k].forEach(r => { csv += `"${k}",${r.date},${r.kg}\n`; }));
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'frontline_fit_statistik.csv'; a.click();
     }
 
@@ -967,13 +752,26 @@
       run(); breathInt = setInterval(run, 4000);
     }
 
+    function renderMobilityModal() {
+      document.getElementById('mobilityList').innerHTML = mobilityDrills.map(m => `
+        <div class="p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-white">${m.title}</span>
+            <button onclick="closeModal('mobilityModal'); openPolisfysRestTimer(45, '${m.title.toUpperCase()}')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[10px] font-black uppercase">⏱ 45s</button>
+          </div>
+          <div class="text-[11px] font-mono text-blue-400">${m.dose}</div>
+          ${m.svg}
+          <p class="text-xs text-zinc-300 leading-relaxed">${m.desc}</p>
+        </div>
+      `).join('');
+    }
+
     function loadProfile() {
       document.getElementById('profAgeInput').value = localStorage.getItem('ff_age') || '41';
       document.getElementById('profWeightInput').value = localStorage.getItem('ff_weight') || '70';
       document.getElementById('profHeightInput').value = localStorage.getItem('ff_height') || '167';
       saveProfile();
     }
-
     function update1RMUI() {
       const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
       const h = parseFloat(String(document.getElementById('profHeightInput').value).replace(',', '.')) || 167;
@@ -983,7 +781,6 @@
         <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Boxhopp</div><div class="font-mono font-bold text-orange-400">${user1RMs['boxjump'] || Math.round(h*0.5)} cm</div></div>
       `;
     }
-
     function saveProfile() {
       const age = parseInt(document.getElementById('profAgeInput').value) || 41;
       const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
@@ -992,40 +789,31 @@
       localStorage.setItem('ff_age', age);
       localStorage.setItem('ff_weight', w);
       localStorage.setItem('ff_height', h);
-      
       document.getElementById('headerWeightHeight').textContent = `${age} ÅR | ${w} KG | ${h} CM`;
 
       const maxHr = Math.round(208 - (0.7 * age));
       const z2Low = Math.round(maxHr * 0.6);
       const z2High = Math.round(maxHr * 0.7);
-
       document.getElementById('hrZonesContainer').innerHTML = `
         <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Maxpuls</div><div class="font-mono font-bold text-red-400">${maxHr} BPM</div></div>
         <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Zon 2 (Uthållighet)</div><div class="font-mono font-bold text-red-400">${z2Low}-${z2High} BPM</div></div>
       `;
 
-      const restKcal = Math.round(w * 31);
-      const trainKcal = Math.round(w * 38);
+      const restKcal = Math.round(w * 31); const trainKcal = Math.round(w * 38);
       document.getElementById('kcalSummaryBoxes').innerHTML = `
         <div class="p-2.5 bg-zinc-950 rounded-xl border border-zinc-800"><div class="text-[10px] text-zinc-400 uppercase">Vilodag</div><div class="text-sm font-black text-white">${restKcal} kcal</div></div>
         <div class="p-2.5 bg-zinc-950 rounded-xl border border-orange-500/40"><div class="text-[10px] text-orange-400 uppercase">Träningsdag</div><div class="text-sm font-black text-orange-400">${trainKcal} kcal</div></div>
         <div class="p-2.5 bg-zinc-950 rounded-xl border border-emerald-500/40"><div class="text-[10px] text-emerald-400 uppercase">Protein</div><div class="text-sm font-black text-emerald-400">${Math.round(w * 2.2)} g/dag</div></div>
       `;
-      update1RMUI();
-      renderExercises();
+      update1RMUI(); renderExercises();
     }
-
     function startNewCycle() {
       if(confirm('Starta en ny 8-veckorscykel?\nDina avklarade set nollställs. Din ålder, kroppsvikt och senast loggade Exam-resultat sparas som baslinje.')) {
-        localStorage.removeItem('ff_checked_sets');
-        localStorage.removeItem('ff_custom_inputs');
-        checkedSets = {}; customInputs = {};
-        selectWeek(1);
-        closeModal('profileModal');
+        localStorage.removeItem('ff_checked_sets'); localStorage.removeItem('ff_custom_inputs');
+        checkedSets = {}; customInputs = {}; selectWeek(1); closeModal('profileModal');
         alert('Ny cykel startad! Din progression baseras nu på de styrkevärden du hade i slutet av förra cykeln.');
       }
     }
-
     function generateIconFile() {
       const c = document.createElement('canvas'); c.width = 1024; c.height = 1024; const ctx = c.getContext('2d');
       const g = ctx.createLinearGradient(0, 0, 1024, 1024); g.addColorStop(0, '#0f172a'); g.addColorStop(1, '#09090b');
