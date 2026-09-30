@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - FIXADE MODALER, ALL INFO INLAGD -->
+<!-- FRONTLINE FIT - FIXAD KOD (ALLT FUNGERAR + HLR BORTTAGET) -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -185,7 +185,7 @@
     </div>
   </div>
 
-  <!-- ================= UNIKA MODALER (INGA DUBBLETTER) ================= -->
+  <!-- ================= UNIKA MODALER ================= -->
 
   <!-- INFO & TEKNIK -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
@@ -309,6 +309,7 @@
         </div>
       </div>
 
+      <!-- Pulszoner Container -->
       <div class="p-3.5 bg-zinc-950 rounded-xl border border-red-500/40 space-y-2">
         <div class="flex justify-between items-center">
           <div class="text-xs font-black text-red-400 uppercase">Dina Pulszoner</div>
@@ -319,6 +320,7 @@
 
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
 
+      <!-- Dina 1RM Base Stats -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-orange-500/40 space-y-3">
         <div class="flex justify-between items-center">
           <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
@@ -358,11 +360,11 @@
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
       2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
       3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknikfokus' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload (Utan väst)' },
       5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
       6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
       7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
-      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka (Lätt)' }
     };
 
     const workoutDays = [
@@ -473,7 +475,7 @@
     // ================= 3. INIT =================
     window.addEventListener('DOMContentLoaded', () => {
       generateIconFile();
-      loadProfile();
+      loadProfile(); // Laddar pulszoner (inkl hrZonesContainer) 
       if (currentWeek > 1 && currentWeek < 8) currentDayKey = 'day1';
       renderWeekPills();
       renderDayPills();
@@ -561,14 +563,7 @@
       renderExercises();
     }
 
-    function openExInfo(idx) {
-      const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
-      const ex = list[idx];
-      const isVar = !!activeVariants[ex.id || idx];
-      const title = isVar && ex.var ? ex.var : ex.std;
-      const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
-      const svgType = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
-
+    function showExerciseInfo(title, infoText, svgType) {
       document.getElementById('exInfoContent').innerHTML = `
         <div class="text-center space-y-4">
           <h3 class="text-xl font-black text-white uppercase tracking-wider">${title}</h3>
@@ -627,6 +622,9 @@
         const isVar = !!activeVariants[ex.id || idx];
         const title = isVar && ex.var ? ex.var : ex.std;
         const altTitle = isVar && ex.var ? ex.std : ex.var;
+        
+        const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
+        const svgImage = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
         const lastLogDate = getLastDateFor(title);
 
         let targetVal = 0;
@@ -638,6 +636,7 @@
 
         let goalLine = ex.isExam ? 'Maxtest.' : '';
         if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg.`;
+        if (currentDayKey === 'day3') goalLine = ''; // För löpning, infon räcker.
 
         let setsHtml = '';
         for (let s = 1; s <= ex.sets; s++) {
@@ -683,7 +682,7 @@
               <div>
                 <div class="flex items-center gap-2">
                   <span class="text-xs font-black uppercase tracking-wider text-[#f97316]">ÖVNING ${idx + 1}</span>
-                  <button onclick="event.stopPropagation(); openExInfo(${idx})" class="text-zinc-500 hover:text-white bg-zinc-800 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
+                  <button onclick="event.stopPropagation(); showExerciseInfo('${title}', '${infoText}', '${svgImage}')" class="text-zinc-500 hover:text-white bg-zinc-800 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
                 </div>
                 <div class="text-[10px] text-zinc-500 mt-0.5 font-mono">Senast loggad: ${lastLogDate}</div>
               </div>
@@ -693,7 +692,7 @@
             <div>
               <h2 class="text-xl font-black text-white leading-snug">${title}</h2>
               <div class="mt-1.5 pl-2.5 border-l-2 border-zinc-600 text-xs italic text-zinc-400">
-                ${goalLine}
+                ${goalLine} ${infoText}
               </div>
             </div>
             <div class="space-y-2 pt-1">${setsHtml}</div>
