@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - NYA ÖVNINGAR & POLICE FITNESS STANDARDS (10 TESTER) -->
+<!-- FRONTLINE FIT - ÅLDERSINTEGRERAD MED DYNAMISKA PULSZONER -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -87,31 +87,30 @@
           FRONTLINE<br>
           <span class="text-[#f97316]">FIT</span>
         </h1>
-        <button onclick="openModal('profileModal')" class="mt-2 flex items-center gap-2 text-xs font-mono text-zinc-400 hover:text-white">
-          <span id="headerWeightHeight">70 KG | 167 CM</span>
+        <button onclick="openModal('profileModal')" class="mt-2 flex items-center gap-2 text-[11px] font-mono text-zinc-400 hover:text-white transition-colors">
+          <span id="headerWeightHeight">41 ÅR | 70 KG | 167 CM</span>
           <span>✏️</span>
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
         </button>
       </div>
 
       <div class="w-[215px] space-y-2">
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="openModal('mobilityModal')" class="bg-[#2563eb] hover:bg-blue-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight shadow-md">
+          <button onclick="openModal('mobilityModal')" class="bg-[#2563eb] hover:bg-blue-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight shadow-md transition-colors">
             <span>🏃 PRE-</span>
             <span>SHIFT</span>
           </button>
-          <button onclick="openModal('breathModal')" class="bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight">
+          <button onclick="openModal('breathModal')" class="bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight transition-colors">
             <span class="text-orange-500 text-sm">🫁</span>
             <span>ANDNING</span>
           </button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5">
+          <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
             <span class="text-orange-500">📈</span>
             <span>STATISTIK</span>
           </button>
-          <!-- NY KNAPP: POLICE STANDARDS -->
-          <button onclick="openModal('standardsModal')" class="w-full bg-[#eab308]/20 hover:bg-[#eab308]/40 border border-[#eab308]/50 text-yellow-500 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5">
+          <button onclick="openModal('standardsModal')" class="w-full bg-[#eab308]/20 hover:bg-[#eab308]/40 border border-[#eab308]/50 text-yellow-500 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
             <span>👮</span>
             <span>STANDARDS</span>
           </button>
@@ -126,7 +125,7 @@
           <span class="text-orange-500">🌙</span>
           <span>Nattpass / Sliten?</span>
         </div>
-        <p class="text-[11px] text-zinc-400 mt-0.5">Sänker vikter med 15% & byter ut max-rusningar mot tempo.</p>
+        <p class="text-[11px] text-zinc-400 mt-0.5">Sänker volym/vikter & skyddar CNS. Optimalt för 40+ återhämtning.</p>
       </div>
       <button onclick="toggleNightMode()" id="nightToggleBtn" class="w-14 h-8 rounded-full bg-zinc-700 p-1 transition-colors duration-200 flex items-center shrink-0">
         <div id="nightToggleKnob" class="w-6 h-6 rounded-full bg-zinc-200 shadow-md transform transition-transform duration-200"></div>
@@ -186,17 +185,17 @@
     </div>
   </div>
 
-  <!-- ================= MODAL: INFO & TEKNIK ================= -->
+  <!-- ================= MODALER ================= -->
+
+  <!-- INFO & TEKNIK -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="max-w-md w-full ff-panel p-6 border-orange-500/50 relative">
+    <div class="max-w-md w-full ff-panel p-6 border-orange-500/50 relative shadow-2xl shadow-orange-500/10">
       <button onclick="closeModal('exInfoModal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-lg font-black">✕</button>
       <div id="exInfoContent" class="space-y-4"></div>
     </div>
   </div>
 
-  <!-- ================= MODALER: STANDARDS, MOBILITY, STATS, ANDNING, PROFIL ================= -->
-
-  <!-- NY MODAL: POLICE FITNESS STANDARDS (Yu Perform) -->
+  <!-- POLICE STANDARDS -->
   <div id="standardsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-yellow-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -208,7 +207,6 @@
       </div>
       <p class="text-[11px] text-zinc-400 italic">"If you can tick off all 10 standards below, you'll be of a solid standard when you get out in the real world."</p>
       
-      <!-- Progress Bar -->
       <div class="space-y-1.5">
         <div class="flex justify-between text-xs font-bold">
           <span class="text-zinc-300">Klarade krav:</span>
@@ -218,13 +216,11 @@
           <div id="stdProgressBar" class="h-full bg-yellow-500 transition-all duration-500 w-0"></div>
         </div>
       </div>
-
-      <div id="standardsChecklist" class="space-y-2.5">
-        <!-- Genereras via JS -->
-      </div>
+      <div id="standardsChecklist" class="space-y-2.5"></div>
     </div>
   </div>
 
+  <!-- MOBILITY -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -238,6 +234,7 @@
     </div>
   </div>
 
+  <!-- STATS & LOGG -->
   <div id="statsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -263,11 +260,12 @@
     </div>
   </div>
 
+  <!-- ANDNING -->
   <div id="breathModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
-    <div class="max-w-md mx-auto ff-panel p-5 space-y-6 my-6">
+    <div class="max-w-md mx-auto ff-panel p-5 space-y-6 my-6 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
         <div>
-          <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">TAKTISK ÅTERHÄMTNING</span>
+          <span class="text-[10px] font-mono uppercase text-blue-400 font-bold">TAKTISK ÅTERHÄMTNING</span>
           <h2 class="text-lg font-black text-white uppercase">🫁 Box Breathing</h2>
         </div>
         <button onclick="closeModal('breathModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
@@ -285,8 +283,9 @@
     </div>
   </div>
 
+  <!-- PROFIL & INSTÄLLNINGAR -->
   <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
-    <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4">
+    <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
         <div>
           <span class="text-[10px] font-mono uppercase text-orange-400 font-bold">OPERATÖRSINSTÄLLNINGAR</span>
@@ -295,20 +294,33 @@
         <button onclick="closeModal('profileModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
 
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
-          <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Kroppsvikt (kg)</label>
-          <input type="text" inputmode="decimal" id="profWeightInput" value="70" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
+      <div class="grid grid-cols-3 gap-2">
+        <div class="bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
+          <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Ålder</label>
+          <input type="text" inputmode="numeric" id="profAgeInput" value="41" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-2 py-1.5 rounded-lg border border-zinc-700 text-center">
         </div>
-        <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+        <div class="bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
+          <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Vikt (kg)</label>
+          <input type="text" inputmode="decimal" id="profWeightInput" value="70" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-2 py-1.5 rounded-lg border border-zinc-700 text-center">
+        </div>
+        <div class="bg-zinc-950 p-2.5 rounded-xl border border-zinc-800">
           <label class="block text-[10px] text-zinc-400 uppercase font-bold mb-1">Längd (cm)</label>
-          <input type="text" inputmode="decimal" id="profHeightInput" value="167" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-3 py-1.5 rounded-lg border border-zinc-700">
+          <input type="text" inputmode="numeric" id="profHeightInput" value="167" onchange="saveProfile()" class="w-full bg-zinc-900 text-white font-black text-lg px-2 py-1.5 rounded-lg border border-zinc-700 text-center">
         </div>
+      </div>
+
+      <!-- Pulszoner (Åldersbaserat Tanaka) -->
+      <div class="p-3.5 bg-zinc-950 rounded-xl border border-red-500/40 space-y-2">
+        <div class="flex justify-between items-center">
+          <div class="text-xs font-black text-red-400 uppercase">Dina Pulszoner</div>
+          <div class="text-[9px] text-zinc-400 uppercase">Tanaka-formeln</div>
+        </div>
+        <div class="grid grid-cols-2 gap-2" id="hrZonesContainer"></div>
       </div>
 
       <div id="kcalSummaryBoxes" class="grid grid-cols-3 gap-2 text-center"></div>
 
-      <!-- Dina 1RM Base Stats med EXAM Datumlogg -->
+      <!-- Dina 1RM Base Stats -->
       <div class="p-4 bg-zinc-950 rounded-xl border border-orange-500/40 space-y-3">
         <div class="flex justify-between items-center">
           <div class="text-xs font-black text-orange-400 uppercase">Ditt Exam Resultat</div>
@@ -321,15 +333,8 @@
         <div class="grid grid-cols-3 gap-2" id="baselineInputsContainer"></div>
       </div>
 
-      <div class="space-y-2 text-xs">
-        <div class="font-black text-emerald-400 uppercase tracking-wider">Kost (2 650 kcal / 161g P)</div>
-        <div class="p-2.5 bg-zinc-950 rounded-xl border border-zinc-800 text-zinc-300">Frukost (600 kcal): 80g havregryn, 2 dl mjölk, 2 ägg, 15g jordnötssmör.</div>
-        <div class="p-2.5 bg-zinc-950 rounded-xl border border-zinc-800 text-zinc-300">Lunch (680 kcal): 150g kyckling, 85g okokt ris, 150g broccoli.</div>
-        <div class="p-2.5 bg-zinc-950 rounded-xl border border-zinc-800 text-zinc-300">Middag (670 kcal): 150g nötfärs, 90g okokt pasta, krossade tomater.</div>
-      </div>
-
       <div class="pt-4 border-t border-zinc-800 space-y-3">
-        <button onclick="startNewCycle()" class="w-full px-4 py-3.5 rounded-xl bg-red-950/50 border border-red-700/60 hover:bg-red-900/60 text-red-400 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+        <button onclick="startNewCycle()" class="w-full px-4 py-3.5 rounded-xl bg-red-950/50 border border-red-700/60 hover:bg-red-900/60 text-red-400 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors">
           <span>🔄</span> STARTA NY 8-VECKORS CYKEL
         </button>
       </div>
@@ -339,7 +344,7 @@
   </div>
 
   <script>
-    // ================= 1. DYNAMISK PROGRESSION & PASSDATA (INKL NYA ÖVNINGAR) =================
+    // ================= 1. DYNAMISK PROGRESSION & PASSDATA =================
     const weeksConfig = [
       { id: 1, label: 'V1 EXAM', mult: 1.0 },
       { id: 2, label: 'VECKA 2', mult: 0.82 },
@@ -355,14 +360,13 @@
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
       2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
       3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknikfokus' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload (Utan väst)' },
       5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
       6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
       7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
-      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka (Lätt)' }
     };
 
-    // Uppdaterade pass med de nya övningarna från bilderna
     const workoutDays = [
       {
         id: 'day1',
@@ -408,10 +412,15 @@
 
     function getDay3Exercises(weekId) {
       const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
+      const age = parseInt(localStorage.getItem('ff_age') || '41');
+      const maxHr = Math.round(208 - (0.7 * age));
+      const z2Low = Math.round(maxHr * 0.6);
+      const z2High = Math.round(maxHr * 0.7);
+
       return [
         { id: 'd3_1', std: 'Full Kit Running', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, stdInfo: `${rp.phaseNote}. "Suspect is known to run". Löpning i full utrustning (väst/säck).`, varInfo: 'Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.', stdSvg: 'sprint', varSvg: 'sprint' },
-        { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, stdInfo: 'Bygger syreupptagning. Håll jämnt måltempo på 800 meter.', varInfo: '4 minuters arbete på 90-95% av maxpuls för att optimera VO2-Max.', stdSvg: 'sprint', varSvg: 'sprint' },
-        { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, stdInfo: 'Zon 2 arbete med bear hug säck. Håll pulsen jämn och bär utrustningen högt.', varInfo: 'Gå raskt med tung ryggsäck. Håll ett tempo där du precis kan föra ett samtal.', stdSvg: 'sprint', varSvg: 'sprint' }
+        { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, stdInfo: `Bygger syreupptagning. Zon 4-5 puls. Håll jämnt måltempo på 800 meter.`, varInfo: `4 minuters arbete på 90-95% av maxpuls för att optimera VO2-Max.`, stdSvg: 'sprint', varSvg: 'sprint' },
+        { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, stdInfo: `Zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck. Håll pulsen jämn och bär utrustningen högt.`, varInfo: `Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM). Optimalt för 40+ återhämtning.`, stdSvg: 'sprint', varSvg: 'sprint' }
       ];
     }
 
@@ -428,7 +437,6 @@
       return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
     }
 
-    // ================= POLICE FITNESS STANDARDS DATA =================
     const policeStandards = [
       { id: 's1', text: 'Run: 3KM under 15 min' },
       { id: 's2', text: 'Sprint: 100M under 16s' },
@@ -944,6 +952,7 @@
     }
 
     function loadProfile() {
+      document.getElementById('profAgeInput').value = localStorage.getItem('ff_age') || '41';
       document.getElementById('profWeightInput').value = localStorage.getItem('ff_weight') || '70';
       document.getElementById('profHeightInput').value = localStorage.getItem('ff_height') || '167';
       saveProfile();
@@ -960,11 +969,25 @@
     }
 
     function saveProfile() {
+      const age = parseInt(document.getElementById('profAgeInput').value) || 41;
       const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
       const h = parseFloat(String(document.getElementById('profHeightInput').value).replace(',', '.')) || 167;
+      
+      localStorage.setItem('ff_age', age);
       localStorage.setItem('ff_weight', w);
       localStorage.setItem('ff_height', h);
-      document.getElementById('headerWeightHeight').textContent = `${w} KG | ${h} CM`;
+      
+      document.getElementById('headerWeightHeight').textContent = `${age} ÅR | ${w} KG | ${h} CM`;
+
+      // Pulszoner (Tanaka)
+      const maxHr = Math.round(208 - (0.7 * age));
+      const z2Low = Math.round(maxHr * 0.6);
+      const z2High = Math.round(maxHr * 0.7);
+
+      document.getElementById('hrZonesContainer').innerHTML = `
+        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Maxpuls</div><div class="font-mono font-bold text-red-400">${maxHr} BPM</div></div>
+        <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Zon 2 (Uthållighet)</div><div class="font-mono font-bold text-red-400">${z2Low}-${z2High} BPM</div></div>
+      `;
 
       const restKcal = Math.round(w * 31);
       const trainKcal = Math.round(w * 38);
@@ -978,7 +1001,7 @@
     }
 
     function startNewCycle() {
-      if(confirm('Starta en ny 8-veckorscykel?\nDina avklarade set nollställs. Din kroppsvikt och dina senast loggade Exam-resultat sparas som baslinje för progressionen.')) {
+      if(confirm('Starta en ny 8-veckorscykel?\nDina avklarade set nollställs. Din ålder, kroppsvikt och senast loggade Exam-resultat sparas som baslinje.')) {
         localStorage.removeItem('ff_checked_sets');
         localStorage.removeItem('ff_custom_inputs');
         checkedSets = {}; customInputs = {};
