@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - RÖD TRÅD, DISCOTRÄNING & TYDLIGA VILOR -->
+<!-- FRONTLINE FIT - INFO & TEKNIK FIXAD -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -30,6 +30,7 @@
 <body class="min-h-screen pb-28">
 
   <div class="max-w-md mx-auto px-4 pt-5 space-y-4">
+    <!-- TOPP-HEADER -->
     <header class="flex items-start justify-between gap-3">
       <div>
         <h1 class="text-3xl font-black tracking-tight leading-none text-white uppercase">
@@ -39,7 +40,6 @@
           <span id="headerWeightHeight">41 ÅR | 70 KG | 167 CM</span><span>✏️</span><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
         </button>
       </div>
-
       <div class="w-[215px] space-y-2">
         <div class="grid grid-cols-2 gap-2">
           <button onclick="openModal('mobilityModal')" class="bg-[#2563eb] hover:bg-blue-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight shadow-md transition-colors">
@@ -60,6 +60,7 @@
       </div>
     </header>
 
+    <!-- NATTPASS -->
     <div class="ff-panel p-4 flex items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-1.5 text-sm font-bold text-white">
@@ -72,20 +73,24 @@
       </button>
     </div>
 
+    <!-- VECKOR & DAGAR -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
     </div>
 
+    <!-- STARTA PASS -->
     <div class="ff-panel p-4">
       <button onclick="toggleWorkoutSession()" id="startPassBtn" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition">
         <span id="startPassIcon">▶</span><span id="startPassBtnText">STARTA PASSET</span>
       </button>
     </div>
 
+    <!-- ÖVNINGAR -->
     <div id="exercisesListContainer" class="space-y-4"></div>
   </div>
 
+  <!-- BOTTENMENY -->
   <div class="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/95 to-transparent pt-3 pb-4 px-4">
     <div class="max-w-md mx-auto flex gap-2">
       <button id="endPassBtn" onclick="endWorkoutSession()" class="hidden w-[30%] bg-red-600 hover:bg-red-500 active:scale-[0.99] text-white font-black text-[11px] uppercase tracking-wider py-3 rounded-xl flex flex-col items-center justify-center shadow-xl transition-all">
@@ -97,6 +102,7 @@
     </div>
   </div>
 
+  <!-- MODALER -->
   <!-- VILOTIMER -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
@@ -116,18 +122,11 @@
     </div>
   </div>
 
-  <!-- YOUTUBE INFO & TEKNIK MODAL -->
+  <!-- INFO & TEKNIK MODAL (SKOTTSÄKER YOUTUBE LÄNK) -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="max-w-md w-full ff-panel border-orange-500/50 relative shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-      <button onclick="closeModal('exInfoModal'); document.getElementById('exMediaContainer').innerHTML=''" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-zinc-200 hover:text-white flex items-center justify-center text-lg font-black backdrop-blur">✕</button>
-      <div id="exMediaContainer" class="w-full bg-black relative border-b border-zinc-800" style="aspect-ratio: 16/9;"></div>
-      <div class="p-5 space-y-3 overflow-y-auto">
-        <div class="space-y-1 border-b border-zinc-800 pb-3">
-          <h3 class="text-xl font-black text-white uppercase tracking-tight" id="exInfoTitle">Titel</h3>
-          <div id="exInfoMuscle" class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Fokus: Muskler</div>
-        </div>
-        <p class="text-sm text-zinc-300 leading-relaxed" id="exInfoDesc">Instruktioner...</p>
-      </div>
+    <div class="max-w-md w-full ff-panel border-orange-500/50 relative shadow-2xl overflow-hidden flex flex-col">
+      <button onclick="closeModal('exInfoModal')" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-zinc-200 hover:text-white flex items-center justify-center text-lg font-black backdrop-blur">✕</button>
+      <div id="exInfoContent" class="w-full"></div>
     </div>
   </div>
 
@@ -308,7 +307,6 @@
       8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800 M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt' }
     };
 
-    // HÄR ÄR DEN NYA STRUKTUREN FÖR UNIKA VARIANTER (RÖD TRÅD) OCH MER DISCO!
     const workoutDays = [
       {
         id: 'day1',
@@ -426,7 +424,6 @@
       }
     ];
 
-    // Löpning (Dag 3) är dynamisk
     function getDay3Exercises(weekId) {
       const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
       const age = parseInt(localStorage.getItem('ff_age') || '41');
@@ -437,18 +434,18 @@
       return [
         {
           id: 'd3_1', polarType: 'hill',
-          std: { name: 'Full Kit Running (Väst/Säck)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, baseKg: rp.hillKg, unit: 'KG', info: `VILA: Gå lugnt nerför backen. Din nerjogg är din vila (ca 90 sek) innan du exploderar upp igen. ${rp.phaseNote}.`, muscle: 'Kondition & Bål', vid: 'XvJd1f8N-R8', svg: 'sprint' },
-          var: { name: 'Sprints (Maxfart)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, baseKg: 0, unit: 'METER', info: `VILA: Aktiv gång i ca ${rp.hillRest} sekunder. Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.`, muscle: 'Anaerob', vid: 'XvJd1f8N-R8', svg: 'sprint' }
+          std: { name: 'Full Kit Running (Väst)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, baseKg: rp.hillKg, unit: 'KG', info: `VILA: Gå lugnt nerför backen (ca 90 sek). ${rp.phaseNote}.`, muscle: 'Kondition & Bål', vid: 'XvJd1f8N-R8', svg: 'sprint' },
+          var: { name: 'Sprints (Maxfart)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, baseKg: 0, unit: 'METER', info: `VILA: Aktiv gång i ca ${rp.hillRest} sekunder. Flack maxsprint. Ge 100% från första steget.`, muscle: 'Anaerob', vid: 'XvJd1f8N-R8', svg: 'sprint' }
         },
         {
           id: 'd3_2', polarType: 'yasso',
-          std: { name: 'Yasso 800m', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, baseKg: 0, unit: 'MIN', info: `VILA: Aktiv vila (jogg/gång) exakt lika länge som din intervall tog. (Tog intervallen 3:30 min, vilar du i 3:30 min). Zon 4-5 puls.`, muscle: 'VO2 Max', vid: 'Cbq56gq_I8A', svg: 'sprint' },
-          var: { name: '4x4 min Intervall', sets: rp.yassoSets, reps: '4 MIN', rest: rp.yassoRest, baseKg: 0, unit: 'METER', info: `VILA: Exakt ${rp.yassoRest} sekunder aktiv gång. Arbete: 4 minuter på 90-95% av maxpuls för att optimera VO2-Max.`, muscle: 'VO2 Max', vid: 'Cbq56gq_I8A', svg: 'sprint' }
+          std: { name: 'Yasso 800m', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, baseKg: 0, unit: 'MIN', info: `VILA: Aktiv vila (jogg/gång) lika länge som din intervall tog. Zon 4-5 puls.`, muscle: 'VO2 Max', vid: 'Cbq56gq_I8A', svg: 'sprint' },
+          var: { name: '4x4 min Intervall', sets: rp.yassoSets, reps: '4 MIN', rest: rp.yassoRest, baseKg: 0, unit: 'METER', info: `VILA: Exakt ${rp.yassoRest} sekunder aktiv gång. 90-95% av maxpuls.`, muscle: 'VO2 Max', vid: 'Cbq56gq_I8A', svg: 'sprint' }
         },
         {
           id: 'd3_3', polarType: 'rucking',
-          std: { name: 'Cardiac Output', sets: 1, reps: rp.cardioMin, rest: 60, baseKg: rp.cardioKg, unit: 'KG', info: `VILA: Ingen. Kontinuerligt zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck. Håll pulsen jämn och bär utrustningen högt.`, muscle: 'Uthållighet', vid: 'q0nFks13M_M', svg: 'sprint' },
-          var: { name: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, baseKg: rp.cardioKg, unit: 'KG', info: `VILA: Ingen. Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM). Optimalt för 40+ återhämtning.`, muscle: 'Uthållighet', vid: 'q0nFks13M_M', svg: 'sprint' }
+          std: { name: 'Cardiac Output', sets: 1, reps: rp.cardioMin, rest: 60, baseKg: rp.cardioKg, unit: 'KG', info: `VILA: Ingen. Kontinuerligt zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck.`, muscle: 'Uthållighet', vid: 'q0nFks13M_M', svg: 'sprint' },
+          var: { name: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, baseKg: rp.cardioKg, unit: 'KG', info: `VILA: Ingen. Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM).`, muscle: 'Uthållighet', vid: 'q0nFks13M_M', svg: 'sprint' }
         }
       ];
     }
@@ -555,7 +552,7 @@
       playBeep(660, 0.08); renderExercises();
     }
 
-    // --- YOUTUBE SÖK-LÄNK & SVG-IKON ---
+    // --- INFOKNAPP (FIXAD FÖR NESTED DATA) ---
     function openExInfo(idx) {
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       const ex = list[idx];
@@ -639,7 +636,6 @@
         const isCurrent = idx === activeExerciseIdx;
         const isVar = !!activeVariants[ex.id || idx];
         
-        // Hämta RÄTT objekt beroende på om variant är vald
         const activeEx = isVar ? ex.var : ex.std;
         const altEx = isVar ? ex.std : ex.var;
 
