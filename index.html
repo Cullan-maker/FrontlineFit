@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - SKOTTSÄKER YOUTUBE-LÄNK & SVG-IKONER -->
+<!-- FRONTLINE FIT - RÖD TRÅD, DISCOTRÄNING & TYDLIGA VILOR -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -30,7 +30,6 @@
 <body class="min-h-screen pb-28">
 
   <div class="max-w-md mx-auto px-4 pt-5 space-y-4">
-    <!-- TOPP-HEADER -->
     <header class="flex items-start justify-between gap-3">
       <div>
         <h1 class="text-3xl font-black tracking-tight leading-none text-white uppercase">
@@ -51,7 +50,7 @@
           </button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
+          <button onclick="openModal('statsModal')" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
             <span class="text-orange-500">📈</span><span>STATISTIK</span>
           </button>
           <button onclick="openModal('standardsModal')" class="w-full bg-[#eab308]/20 hover:bg-[#eab308]/40 border border-[#eab308]/50 text-yellow-500 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
@@ -61,7 +60,6 @@
       </div>
     </header>
 
-    <!-- NATTPASS -->
     <div class="ff-panel p-4 flex items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-1.5 text-sm font-bold text-white">
@@ -74,24 +72,20 @@
       </button>
     </div>
 
-    <!-- VECKOR & DAGAR -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
     </div>
 
-    <!-- STARTA PASS -->
     <div class="ff-panel p-4">
       <button onclick="toggleWorkoutSession()" id="startPassBtn" class="w-full bg-[#f97316] hover:bg-orange-500 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 transition">
         <span id="startPassIcon">▶</span><span id="startPassBtnText">STARTA PASSET</span>
       </button>
     </div>
 
-    <!-- ÖVNINGAR -->
     <div id="exercisesListContainer" class="space-y-4"></div>
   </div>
 
-  <!-- BOTTENMENY -->
   <div class="fixed bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/95 to-transparent pt-3 pb-4 px-4">
     <div class="max-w-md mx-auto flex gap-2">
       <button id="endPassBtn" onclick="endWorkoutSession()" class="hidden w-[30%] bg-red-600 hover:bg-red-500 active:scale-[0.99] text-white font-black text-[11px] uppercase tracking-wider py-3 rounded-xl flex flex-col items-center justify-center shadow-xl transition-all">
@@ -103,7 +97,6 @@
     </div>
   </div>
 
-  <!-- MODALER -->
   <!-- VILOTIMER -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
@@ -123,11 +116,18 @@
     </div>
   </div>
 
-  <!-- INFO & TEKNIK MODAL (SKOTTSÄKER YOUTUBE LÄNK) -->
+  <!-- YOUTUBE INFO & TEKNIK MODAL -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="max-w-md w-full ff-panel border-orange-500/50 relative shadow-2xl overflow-hidden flex flex-col">
-      <button onclick="closeModal('exInfoModal')" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-zinc-200 hover:text-white flex items-center justify-center text-lg font-black backdrop-blur">✕</button>
-      <div id="exInfoContent" class="w-full"></div>
+    <div class="max-w-md w-full ff-panel border-orange-500/50 relative shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <button onclick="closeModal('exInfoModal'); document.getElementById('exMediaContainer').innerHTML=''" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-zinc-200 hover:text-white flex items-center justify-center text-lg font-black backdrop-blur">✕</button>
+      <div id="exMediaContainer" class="w-full bg-black relative border-b border-zinc-800" style="aspect-ratio: 16/9;"></div>
+      <div class="p-5 space-y-3 overflow-y-auto">
+        <div class="space-y-1 border-b border-zinc-800 pb-3">
+          <h3 class="text-xl font-black text-white uppercase tracking-tight" id="exInfoTitle">Titel</h3>
+          <div id="exInfoMuscle" class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Fokus: Muskler</div>
+        </div>
+        <p class="text-sm text-zinc-300 leading-relaxed" id="exInfoDesc">Instruktioner...</p>
+      </div>
     </div>
   </div>
 
@@ -193,7 +193,7 @@
       </div>
       <div class="flex items-center justify-between">
         <span class="text-xs text-zinc-400">Välj upp till 5 övningar:</span>
-        <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs font-bold text-orange-400">⬇️️ CSV-Export</button>
+        <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs font-bold text-orange-400">⬇️ CSV-Export</button>
       </div>
       <div id="chartFilterContainer" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-zinc-950 rounded-xl border border-zinc-800"></div>
       <div class="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
@@ -298,59 +298,135 @@
     ];
 
     const runningProgressionByWeek = {
-      1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
-      2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
-      3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknik' },
-      5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
-      6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
-      7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
-      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt' }
+      1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800 M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
+      2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800 M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
+      3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800 M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800 M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknik' },
+      5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800 M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
+      6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800 M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
+      7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800 M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800 M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt' }
     };
 
+    // HÄR ÄR DEN NYA STRUKTUREN FÖR UNIKA VARIANTER (RÖD TRÅD) OCH MER DISCO!
     const workoutDays = [
       {
         id: 'day1',
         name: 'DAG 1: UNDERKROPP',
         exercises: [
-          { id: 'd1_1', std: 'Zercher Squat', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 75, stdInfo: 'Carry anyone or anything. Håll stången i armvecken. Stark bål, gå djupt.', varInfo: 'Klassisk knäböj med stången på nacken. Fullt djup och stark bål.', stdMuscle: 'Framsida lår & Bål', varMuscle: 'Framsida lår & Säte', stdSvg: 'squat', varSvg: 'squat' },
-          { id: 'd1_2', std: 'Split Squats', var: 'Kneeling Jumps', sets: 3, reps: '8/BEN', rest: 90, baseKg: 40, stdInfo: 'Big, strong & resilient legs. Håll hantlar, kliv fram och sänk knät djupt.', varInfo: 'Explosivt upphopp från knästående till jämfota landning. Ren höftkraft.', stdMuscle: 'Ben & Balans', varMuscle: 'Höftexplosivitet', stdSvg: 'squat', varSvg: 'sprint' },
-          { id: 'd1_3', std: 'Utfallssteg (Väst)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, stdInfo: 'Sandsäck på axlarna. Skyddar knän och bygger stabilitet för benen.', varInfo: 'Rumänska marklyft med skivstång. Håll benen lätt böjda och fäll i höften.', stdMuscle: 'Ben & Säte', varMuscle: 'Baksida lår & Ländrygg', stdSvg: 'squat', varSvg: 'pull' },
-          { id: 'd1_4', std: 'Triple Broad Jumps', var: 'Sled Push/Pull', sets: 4, reps: '3 HOPP', rest: 90, baseKg: 0, stdInfo: 'Tre maxlängdhopp i sträck. Landa och studsa iväg direkt utan vila.', varInfo: 'Skjut och dra släde 15m (Kroppsvikt + släde). Bygger ren benpower.', stdMuscle: 'Spänst', varMuscle: 'Helkropp kondition', stdSvg: 'sprint', varSvg: 'pull' },
-          { id: 'd1_5', std: 'Plankan (Väst)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, stdInfo: 'Stärk bålpansaret mot en yttre belastning.', varInfo: 'Rulla ut hjulet kontrollerat tills näsan nuddar golvet. Dra tillbaka med magen.', stdMuscle: 'Bål', varMuscle: 'Core', stdSvg: 'press', varSvg: 'press' }
+          {
+            id: 'd1_1',
+            std: { name: 'Zercher Squat', sets: 4, reps: '5 REPS', rest: 120, baseKg: 75, unit: 'KG', info: 'Håll stången i armvecken. Gå djupt.', muscle: 'Framsida lår & Bål', vid: 'U2OKweR-N-g', svg: 'squat' },
+            var: { name: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 85, unit: 'KG', info: 'Klassisk knäböj med stången på nacken.', muscle: 'Framsida lår & Säte', vid: 'bEv6CCg2BC8', svg: 'squat' }
+          },
+          {
+            id: 'd1_2',
+            std: { name: 'Split Squats', sets: 3, reps: '8/BEN', rest: 90, baseKg: 40, unit: 'KG', info: 'Håll hantlar, kliv fram och sänk knät djupt.', muscle: 'Ben & Balans', vid: '-M4-G8p8fmc', svg: 'squat' },
+            var: { name: 'Kneeling Jumps', sets: 5, reps: '3 REPS', rest: 90, baseKg: 0, unit: 'REPS', info: 'Explosivt upphopp från knästående till jämfota landning.', muscle: 'Höftexplosivitet', vid: '0B-p6O-n0tA', svg: 'sprint' }
+          },
+          {
+            id: 'd1_3',
+            std: { name: 'Utfallssteg (Väst)', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, unit: 'KG', info: 'Sandsäck på axlarna. Bygger stabilitet för benen.', muscle: 'Ben & Säte', vid: 'L8fvypPrzzs', svg: 'squat' },
+            var: { name: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 60, unit: 'KG', info: 'Rumänska marklyft med skivstång. Fäll i höften.', muscle: 'Baksida lår & Ländrygg', vid: 'JCXUYuzwNrM', svg: 'pull' }
+          },
+          {
+            id: 'd1_4',
+            std: { name: 'Triple Broad Jumps', sets: 4, reps: '3 HOPP', rest: 90, baseKg: 0, unit: 'METER', info: 'Tre maxlängdhopp i sträck. Landa och studsa direkt.', muscle: 'Spänst', vid: '_QZ352o02hY', svg: 'sprint' },
+            var: { name: 'Sled Push/Pull', sets: 4, reps: '15 METER', rest: 90, baseKg: 100, unit: 'KG', info: 'Skjut och dra släde 15m. Bygger ren benpower.', muscle: 'Kondition & Ben', vid: 'tX21UDB86aI', svg: 'pull' }
+          },
+          {
+            id: 'd1_5',
+            std: { name: 'Plankan (Väst)', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, unit: 'KG', info: 'Stärk bålpansaret mot en yttre belastning.', muscle: 'Bål', vid: 'ASdvN_XEl_c', svg: 'press' },
+            var: { name: 'Ab-Wheel Rollouts', sets: 3, reps: '10 REPS', rest: 60, baseKg: 0, unit: 'REPS', info: 'Rulla ut hjulet kontrollerat. Dra tillbaka med magen.', muscle: 'Core', vid: 'rq8nMFAYf8M', svg: 'press' }
+          }
         ]
       },
       {
         id: 'day2',
-        name: 'DAG 2: ÖVERKROPP',
+        name: 'DAG 2: ÖVERKROPP & DISCO',
         exercises: [
-          { id: 'd2_1', std: 'Power Clean + Jerk', var: 'Push Press', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, stdInfo: 'Explosive & powerful. Frivändning följt av en stöt över huvudet.', varInfo: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', stdMuscle: 'Helkropp Power', varMuscle: 'Axlar & Bål', stdSvg: 'pull', varSvg: 'press' },
-          { id: 'd2_2', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, stdInfo: 'Häng två handdukar över stången och dra upp bröstkorgen. Extrem greppträning.', varInfo: 'Fäst en vikt i bältet eller kläm en hantel mellan fötterna. Haka över stången.', stdMuscle: 'Rygg & Grepp', varMuscle: 'Lats & Biceps', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'd2_3', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, stdInfo: 'Dips i ställning med väst. Fullt djup (90 grader i armbågen).', varInfo: 'Häng på extra vikt. Luta lätt framåt för att koppla in bröstet mer.', stdMuscle: 'Triceps & Bröst', varMuscle: 'Nedre bröst', stdSvg: 'press', varSvg: 'press' },
-          { id: 'd2_4', std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, stdInfo: 'Isolerande bröstövning i dragmaskin för full kontraktion.', varInfo: 'Klassisk bänkpress. Plantera fötterna, brösta upp dig och pressa.', stdMuscle: 'Bröst', varMuscle: 'Bröst & Triceps', stdSvg: 'press', varSvg: 'press' },
-          { id: 'd2_5', std: 'Bicep Curls', var: 'BB Rows', sets: 3, reps: '10 REPS', rest: 60, baseKg: 30, stdInfo: 'Develop massive guns, build presence. Klassiska curls med hantel eller stång.', varInfo: 'Framåtlutad skivstångsrodd. Dra stången mot naveln med armbågarna nära kroppen.', stdMuscle: 'Biceps', varMuscle: 'Bröstrygg & Lats', stdSvg: 'pull', varSvg: 'pull' }
+          {
+            id: 'd2_1',
+            std: { name: 'Power Clean + Jerk', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, unit: 'KG', info: 'Frivändning följt av en stöt över huvudet.', muscle: 'Helkropp Power', vid: '8wtJzG_tIWE', svg: 'pull' },
+            var: { name: 'Push Press', sets: 4, reps: '5 REPS', rest: 120, baseKg: 55, unit: 'KG', info: 'Driv med benen för att få upp stången. Spänn magen.', muscle: 'Axlar & Bål', vid: 'X6-DMh-t4Wg', svg: 'press' }
+          },
+          {
+            id: 'd2_2',
+            std: { name: 'Handduks-Pullups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 0, unit: 'REPS', info: 'Häng två handdukar över stången. Extrem greppträning.', muscle: 'Rygg & Grepp', vid: 's6bKUXxGkU8', svg: 'pull' },
+            var: { name: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 15, unit: 'KG', info: 'Fäst en vikt i bältet eller kläm en hantel mellan fötterna.', muscle: 'Lats & Biceps', vid: 'eGo4IYPNBG4', svg: 'pull' }
+          },
+          {
+            id: 'd2_3',
+            std: { name: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, unit: 'KG', info: 'Dips med väst/bälte. Fullt djup (90 grader).', muscle: 'Triceps & Bröst', vid: '2z8JmcrW-As', svg: 'press' },
+            var: { name: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, unit: 'KG', info: 'Klassisk bänkpress. Plantera fötterna, pressa.', muscle: 'Bröst & Triceps', vid: '4Y2ZdHCOXok', svg: 'press' }
+          },
+          {
+            id: 'd2_4',
+            std: { name: 'Cable Cross', sets: 4, reps: '10 REPS', rest: 90, baseKg: 20, unit: 'KG', info: 'Isolerande bröstövning i dragmaskin för full kontraktion.', muscle: 'Bröst', vid: 'taI4XduLpTk', svg: 'press' },
+            var: { name: 'Incline DB Press', sets: 4, reps: '8 REPS', rest: 90, baseKg: 30, unit: 'KG', info: 'Hantelpress på lutande bänk för övre delen av bröstet.', muscle: 'Övre Bröst', vid: '8iPEnn-ltC8', svg: 'press' }
+          },
+          {
+            id: 'd2_5',
+            std: { name: 'Bicep Curls', sets: 3, reps: '10 REPS', rest: 60, baseKg: 30, unit: 'KG', info: 'Klassiska curls med stång. Håll emot på vägen ner.', muscle: 'Biceps', vid: 'in7PaeYlhrM', svg: 'pull' },
+            var: { name: 'Hammer Curls', sets: 3, reps: '10 REPS', rest: 60, baseKg: 15, unit: 'KG', info: 'Hantelcurls med neutralt grepp. Bygger underarmar och brachialis.', muscle: 'Biceps & Underarm', vid: 'zC3nLlEvin4', svg: 'pull' }
+          },
+          {
+            id: 'd2_6',
+            std: { name: 'Triceps Pushdowns', sets: 3, reps: '12 REPS', rest: 60, baseKg: 25, unit: 'KG', info: 'Pressa repet rakt ner i maskinen. Lås överarmarna vid sidan.', muscle: 'Triceps', vid: '2-LAMcpzODU', svg: 'press' },
+            var: { name: 'Skullcrushers', sets: 3, reps: '12 REPS', rest: 60, baseKg: 25, unit: 'KG', info: 'Ligg på bänk med EZ-stång. Sänk mot pannan och pressa upp.', muscle: 'Triceps', vid: 'd_KZxkY_0cM', svg: 'press' }
+          },
+          {
+            id: 'd2_7',
+            std: { name: 'Lateral Raises', sets: 3, reps: '12 REPS', rest: 60, baseKg: 10, unit: 'KG', info: 'Sidolyft med hantlar för runda, breda axlar.', muscle: 'Mellersta Axeln', vid: '3VcKaXpzqRo', svg: 'pull' },
+            var: { name: 'Face Pulls', sets: 3, reps: '12 REPS', rest: 60, baseKg: 20, unit: 'KG', info: 'Dra repet mot ansiktet och separera händerna. Extremt bra för hållning.', muscle: 'Baksida Axel', vid: 'V8d6XpoigMg', svg: 'pull' }
+          }
         ]
       },
       {
         id: 'day4',
         name: 'DAG 4: 911STRONG',
         exercises: [
-          { id: 'd4_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, stdInfo: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen snarare än att dra med ryggen.', varInfo: 'Develop maximal strength. Konventionellt marklyft med rak stång.', stdMuscle: 'Ben & Rygg', varMuscle: 'Baksida kedja', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'd4_2', std: 'Single Arm Carry', var: 'Farmers Walk', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, stdInfo: 'Protects your spine, skull-drag resistive. Bär en tung väska/hantel i ena handen.', varInfo: 'Bär tunga vikter i båda händerna med stolt hållning och korta, snabba steg.', stdMuscle: 'Sned Bål & Grepp', varMuscle: 'Grepp & Uthållighet', stdSvg: 'pull', varSvg: 'sprint' },
-          { id: 'd4_3', std: 'Sandbag Shouldering', var: 'Power Cleans', sets: 4, reps: '4 REPS', rest: 120, baseKg: 50, stdInfo: 'Lyft en tung sandsäck från golvet upp över ena axeln. Byt axel varje rep.', varInfo: 'Explosiv höftsträckning, accelerera stången och fånga mjukt på axlarna.', stdMuscle: 'Helkropp', varMuscle: 'Höftextension', stdSvg: 'pull', varSvg: 'pull' }
+          {
+            id: 'd4_1',
+            std: { name: 'Trap Bar Marklyft', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, unit: 'KG', info: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen.', muscle: 'Ben & Rygg', vid: '_0RIsr0rY18', svg: 'pull' },
+            var: { name: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, unit: 'KG', info: 'Konventionellt marklyft med rak stång.', muscle: 'Baksida kedja', vid: 'vl5bviNsOwY', svg: 'pull' }
+          },
+          {
+            id: 'd4_2',
+            std: { name: 'Farmers Walk', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, unit: 'KG', info: 'Bär tunga vikter i båda händerna med stolt hållning.', muscle: 'Grepp & Uthållighet', vid: 'FkGz1Qv0e3Q', svg: 'sprint' },
+            var: { name: 'Single Arm Carry', sets: 4, reps: '40 METER', rest: 90, baseKg: 24, unit: 'KG', info: 'Bär en tung väska/hantel i enbart ena handen för att tvinga bålen att jobba asymmetriskt.', muscle: 'Sned Bål & Grepp', vid: 'vVj50ZlUe7s', svg: 'pull' }
+          },
+          {
+            id: 'd4_3',
+            std: { name: 'Sandbag Shouldering', sets: 4, reps: '4 REPS', rest: 120, baseKg: 50, unit: 'KG', info: 'Lyft en tung sandsäck från golvet upp över ena axeln. Byt axel varje rep.', muscle: 'Helkropp', vid: 'jT8sQk5Hn1g', svg: 'pull' },
+            var: { name: 'Power Cleans', sets: 4, reps: '4 REPS', rest: 120, baseKg: 60, unit: 'KG', info: 'Explosiv höftsträckning, accelerera stången och fånga mjukt på axlarna.', muscle: 'Höftextension', vid: 'mRomeZAepOo', svg: 'pull' }
+          }
         ]
       },
       {
         id: 'exam',
         name: 'EXAM / TESTPASS',
         exercises: [
-          { id: 'e_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', stdInfo: 'Maxtest Trap Bar. Målet är 2x kroppsvikt. Detta styr progressionen framåt.', varInfo: 'Maxtest konventionellt marklyft. Målet är 2x kroppsvikt.', stdMuscle: 'Maxstyrka', varMuscle: 'Maxstyrka', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'e_2', std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK / CM', rest: 120, isExam: true, examType: 'sprint', stdInfo: 'Målet är max 16 sekunder på 100 meter.', varInfo: 'Maxtest i längd. Tre jämfotahopp i rad, mät total sträcka.', stdMuscle: 'Maxfart', varMuscle: 'Maxspänst', stdSvg: 'sprint', varSvg: 'sprint' },
-          { id: 'e_3', std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', stdInfo: 'Jämfotahopp på låda. Målet är att klara 50% av din kroppslängd i höjd.', varInfo: 'Maxtest från knästående. Hoppa jämfota upp på högsta möjliga låda.', stdMuscle: 'Vertikal Spänst', varMuscle: 'Höftexplosivitet', stdSvg: 'sprint', varSvg: 'sprint' }
+          {
+            id: 'e_1', isExam: true, examType: 'trapbar',
+            std: { name: 'Trap Bar Marklyft', sets: 1, reps: '1RM', rest: 150, baseKg: 0, unit: 'KG', info: 'Maxtest Trap Bar. Målet är 2x kroppsvikt. Detta styr progressionen framåt.', muscle: 'Maxstyrka', vid: '_0RIsr0rY18', svg: 'pull' },
+            var: { name: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, baseKg: 0, unit: 'KG', info: 'Maxtest konventionellt marklyft. Målet är 2x kroppsvikt.', muscle: 'Maxstyrka', vid: 'vl5bviNsOwY', svg: 'pull' }
+          },
+          {
+            id: 'e_2', isExam: true, examType: 'sprint',
+            std: { name: 'Sprint 100 m', sets: 1, reps: '100 M', rest: 120, baseKg: 16, unit: 'SEK', info: 'Målet är max 16 sekunder på 100 meter.', muscle: 'Maxfart', vid: '_QZ352o02hY', svg: 'sprint' },
+            var: { name: 'Triple Broad Jumps', sets: 1, reps: '3 HOPP', rest: 120, baseKg: 0, unit: 'CM', info: 'Maxtest i längd. Tre jämfotahopp i rad, mät total sträcka.', muscle: 'Maxspänst', vid: '_QZ352o02hY', svg: 'sprint' }
+          },
+          {
+            id: 'e_3', isExam: true, examType: 'boxjump',
+            std: { name: 'Boxhopp', sets: 1, reps: '1 HOPP', rest: 90, baseKg: 0, unit: 'CM', info: 'Jämfotahopp på låda. Målet är att klara 50% av din kroppslängd i höjd.', muscle: 'Vertikal Spänst', vid: '52r_Ul5k03g', svg: 'sprint' },
+            var: { name: 'Kneeling Jumps', sets: 1, reps: '1 HOPP', rest: 90, baseKg: 0, unit: 'CM', info: 'Maxtest från knästående. Hoppa jämfota upp på högsta möjliga låda.', muscle: 'Höftexplosivitet', vid: '0B-p6O-n0tA', svg: 'sprint' }
+          }
         ]
       }
     ];
 
+    // Löpning (Dag 3) är dynamisk
     function getDay3Exercises(weekId) {
       const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
       const age = parseInt(localStorage.getItem('ff_age') || '41');
@@ -359,9 +435,21 @@
       const z2High = Math.round(maxHr * 0.7);
 
       return [
-        { id: 'd3_1', polarType: 'hill', std: 'Full Kit Running', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, stdInfo: `${rp.phaseNote}. Suspect is known to run. Löpning i full utrustning (väst/säck).`, varInfo: 'Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.', stdMuscle: 'Kondition & Bål', varMuscle: 'Anaerob', stdSvg: 'sprint', varSvg: 'sprint' },
-        { id: 'd3_2', polarType: 'yasso', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, stdInfo: `Bygger syreupptagning. Zon 4-5 puls. Håll jämnt måltempo på 800 meter.`, varInfo: `4 minuters arbete på 90-95% av maxpuls för att optimera VO2-Max.`, stdMuscle: 'VO2 Max', varMuscle: 'VO2 Max', stdSvg: 'sprint', varSvg: 'sprint' },
-        { id: 'd3_3', polarType: 'rucking', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, stdInfo: `Zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck. Håll pulsen jämn och bär utrustningen högt.`, varInfo: `Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM). Optimalt för 40+ återhämtning.`, stdMuscle: 'Uthållighet', varMuscle: 'Uthållighet', stdSvg: 'sprint', varSvg: 'sprint' }
+        {
+          id: 'd3_1', polarType: 'hill',
+          std: { name: 'Full Kit Running (Väst/Säck)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, baseKg: rp.hillKg, unit: 'KG', info: `VILA: Gå lugnt nerför backen. Din nerjogg är din vila (ca 90 sek) innan du exploderar upp igen. ${rp.phaseNote}.`, muscle: 'Kondition & Bål', vid: 'XvJd1f8N-R8', svg: 'sprint' },
+          var: { name: 'Sprints (Maxfart)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, baseKg: 0, unit: 'METER', info: `VILA: Aktiv gång i ca ${rp.hillRest} sekunder. Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.`, muscle: 'Anaerob', vid: 'XvJd1f8N-R8', svg: 'sprint' }
+        },
+        {
+          id: 'd3_2', polarType: 'yasso',
+          std: { name: 'Yasso 800m', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, baseKg: 0, unit: 'MIN', info: `VILA: Aktiv vila (jogg/gång) exakt lika länge som din intervall tog. (Tog intervallen 3:30 min, vilar du i 3:30 min). Zon 4-5 puls.`, muscle: 'VO2 Max', vid: 'Cbq56gq_I8A', svg: 'sprint' },
+          var: { name: '4x4 min Intervall', sets: rp.yassoSets, reps: '4 MIN', rest: rp.yassoRest, baseKg: 0, unit: 'METER', info: `VILA: Exakt ${rp.yassoRest} sekunder aktiv gång. Arbete: 4 minuter på 90-95% av maxpuls för att optimera VO2-Max.`, muscle: 'VO2 Max', vid: 'Cbq56gq_I8A', svg: 'sprint' }
+        },
+        {
+          id: 'd3_3', polarType: 'rucking',
+          std: { name: 'Cardiac Output', sets: 1, reps: rp.cardioMin, rest: 60, baseKg: rp.cardioKg, unit: 'KG', info: `VILA: Ingen. Kontinuerligt zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck. Håll pulsen jämn och bär utrustningen högt.`, muscle: 'Uthållighet', vid: 'q0nFks13M_M', svg: 'sprint' },
+          var: { name: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, baseKg: rp.cardioKg, unit: 'KG', info: `VILA: Ingen. Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM). Optimalt för 40+ återhämtning.`, muscle: 'Uthållighet', vid: 'q0nFks13M_M', svg: 'sprint' }
+        }
       ];
     }
 
@@ -403,7 +491,7 @@
     let checkedSets = JSON.parse(localStorage.getItem('ff_checked_sets') || '{}');
     let customInputs = JSON.parse(localStorage.getItem('ff_custom_inputs') || '{}');
     let logs = JSON.parse(localStorage.getItem('ff_logs') || '{}');
-    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Zercher Squat","Bänkpress"]');
+    let chartSelected = JSON.parse(localStorage.getItem('ff_chart_sel') || '["Trap Bar Marklyft","Zercher Squat","Bench Press"]');
     let userStandards = JSON.parse(localStorage.getItem('ff_standards') || '{}');
     let chartInstance = null;
 
@@ -472,10 +560,12 @@
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       const ex = list[idx];
       const isVar = !!activeVariants[ex.id || idx];
-      const title = isVar && ex.var ? ex.var : ex.std;
-      const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
-      const svgType = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
-      const muscle = isVar && ex.varMuscle ? ex.varMuscle : (ex.stdMuscle || 'Helkropp');
+      
+      const activeEx = isVar ? ex.var : ex.std;
+      const title = activeEx.name;
+      const infoText = activeEx.info;
+      const svgType = activeEx.svg;
+      const muscle = activeEx.muscle;
       
       const searchTitle = encodeURIComponent(title + ' exercise form');
       const ytLink = `https://www.youtube.com/results?search_query=${searchTitle}`;
@@ -548,24 +638,28 @@
       container.innerHTML = list.map((ex, idx) => {
         const isCurrent = idx === activeExerciseIdx;
         const isVar = !!activeVariants[ex.id || idx];
-        const title = isVar && ex.var ? ex.var : ex.std;
-        const altTitle = isVar && ex.var ? ex.std : ex.var;
-        const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
+        
+        // Hämta RÄTT objekt beroende på om variant är vald
+        const activeEx = isVar ? ex.var : ex.std;
+        const altEx = isVar ? ex.std : ex.var;
+
+        const title = activeEx.name;
+        const infoText = activeEx.info;
         const lastLogDate = getLastDateFor(title);
 
         let targetVal = 0;
         if (ex.isExam && ex.examType === 'trapbar') targetVal = Math.round(weight * 2);
         else if (ex.isExam && ex.examType === 'sprint') targetVal = 16;
         else if (ex.isExam && ex.examType === 'boxjump') targetVal = Math.round(height * 0.5);
-        else if (ex.fixedKg !== undefined) targetVal = nightMode ? Math.round(ex.fixedKg * 0.85) : ex.fixedKg;
-        else if (ex.baseKg > 0) targetVal = Math.round((ex.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
+        else if (activeEx.baseKg === 0) targetVal = 0;
+        else targetVal = Math.round((activeEx.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
 
         let goalLine = ex.isExam ? 'Maxtest.' : '';
-        if (!ex.isExam && targetVal > 0) goalLine = `Riktvikt: ${targetVal} kg.`;
+        if (!ex.isExam && targetVal > 0) goalLine = `Mål: ${targetVal} ${activeEx.unit}.`;
         if (currentDayKey === 'day3') goalLine = ''; 
 
         let setsHtml = '';
-        for (let s = 1; s <= ex.sets; s++) {
+        for (let s = 1; s <= activeEx.sets; s++) {
           const setKey = `w${currentWeek}_${currentDayKey}_${ex.id||idx}_s${s}_${title}`;
           const isChecked = !!checkedSets[setKey];
 
@@ -573,11 +667,11 @@
           if (ex.isExam && ex.examType === 'trapbar') calcDefault = savedTrap || Math.round(weight * 2);
           else if (ex.isExam && ex.examType === 'sprint') calcDefault = user1RMs['sprint'] || 16;
           else if (ex.isExam && ex.examType === 'boxjump') calcDefault = user1RMs['boxjump'] || Math.round(height * 0.5);
-          else if (ex.fixedKg !== undefined) calcDefault = nightMode ? Math.round(ex.fixedKg * 0.85) : ex.fixedKg;
-          else if (ex.baseKg > 0) calcDefault = Math.round((ex.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
+          else if (activeEx.baseKg === 0) calcDefault = 0;
+          else calcDefault = Math.round((activeEx.baseKg * (weight/70) * powerFactor * weekObj.mult * nightMult) / 2.5) * 2.5;
 
           const displayVal = customInputs[setKey] !== undefined ? customInputs[setKey] : calcDefault;
-          const repLabel = nightMode && (ex.reps === '1RM' || ex.reps === '30S MAX') ? 'TEMPO' : ex.reps;
+          const repLabel = nightMode && (activeEx.reps === '1RM' || activeEx.reps === '30S MAX') ? 'TEMPO' : activeEx.reps;
 
           setsHtml += `
             <div class="ff-set-row px-3.5 py-3 flex items-center justify-between gap-2">
@@ -589,10 +683,10 @@
                   oninput="saveTypedInput('${setKey}', this.value)"
                   class="w-20 h-11 rounded-lg bg-[#18181f] border border-zinc-700 text-white font-bold text-sm text-center focus:outline-none focus:border-orange-500">
                 <div class="px-3.5 h-11 rounded-lg bg-[#18181f] border border-orange-500/70 text-zinc-200 font-bold text-xs flex items-center justify-center min-w-[74px]">
-                  ${repLabel}
+                  ${activeEx.unit === 'KG' ? repLabel : activeEx.unit}
                 </div>
               </div>
-              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${ex.rest}, ${idx}, ${ex.isExam ? 'true' : 'false'}, '${ex.examType || ''}')"
+              <button onclick="event.stopPropagation(); toggleSetComplete('${setKey}', '${title}', ${activeEx.rest}, ${idx}, ${ex.isExam ? 'true' : 'false'}, '${ex.examType || ''}')"
                 class="ff-check-box ${isChecked ? 'checked' : ''}">
                 ${isChecked ? '<span class="text-lg font-black">✓</span>' : ''}
               </button>
@@ -610,12 +704,12 @@
               <div>
                 <div class="flex items-center gap-1.5 flex-wrap">
                   <span class="text-xs font-black uppercase tracking-wider text-[#f97316] mr-1">ÖVNING ${idx + 1}</span>
-                  <button onclick="event.stopPropagation(); openExInfo(${idx})" class="text-zinc-400 hover:text-white bg-zinc-800/80 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
+                  <button onclick="event.stopPropagation(); openExInfo(${idx})" class="text-zinc-400 hover:text-white bg-zinc-800/80 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info</button>
                   ${polarBtn}
                 </div>
                 <div class="text-[10px] text-zinc-500 mt-1 font-mono">Senast loggad: ${lastLogDate}</div>
               </div>
-              ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id||idx}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1 shrink-0"><span>⇄</span><span>Byt: ${altTitle}</span></button>` : ''}
+              ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id||idx}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1 shrink-0"><span>⇄</span><span>Byt: ${altEx.name}</span></button>` : ''}
             </div>
 
             <div>
@@ -731,7 +825,7 @@
 
     function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); renderHistoryLog(); }
     function renderChartFilter() {
-      document.getElementById('chartFilterContainer').innerHTML = ['Trap Bar Marklyft', 'Zercher Squat', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'].map(name => {
+      document.getElementById('chartFilterContainer').innerHTML = ['Trap Bar Marklyft', 'Zercher Squat', 'Bench Press', 'Push Press', 'Sprint 100 m', 'Boxhopp'].map(name => {
         const active = chartSelected.includes(name); return `<button onclick="toggleChartEx('${name}')" class="px-2.5 py-1 rounded-lg text-[11px] border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">${active ? '✓ ' : ''}${name}</button>`;
       }).join('');
     }
