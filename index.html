@@ -1,4 +1,4 @@
-<!-- FRONTLINE FIT - REN OCH FELFRI KOD -->
+<!-- FRONTLINE FIT - YOUTUBE VIDEO ENGINE -->
 <!DOCTYPE html>
 <html lang="sv" class="dark">
 <head>
@@ -41,6 +41,7 @@
           <span id="headerWeightHeight">41 ÅR | 70 KG | 167 CM</span><span>✏️</span><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
         </button>
       </div>
+
       <div class="w-[215px] space-y-2">
         <div class="grid grid-cols-2 gap-2">
           <button onclick="openModal('mobilityModal')" class="bg-[#2563eb] hover:bg-blue-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-2 rounded-xl flex flex-col items-center justify-center leading-tight shadow-md transition-colors">
@@ -51,7 +52,7 @@
           </button>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="openModal('statsModal')" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
+          <button onclick="openStatsModal()" class="w-full bg-[#1b1b22] hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
             <span class="text-orange-500">📈</span><span>STATISTIK</span>
           </button>
           <button onclick="openModal('standardsModal')" class="w-full bg-[#eab308]/20 hover:bg-[#eab308]/40 border border-[#eab308]/50 text-yellow-500 font-black text-[10px] uppercase tracking-wider py-2.5 px-1 rounded-xl flex flex-col items-center justify-center gap-0.5 transition-colors">
@@ -74,6 +75,7 @@
       </button>
     </div>
 
+    <!-- VECKOR & DAGAR -->
     <div class="space-y-2">
       <div id="weekPillsContainer" class="flex gap-2 overflow-x-auto no-scrollbar py-0.5"></div>
       <div id="dayPillsContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
@@ -102,6 +104,7 @@
     </div>
   </div>
 
+  <!-- MODALER -->
   <!-- VILOTIMER -->
   <div id="polisfysTimerOverlay" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col justify-end">
     <div class="polisfys-sheet max-w-md w-full mx-auto rounded-t-3xl px-6 pt-8 pb-10 flex flex-col items-center text-center space-y-7">
@@ -121,15 +124,41 @@
     </div>
   </div>
 
-  <!-- MODAL: INFO & TEKNIK -->
+  <!-- YOUTUBE INFO & TEKNIK MODAL -->
   <div id="exInfoModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="max-w-md w-full ff-panel p-6 border-orange-500/50 relative shadow-2xl shadow-orange-500/10">
-      <button onclick="closeModal('exInfoModal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-lg font-black">✕</button>
-      <div id="exInfoContent" class="space-y-4"></div>
+    <div class="max-w-md w-full ff-panel border-orange-500/50 relative shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <button onclick="closeModal('exInfoModal'); document.getElementById('exMediaContainer').innerHTML=''" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 text-zinc-200 hover:text-white flex items-center justify-center text-lg font-black backdrop-blur">✕</button>
+      
+      <!-- Video Container (16:9) -->
+      <div id="exMediaContainer" class="w-full bg-black relative border-b border-zinc-800" style="aspect-ratio: 16/9;"></div>
+      
+      <!-- Content Container -->
+      <div class="p-5 space-y-3 overflow-y-auto">
+        <div class="space-y-1 border-b border-zinc-800 pb-3">
+          <h3 class="text-xl font-black text-white uppercase tracking-tight" id="exInfoTitle">Titel</h3>
+          <div id="exInfoMuscle" class="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Fokus: Muskler</div>
+        </div>
+        <p class="text-sm text-zinc-300 leading-relaxed" id="exInfoDesc">Instruktioner...</p>
+      </div>
     </div>
   </div>
 
-  <!-- MODAL: POLICE STANDARDS -->
+  <!-- POLAR FLOW SETUP -->
+  <div id="polarFlowModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="max-w-md w-full ff-panel p-5 border-red-500/40 relative shadow-2xl">
+      <button onclick="closeModal('polarFlowModal')" class="absolute top-4 right-4 text-zinc-400 hover:text-white text-lg font-black">✕</button>
+      <div class="flex items-center gap-2 border-b border-zinc-800 pb-3 mb-4">
+        <span class="text-2xl">⌚</span>
+        <div>
+          <div class="text-[10px] font-mono uppercase text-red-400 font-bold">FASSTYRT MÅL I POLAR FLOW</div>
+          <h3 class="text-base font-black text-white uppercase tracking-wider" id="polarFlowTitle">Polar Setup</h3>
+        </div>
+      </div>
+      <div id="polarFlowContent" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <!-- POLICE STANDARDS -->
   <div id="standardsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-yellow-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -150,7 +179,7 @@
     </div>
   </div>
 
-  <!-- MODAL: MOBILITY -->
+  <!-- MOBILITY -->
   <div id="mobilityModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -164,7 +193,7 @@
     </div>
   </div>
 
-  <!-- MODAL: STATS -->
+  <!-- STATS -->
   <div id="statsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-4 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -175,7 +204,7 @@
         <button onclick="closeModal('statsModal')" class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-bold">✕ Stäng</button>
       </div>
       <div class="flex items-center justify-between">
-        <span class="text-xs text-zinc-400">Välj upp till 5 övningar/varianter:</span>
+        <span class="text-xs text-zinc-400">Välj upp till 5 övningar:</span>
         <button onclick="exportCSV()" class="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs font-bold text-orange-400">⬇️ CSV-Export</button>
       </div>
       <div id="chartFilterContainer" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2 bg-zinc-950 rounded-xl border border-zinc-800"></div>
@@ -189,7 +218,7 @@
     </div>
   </div>
 
-  <!-- MODAL: ANDNING -->
+  <!-- ANDNING -->
   <div id="breathModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-6 my-6 border-blue-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -212,7 +241,7 @@
     </div>
   </div>
 
-  <!-- MODAL: PROFIL -->
+  <!-- PROFIL -->
   <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md overflow-y-auto p-4">
     <div class="max-w-md mx-auto ff-panel p-5 space-y-5 my-4 border-orange-500/40">
       <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -262,7 +291,17 @@
 
   <!-- ================= JAVASCRIPT LOGIK ================= -->
   <script>
-    // 1. DATA
+    // --- WAKE LOCK ---
+    let wakeLock = null;
+    async function requestWakeLock() {
+      if ('wakeLock' in navigator) {
+        try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
+      }
+    }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') requestWakeLock(); });
+    document.addEventListener('click', () => { if (!wakeLock) requestWakeLock(); }, { once: true });
+
+    // --- DATA ---
     const weeksConfig = [
       { id: 1, label: 'V1 EXAM', mult: 1.0 }, { id: 2, label: 'VECKA 2', mult: 0.82 },
       { id: 3, label: 'VECKA 3', mult: 0.87 }, { id: 4, label: 'VECKA 4', mult: 0.75 },
@@ -274,11 +313,11 @@
       1: { hillSets: 4, hillRep: '30 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 10, phaseNote: 'V1 Baslinje & inkörning' },
       2: { hillSets: 5, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V2 Uppbyggnad' },
       3: { hillSets: 6, hillRep: '45 SEK', hillKg: 10, hillRest: 90, yassoSets: 5, yassoRep: '800M', yassoRest: 90, cardioMin: '35 MIN', cardioKg: 17.5, phaseNote: 'V3 Volymökning' },
-      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst, teknikfokus' },
+      4: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V4 Deload – Utan väst' },
       5: { hillSets: 7, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 6, yassoRep: '800M', yassoRest: 75, cardioMin: '40 MIN', cardioKg: 20, phaseNote: 'V5 Intensifiering' },
       6: { hillSets: 8, hillRep: '45 SEK', hillKg: 12.5, hillRest: 90, yassoSets: 7, yassoRep: '800M', yassoRest: 75, cardioMin: '45 MIN', cardioKg: 20, phaseNote: 'V6 Maxvolym' },
       7: { hillSets: 6, hillRep: '30S MAX', hillKg: 15, hillRest: 120, yassoSets: 8, yassoRep: '800M', yassoRest: 60, cardioMin: '30 MIN', cardioKg: 15, phaseNote: 'V7 Peak Power' },
-      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt aktivering' }
+      8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt' }
     };
 
     const workoutDays = [
@@ -286,40 +325,72 @@
         id: 'day1',
         name: 'DAG 1: UNDERKROPP',
         exercises: [
-          { id: 'd1_1', std: 'Zercher Squat', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 75, stdInfo: 'Carry anyone or anything. Håll stången i armvecken. Stark bål, gå djupt.', varInfo: 'Klassisk knäböj med stången på nacken. Fullt djup och stark bål.', stdSvg: 'squat', varSvg: 'squat' },
-          { id: 'd1_2', std: 'Split Squats', var: 'Kneeling Jumps', sets: 3, reps: '8/BEN', rest: 90, baseKg: 40, stdInfo: 'Big, strong & resilient legs. Håll hantlar, kliv fram och sänk knät djupt.', varInfo: 'Explosivt upphopp från knästående till jämfota landning. Ren höftkraft.', stdSvg: 'squat', varSvg: 'sprint' },
-          { id: 'd1_3', std: 'Utfallssteg (Väst)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, stdInfo: 'Sandsäck på axlarna. Skyddar knän och bygger stabilitet för benen.', varInfo: 'Rumänska marklyft med skivstång. Håll benen lätt böjda och fäll i höften.', stdSvg: 'squat', varSvg: 'pull' },
-          { id: 'd1_4', std: 'Triple Broad Jumps', var: 'Sled Push/Pull', sets: 4, reps: '3 HOPP', rest: 90, baseKg: 0, stdInfo: 'Tre maxlängdhopp i sträck. Landa och studsa iväg direkt utan vila.', varInfo: 'Skjut och dra släde 15m (Kroppsvikt + släde). Bygger ren benpower.', stdSvg: 'sprint', varSvg: 'pull' },
-          { id: 'd1_5', std: 'Plankan (Väst)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, stdInfo: 'Stärk bålpansaret mot en yttre belastning.', varInfo: 'Rulla ut hjulet kontrollerat tills näsan nuddar golvet. Dra tillbaka med magen.', stdSvg: 'press', varSvg: 'press' }
+          { id: 'd1_1', std: 'Zercher Squat', var: 'Back Squats', sets: 4, reps: '5 REPS', rest: 120, baseKg: 75, 
+            stdInfo: 'Håll stången i armvecken. Stark bål, gå djupt.', stdMuscle: 'Framsida lår & Bål', stdVid: 'U2OKweR-N-g',
+            varInfo: 'Klassisk knäböj med stången på nacken. Fullt djup.', varMuscle: 'Framsida lår & Säte', varVid: 'bEv6CCg2BC8', stdSvg: 'squat', varSvg: 'squat' },
+          { id: 'd1_2', std: 'Split Squats', var: 'Kneeling Jumps', sets: 3, reps: '8/BEN', rest: 90, baseKg: 40, 
+            stdInfo: 'Håll hantlar, kliv fram och sänk knät djupt.', stdMuscle: 'Ben & Balans', stdVid: '-M4-G8p8fmc',
+            varInfo: 'Explosivt upphopp från knästående till jämfota landning.', varMuscle: 'Höftexplosivitet', varVid: '0B-p6O-n0tA', stdSvg: 'squat', varSvg: 'sprint' },
+          { id: 'd1_3', std: 'Utfallssteg (Väst)', var: 'BB RDL', sets: 3, reps: '8 REPS', rest: 90, baseKg: 25, 
+            stdInfo: 'Sandsäck på axlarna. Bygger stabilitet för benen.', stdMuscle: 'Ben & Säte', stdVid: 'L8fvypPrzzs',
+            varInfo: 'Rumänska marklyft med skivstång. Fäll i höften.', varMuscle: 'Baksida lår & Ländrygg', varVid: 'JCXUYuzwNrM', stdSvg: 'squat', varSvg: 'pull' },
+          { id: 'd1_4', std: 'Triple Broad Jumps', var: 'Sled Push/Pull', sets: 4, reps: '3 HOPP', rest: 90, baseKg: 0, 
+            stdInfo: 'Tre maxlängdhopp i sträck. Landa och studsa direkt.', stdMuscle: 'Spänst', stdVid: '_QZ352o02hY',
+            varInfo: 'Skjut och dra släde 15m. Bygger ren benpower.', varMuscle: 'Helkropp kondition', varVid: 'tX21UDB86aI', stdSvg: 'sprint', varSvg: 'pull' },
+          { id: 'd1_5', std: 'Plankan (Väst)', var: 'Ab-Wheel Rollouts', sets: 3, reps: '60 SEK', rest: 60, baseKg: 15, 
+            stdInfo: 'Stärk bålpansaret mot en yttre belastning.', stdMuscle: 'Bål', stdVid: 'ASdvN_XEl_c',
+            varInfo: 'Rulla ut hjulet kontrollerat. Dra tillbaka med magen.', varMuscle: 'Core', varVid: 'rq8nMFAYf8M', stdSvg: 'press', varSvg: 'press' }
         ]
       },
       {
         id: 'day2',
         name: 'DAG 2: ÖVERKROPP',
         exercises: [
-          { id: 'd2_1', std: 'Power Clean + Jerk', var: 'Push Press', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, stdInfo: 'Explosive & powerful. Frivändning följt av en stöt över huvudet.', varInfo: 'Driv med benen för att få upp stången. Spänn säte och mage för att skydda ryggen.', stdSvg: 'pull', varSvg: 'press' },
-          { id: 'd2_2', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, stdInfo: 'Häng två handdukar över stången och dra upp bröstkorgen. Extrem greppträning.', varInfo: 'Fäst en vikt i bältet eller kläm en hantel mellan fötterna. Haka över stången.', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'd2_3', std: 'Dips (Väst/Hantel)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, stdInfo: 'Dips i ställning med väst. Fullt djup (90 grader i armbågen).', varInfo: 'Häng på extra vikt. Luta lätt framåt för att koppla in bröstet mer.', stdSvg: 'press', varSvg: 'press' },
-          { id: 'd2_4', std: 'Cable Cross / Flyes', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, stdInfo: 'Isolerande bröstövning i dragmaskin för full kontraktion.', varInfo: 'Klassisk bänkpress. Plantera fötterna, brösta upp dig och pressa.', stdSvg: 'press', varSvg: 'press' },
-          { id: 'd2_5', std: 'Bicep Curls', var: 'BB Rows', sets: 3, reps: '10 REPS', rest: 60, baseKg: 30, stdInfo: 'Develop massive guns, build presence. Klassiska curls med hantel eller stång.', varInfo: 'Framåtlutad skivstångsrodd. Dra stången mot naveln med armbågarna nära kroppen.', stdSvg: 'pull', varSvg: 'pull' }
+          { id: 'd2_1', std: 'Power Clean + Jerk', var: 'Push Press', sets: 4, reps: '3 REPS', rest: 120, baseKg: 65, 
+            stdInfo: 'Explosive & powerful. Frivändning följt av en stöt.', stdMuscle: 'Helkropp Power', stdVid: '8wtJzG_tIWE',
+            varInfo: 'Driv med benen för att få upp stången. Spänn magen.', varMuscle: 'Axlar & Bål', varVid: 'X6-DMh-t4Wg', stdSvg: 'pull', varSvg: 'press' },
+          { id: 'd2_2', std: 'Handduks-Pullups', var: 'Weighted Pull-ups', sets: 4, reps: '6 REPS', rest: 120, baseKg: 10, 
+            stdInfo: 'Häng två handdukar över stången. Extrem greppträning.', stdMuscle: 'Rygg & Grepp', stdVid: 's6bKUXxGkU8',
+            varInfo: 'Fäst en vikt i bältet eller kläm en hantel mellan fötterna.', varMuscle: 'Lats & Biceps', varVid: 'eGo4IYPNBG4', stdSvg: 'pull', varSvg: 'pull' },
+          { id: 'd2_3', std: 'Dips (Väst)', var: 'Tung Viktad Dips', sets: 3, reps: '8 REPS', rest: 90, baseKg: 15, 
+            stdInfo: 'Dips i ställning med väst. Fullt djup.', stdMuscle: 'Triceps & Bröst', stdVid: '2z8JmcrW-As',
+            varInfo: 'Häng på extra vikt. Luta lätt framåt för bröstfokus.', varMuscle: 'Nedre bröst', varVid: '2z8JmcrW-As', stdSvg: 'press', varSvg: 'press' },
+          { id: 'd2_4', std: 'Cable Cross', var: 'Bench Press', sets: 4, reps: '6 REPS', rest: 120, baseKg: 70, 
+            stdInfo: 'Isolerande bröstövning i dragmaskin för full kontraktion.', stdMuscle: 'Bröst', stdVid: 'taI4XduLpTk',
+            varInfo: 'Klassisk bänkpress. Plantera fötterna, pressa.', varMuscle: 'Bröst & Triceps', varVid: '4Y2ZdHCOXok', stdSvg: 'press', varSvg: 'press' },
+          { id: 'd2_5', std: 'Bicep Curls', var: 'BB Rows', sets: 3, reps: '10 REPS', rest: 60, baseKg: 30, 
+            stdInfo: 'Develop massive guns. Klassiska curls med hantel/stång.', stdMuscle: 'Biceps', stdVid: 'in7PaeYlhrM',
+            varInfo: 'Framåtlutad skivstångsrodd. Dra stången mot naveln.', varMuscle: 'Bröstrygg & Lats', varVid: 'G8l_8chR5BE', stdSvg: 'pull', varSvg: 'pull' }
         ]
       },
       {
         id: 'day4',
         name: 'DAG 4: 911STRONG',
         exercises: [
-          { id: 'd4_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, stdInfo: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen snarare än att dra med ryggen.', varInfo: 'Develop maximal strength. Konventionellt marklyft med rak stång.', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'd4_2', std: 'Single Arm Carry', var: 'Farmers Walk', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, stdInfo: 'Protects your spine, skull-drag resistive. Bär en tung väska/hantel i ena handen.', varInfo: 'Bär tunga vikter i båda händerna med stolt hållning och korta, snabba steg.', stdSvg: 'pull', varSvg: 'sprint' },
-          { id: 'd4_3', std: 'Sandbag Shouldering', var: 'Power Cleans', sets: 4, reps: '4 REPS', rest: 120, baseKg: 50, stdInfo: 'Lyft en tung sandsäck från golvet upp över ena axeln. Byt axel varje rep.', varInfo: 'Explosiv höftsträckning, accelerera stången och fånga mjukt på axlarna.', stdSvg: 'pull', varSvg: 'pull' }
+          { id: 'd4_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 4, reps: '5 REPS', rest: 150, baseKg: 120, 
+            stdInfo: 'Tungt baslyft med Hex-bar. Tryck ifrån med benen.', stdMuscle: 'Ben & Rygg', stdVid: '_0RIsr0rY18',
+            varInfo: 'Develop maximal strength. Konventionellt marklyft.', varMuscle: 'Baksida kedja', varVid: 'vl5bviNsOwY', stdSvg: 'pull', varSvg: 'pull' },
+          { id: 'd4_2', std: 'Single Arm Carry', var: 'Farmers Walk', sets: 4, reps: '40 METER', rest: 90, baseKg: 32, 
+            stdInfo: 'Protects your spine. Bär en tung väska/hantel i ena handen.', stdMuscle: 'Sned Bål & Grepp', stdVid: 'vVj50ZlUe7s',
+            varInfo: 'Bär tunga vikter i båda händerna med stolt hållning.', varMuscle: 'Grepp & Uthållighet', varVid: 'FkGz1Qv0e3Q', stdSvg: 'pull', varSvg: 'sprint' },
+          { id: 'd4_3', std: 'Sandbag Shouldering', var: 'Power Cleans', sets: 4, reps: '4 REPS', rest: 120, baseKg: 50, 
+            stdInfo: 'Lyft en tung sandsäck från golvet upp över ena axeln.', stdMuscle: 'Helkropp', stdVid: 'jT8sQk5Hn1g',
+            varInfo: 'Explosiv höftsträckning, accelerera stången.', varMuscle: 'Höftextension', varVid: 'mRomeZAepOo', stdSvg: 'pull', varSvg: 'pull' }
         ]
       },
       {
         id: 'exam',
         name: 'EXAM / TESTPASS',
         exercises: [
-          { id: 'e_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', stdInfo: 'Maxtest Trap Bar. Målet är 2x kroppsvikt. Detta styr progressionen framåt.', varInfo: 'Maxtest konventionellt marklyft. Målet är 2x kroppsvikt.', stdSvg: 'pull', varSvg: 'pull' },
-          { id: 'e_2', std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK / CM', rest: 120, isExam: true, examType: 'sprint', stdInfo: 'Målet är max 16 sekunder på 100 meter.', varInfo: 'Maxtest i längd. Tre jämfotahopp i rad – mät total sträcka.', stdSvg: 'sprint', varSvg: 'sprint' },
-          { id: 'e_3', std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', stdInfo: 'Jämfotahopp på låda. Målet är att klara 50% av din kroppslängd i höjd.', varInfo: 'Maxtest från knästående. Hoppa jämfota upp på högsta möjliga låda.', stdSvg: 'sprint', varSvg: 'sprint' }
+          { id: 'e_1', std: 'Trap Bar Marklyft', var: 'Deadlifts', sets: 1, reps: '1RM', rest: 150, isExam: true, examType: 'trapbar', 
+            stdInfo: 'Maxtest Trap Bar. Målet är 2x kroppsvikt.', stdMuscle: 'Maxstyrka', stdVid: '_0RIsr0rY18',
+            varInfo: 'Maxtest konventionellt marklyft. Målet är 2x kroppsvikt.', varMuscle: 'Maxstyrka', varVid: 'vl5bviNsOwY', stdSvg: 'pull', varSvg: 'pull' },
+          { id: 'e_2', std: 'Sprint 100 m', var: 'Triple Broad Jumps', sets: 1, reps: 'SEK / CM', rest: 120, isExam: true, examType: 'sprint', 
+            stdInfo: 'Målet är max 16 sekunder på 100 meter.', stdMuscle: 'Maxfart', stdVid: '_QZ352o02hY',
+            varInfo: 'Maxtest i längd. Tre jämfotahopp i rad.', varMuscle: 'Maxspänst', varVid: '_QZ352o02hY', stdSvg: 'sprint', varSvg: 'sprint' },
+          { id: 'e_3', std: 'Boxhopp', var: 'Kneeling Jumps', sets: 1, reps: 'MAX CM', rest: 90, isExam: true, examType: 'boxjump', 
+            stdInfo: 'Jämfotahopp på låda. Mål: 50% av din kroppslängd.', stdMuscle: 'Vertikal Spänst', stdVid: '52r_Ul5k03g',
+            varInfo: 'Maxtest från knästående. Hoppa jämfota upp.', varMuscle: 'Höftexplosivitet', varVid: '0B-p6O-n0tA', stdSvg: 'sprint', varSvg: 'sprint' }
         ]
       }
     ];
@@ -327,14 +398,17 @@
     function getDay3Exercises(weekId) {
       const rp = runningProgressionByWeek[weekId] || runningProgressionByWeek[2];
       const age = parseInt(localStorage.getItem('ff_age') || '41');
-      const maxHr = Math.round(208 - (0.7 * age));
-      const z2Low = Math.round(maxHr * 0.6);
-      const z2High = Math.round(maxHr * 0.7);
-
+      const maxHr = Math.round(208 - (0.7 * age)); const z2Low = Math.round(maxHr * 0.6); const z2High = Math.round(maxHr * 0.7);
       return [
-        { id: 'd3_1', std: 'Full Kit Running', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, stdInfo: `${rp.phaseNote}. Suspect is known to run. Löpning i full utrustning (väst/säck).`, varInfo: 'Flack maxsprint. Ge 100% från första steget och håll frekvensen uppe.', stdSvg: 'sprint', varSvg: 'sprint' },
-        { id: 'd3_2', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, stdInfo: `Bygger syreupptagning. Zon 4-5 puls. Håll jämnt måltempo på 800 meter.`, varInfo: `4 minuters arbete på 90-95% av maxpuls för att optimera VO2-Max.`, stdSvg: 'sprint', varSvg: 'sprint' },
-        { id: 'd3_3', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, stdInfo: `Zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck. Håll pulsen jämn och bär utrustningen högt.`, varInfo: `Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM). Optimalt för 40+ återhämtning.`, stdSvg: 'sprint', varSvg: 'sprint' }
+        { id: 'd3_1', polarType: 'hill', std: 'Full Kit Running', var: 'Sprints (Max)', sets: rp.hillSets, reps: rp.hillRep, rest: rp.hillRest, fixedKg: rp.hillKg, 
+          stdInfo: `${rp.phaseNote}. Löpning i full utrustning.`, stdMuscle: 'Kondition & Bål', stdVid: 'XvJd1f8N-R8',
+          varInfo: 'Flack maxsprint. Ge 100% från första steget.', varMuscle: 'Anaerob', varVid: 'XvJd1f8N-R8', stdSvg: 'sprint', varSvg: 'sprint' },
+        { id: 'd3_2', polarType: 'yasso', std: 'Yasso 800m', var: '4x4 min Intervall', sets: rp.yassoSets, reps: rp.yassoRep, rest: rp.yassoRest, fixedKg: 0, 
+          stdInfo: `Zon 4-5 puls. Håll jämnt måltempo på 800 meter.`, stdMuscle: 'VO2 Max', stdVid: 'Cbq56gq_I8A',
+          varInfo: `4 minuters arbete på 90-95% av maxpuls.`, varMuscle: 'VO2 Max', varVid: 'Cbq56gq_I8A', stdSvg: 'sprint', varSvg: 'sprint' },
+        { id: 'd3_3', polarType: 'rucking', std: 'Cardiac Output', var: 'Rucking', sets: 1, reps: rp.cardioMin, rest: 60, fixedKg: rp.cardioKg, 
+          stdInfo: `Zon 2 arbete (${z2Low}-${z2High} BPM) med bear hug säck.`, stdMuscle: 'Uthållighet', stdVid: 'q0nFks13M_M',
+          varInfo: `Gå raskt med tung ryggsäck (Zon 2: ${z2Low}-${z2High} BPM).`, varMuscle: 'Uthållighet', varVid: 'q0nFks13M_M', stdSvg: 'sprint', varSvg: 'sprint' }
       ];
     }
 
@@ -344,19 +418,6 @@
       { title: '3. Quadruped Thoracic Rotation', dose: '2 × 10 reps / sida', desc: 'Stå på alla fyra med ena handen bakom nacken. För armbågen mot motsatt knä och öppna upp bröstet.', svg: `<svg viewBox="0 0 200 110" class="w-full h-28 bg-zinc-950 rounded-xl border border-zinc-800 p-2"><line x1="15" y1="95" x2="185" y2="95" stroke="#3f3f46" stroke-width="3"/><circle cx="65" cy="48" r="8" fill="#3b82f6"/><line x1="74" y1="52" x2="130" y2="55" stroke="#f4f4f5" stroke-width="5" stroke-linecap="round"/><line x1="80" y1="53" x2="80" y2="93" stroke="#f4f4f5" stroke-width="4" stroke-linecap="round"/><polyline points="80,53 60,26 72,42" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"/><polyline points="130,55 130,93 155,93" fill="none" stroke="#10b981" stroke-width="5" stroke-linecap="round"/></svg>` }
     ];
 
-    const policeStandards = [
-      { id: 's1', text: 'Run: 3KM under 15 min' },
-      { id: 's2', text: 'Sprint: 100M under 16s' },
-      { id: 's3', text: 'Swim: 50m under :90s' },
-      { id: 's4', text: 'Box jump: 30 inch (males)' },
-      { id: 's5', text: 'Dips: Bodyweight x 5 reps' },
-      { id: 's6', text: 'Pull-up/Chin-up: Bodyweight x 3 reps' },
-      { id: 's7', text: 'Illinois agility test: sub :18s' },
-      { id: 's8', text: 'Sled push/pull (BW+sled): 15M' },
-      { id: 's9', text: 'IMTP (Iso Mid Thigh Pull): M 3000N+' },
-      { id: 's10', text: 'Farmers carry: 100M (70% BW) under :90s OR Deadhang :90s' }
-    ];
-
     function getExSvg(type) {
       if(type==='squat') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="20" r="10" fill="#f4f4f5"/><line x1="20" y1="35" x2="80" y2="35" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="30" x2="50" y2="60" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,60 30,80 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,60 70,80 70,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
       if(type==='pull') return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="30" r="10" fill="#f4f4f5"/><line x1="20" y1="90" x2="80" y2="90" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="40" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,70 30,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 70,90" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="45" x2="50" y2="90" stroke="#f4f4f5" stroke-width="4"/></svg>`;
@@ -364,7 +425,15 @@
       return `<svg viewBox="0 0 100 100" class="w-20 h-20 mx-auto"><circle cx="50" cy="25" r="10" fill="#f4f4f5"/><line x1="50" y1="35" x2="50" y2="70" stroke="#f4f4f5" stroke-width="6"/><polyline points="50,35 25,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,35 75,50" fill="none" stroke="#f97316" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 30,95" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/><polyline points="50,70 80,85" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/></svg>`;
     }
 
-    // ================= 2. STATE & INIT =================
+    const policeStandards = [
+      { id: 's1', text: 'Run: 3KM under 15 min' }, { id: 's2', text: 'Sprint: 100M under 16s' },
+      { id: 's3', text: 'Swim: 50m under :90s' }, { id: 's4', text: 'Box jump: 30 inch (males)' },
+      { id: 's5', text: 'Dips: Bodyweight x 5 reps' }, { id: 's6', text: 'Pull-up/Chin-up: Bodyweight x 3 reps' },
+      { id: 's7', text: 'Illinois agility test: sub :18s' }, { id: 's8', text: 'Sled push/pull (BW+sled): 15M' },
+      { id: 's9', text: 'IMTP (Iso Mid Thigh Pull): M 3000N+' }, { id: 's10', text: 'Farmers carry: 100M (70% BW) under :90s' }
+    ];
+
+    // --- STATE ---
     let currentWeek = parseInt(localStorage.getItem('ff_current_week') || '1');
     let currentDayKey = 'exam';
     let activeExerciseIdx = 0;
@@ -385,44 +454,33 @@
     let userStandards = JSON.parse(localStorage.getItem('ff_standards') || '{}');
     let chartInstance = null;
 
-    let wakeLock = null;
-    async function requestWakeLock() {
-      if ('wakeLock' in navigator) {
-        try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
-      }
-    }
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') requestWakeLock(); });
-    document.addEventListener('click', () => { if (!wakeLock) requestWakeLock(); }, { once: true });
-
+    // --- INIT ---
     window.addEventListener('DOMContentLoaded', () => {
-      generateIconFile();
-      loadProfile();
+      generateIconFile(); loadProfile(); 
       if (currentWeek > 1 && currentWeek < 8) currentDayKey = 'day1';
-      renderWeekPills();
-      renderDayPills();
-      renderExercises();
-      renderMobilityModal();
-      updateExamDates();
-      renderHistoryLog();
-      renderStandards();
+      renderWeekPills(); renderDayPills(); renderExercises();
+      renderMobilityModal(); updateExamDates(); renderHistoryLog(); renderStandards();
     });
 
-    // ================= 3. FUNKTIONER =================
+    function playBeep(freq = 880, dur = 0.12) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator(); const g = ctx.createGain();
+        osc.frequency.value = freq; g.gain.setValueAtTime(0.2, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+        osc.connect(g); g.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime + dur);
+      } catch (e) {}
+    }
+
+    // --- UI RENDERING ---
     function renderWeekPills() {
-      const container = document.getElementById('weekPillsContainer');
-      container.innerHTML = weeksConfig.map(w => {
-        const isActive = w.id === currentWeek;
-        return `<button onclick="selectWeek(${w.id})" class="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition ${isActive ? 'bg-[#f97316] text-zinc-950 shadow-md shadow-orange-500/20' : 'bg-[#18181f] text-zinc-300 border border-zinc-800'}">${w.label}</button>`;
-      }).join('');
+      document.getElementById('weekPillsContainer').innerHTML = weeksConfig.map(w => `<button onclick="selectWeek(${w.id})" class="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider whitespace-nowrap transition ${w.id === currentWeek ? 'bg-[#f97316] text-zinc-950 shadow-md shadow-orange-500/20' : 'bg-[#18181f] text-zinc-300 border border-zinc-800'}">${w.label}</button>`).join('');
     }
 
     function selectWeek(weekId) {
-      currentWeek = weekId;
-      localStorage.setItem('ff_current_week', currentWeek);
+      currentWeek = weekId; localStorage.setItem('ff_current_week', currentWeek);
       if (weekId === 1 || weekId === 8) { if (currentDayKey === 'day4') currentDayKey = 'exam'; }
       else { if (currentDayKey === 'exam') currentDayKey = 'day4'; }
-      activeExerciseIdx = 0;
-      renderWeekPills(); renderDayPills(); renderExercises();
+      activeExerciseIdx = 0; renderWeekPills(); renderDayPills(); renderExercises();
     }
 
     function renderDayPills() {
@@ -435,16 +493,11 @@
       }).join('');
     }
 
-    function selectDay(dayKey) {
-      currentDayKey = dayKey;
-      activeExerciseIdx = 0;
-      renderDayPills(); renderExercises();
-    }
+    function selectDay(dayKey) { currentDayKey = dayKey; activeExerciseIdx = 0; renderDayPills(); renderExercises(); }
 
     function toggleNightMode() {
       nightMode = !nightMode;
-      const btn = document.getElementById('nightToggleBtn');
-      const knob = document.getElementById('nightToggleKnob');
+      const btn = document.getElementById('nightToggleBtn'); const knob = document.getElementById('nightToggleKnob');
       if (nightMode) {
         btn.className = 'w-14 h-8 rounded-full bg-orange-500 p-1 transition-colors duration-200 flex items-center shrink-0';
         knob.className = 'w-6 h-6 rounded-full bg-zinc-950 shadow-md transform translate-x-6 transition-transform duration-200';
@@ -461,43 +514,70 @@
       playBeep(660, 0.08); renderExercises();
     }
 
-    function showExerciseInfo(title, infoText, svgType) {
-      document.getElementById('exInfoContent').innerHTML = `
-        <div class="text-center space-y-4">
-          <h3 class="text-xl font-black text-white uppercase tracking-wider">${title}</h3>
-          <div class="py-6 bg-zinc-950 rounded-xl border border-zinc-800 shadow-inner">${getExSvg(svgType)}</div>
-          <p class="text-sm text-zinc-300 leading-relaxed text-left">${infoText}</p>
-        </div>
-      `;
+    // --- YOUTUBE VIDEO ENGINE ---
+    function openExInfo(idx) {
+      const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
+      const ex = list[idx];
+      const isVar = !!activeVariants[ex.id || idx];
+      const title = isVar && ex.var ? ex.var : ex.std;
+      const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
+      const svgType = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
+      const muscle = isVar && ex.varMuscle ? ex.varMuscle : (ex.stdMuscle || 'Helkropp');
+      
+      const vidId = isVar && ex.varVid ? ex.varVid : (ex.stdVid || null);
+      let mediaHtml = '';
+      
+      if (vidId) {
+        mediaHtml = `
+          <iframe 
+            src="https://www.youtube.com/embed/${vidId}?autoplay=1&mute=1&loop=1&playlist=${vidId}&controls=0&modestbranding=1&rel=0" 
+            class="absolute top-0 left-0 w-full h-full pointer-events-none" 
+            frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+          </iframe>
+        `;
+      } else {
+        mediaHtml = `<div class="absolute inset-0 flex items-center justify-center p-6">${getExSvg(svgType)}</div>`;
+      }
+
+      document.getElementById('exInfoTitle').textContent = title;
+      document.getElementById('exInfoMuscle').textContent = `FOKUS: ${muscle}`;
+      document.getElementById('exInfoDesc').textContent = infoText;
+      document.getElementById('exMediaContainer').innerHTML = mediaHtml;
+      
       openModal('exInfoModal');
     }
 
-    function saveTypedInput(setKey, val) {
-      customInputs[setKey] = val;
-      localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs));
+    function openPolarFlowModal(type, weekId, title) {
+      const rp = runningProgressionByWeek[weekId]; let html = '';
+      if (type === 'hill') {
+        const workStr = rp.hillRep.replace(' SEK', ' sek').replace('S MAX', ' sek (Maxfart)');
+        html = `<p class="text-[11px] text-zinc-400 mb-3">Skapa passet under <strong>Träningsmål -> Fasstyrt mål</strong> i Polar Flow.</p><div class="space-y-2 text-xs font-mono"><div class="p-2.5 bg-zinc-900 border border-zinc-800 rounded flex justify-between"><span class="text-zinc-400">1. Uppvärmning</span><span class="text-white">10 min (Frizon)</span></div><div class="p-2.5 bg-red-950/20 border border-red-900/50 rounded flex justify-between"><span class="text-red-400 font-bold">2. Arbete</span><span class="text-red-400">${workStr} (Zon 4-5)</span></div><div class="p-2.5 bg-blue-950/20 border border-blue-900/50 rounded flex justify-between"><span class="text-blue-400 font-bold">3. Vila</span><span class="text-blue-400">${rp.hillRest} sek (Zon 1-2)</span></div><div class="p-2.5 bg-yellow-950/20 border border-yellow-700/50 rounded text-center"><span class="text-yellow-500 font-bold">🔄 Upprepa Fas 2 & 3 × ${rp.hillSets} ggr</span></div><div class="p-2.5 bg-zinc-900 border border-zinc-800 rounded flex justify-between"><span class="text-zinc-400">4. Nedvarvning</span><span class="text-white">10 min (Frizon)</span></div></div>`;
+      } else if (type === 'yasso') {
+        html = `<p class="text-[11px] text-zinc-400 mb-3">Skapa passet under <strong>Träningsmål -> Fasstyrt mål</strong> i Polar Flow.</p><div class="space-y-2 text-xs font-mono"><div class="p-2.5 bg-zinc-900 border border-zinc-800 rounded flex justify-between"><span class="text-zinc-400">1. Uppvärmning</span><span class="text-white">10 min (Frizon)</span></div><div class="p-2.5 bg-red-950/20 border border-red-900/50 rounded flex justify-between"><span class="text-red-400 font-bold">2. Arbete</span><span class="text-red-400">0.80 km (Zon 4-5)</span></div><div class="p-2.5 bg-blue-950/20 border border-blue-900/50 rounded flex justify-between"><span class="text-blue-400 font-bold">3. Vila</span><span class="text-blue-400">${rp.yassoRest} sek (Zon 1-2)</span></div><div class="p-2.5 bg-yellow-950/20 border border-yellow-700/50 rounded text-center"><span class="text-yellow-500 font-bold">🔄 Upprepa Fas 2 & 3 × ${rp.yassoSets} ggr</span></div><div class="p-2.5 bg-zinc-900 border border-zinc-800 rounded flex justify-between"><span class="text-zinc-400">4. Nedvarvning</span><span class="text-white">10 min (Frizon)</span></div></div>`;
+      } else if (type === 'rucking') {
+        html = `<p class="text-[11px] text-zinc-400 mb-3">Välj profilen "Styrketräning" eller "Promenad" i din Pacer Pro.</p><div class="space-y-2 text-xs font-mono"><div class="p-2.5 bg-blue-950/20 border border-blue-900/50 rounded flex justify-between"><span class="text-blue-400 font-bold">Mål (Tid)</span><span class="text-blue-400">${rp.cardioMin} i Zon 2</span></div><div class="p-2.5 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">Håll pulsen strikt i zon 2 hela passet. Försök hitta ett jämnt rullande steg.</div></div>`;
+      }
+      document.getElementById('polarFlowTitle').textContent = title;
+      document.getElementById('polarFlowContent').innerHTML = html;
+      openModal('polarFlowModal');
     }
+
+    function saveTypedInput(setKey, val) { customInputs[setKey] = val; localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs)); }
 
     function highlightCardOnly(idx) {
       activeExerciseIdx = idx;
       let list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       list.forEach((_, i) => {
-        const card = document.getElementById('ex-card-' + i);
-        const dot = document.getElementById('ex-dot-' + i);
+        const card = document.getElementById('ex-card-' + i); const dot = document.getElementById('ex-dot-' + i);
         if (!card) return;
-        if (i === idx) {
-          card.className = 'ff-card-active p-4 space-y-3.5 relative transition';
-          if (dot) dot.classList.remove('hidden');
-        } else {
-          card.className = 'ff-panel p-4 space-y-3.5 relative transition';
-          if (dot) dot.classList.add('hidden');
-        }
+        if (i === idx) { card.className = 'ff-card-active p-4 space-y-3.5 relative transition'; if (dot) dot.classList.remove('hidden'); } 
+        else { card.className = 'ff-panel p-4 space-y-3.5 relative transition'; if (dot) dot.classList.add('hidden'); }
       });
     }
 
-    function getLastDateFor(title) {
-      const hist = logs[title] || [];
-      return hist.length > 0 ? hist[hist.length - 1].date : 'Aldrig';
-    }
+    function getLastDateFor(title) { const hist = logs[title] || []; return hist.length > 0 ? hist[hist.length - 1].date : 'Aldrig'; }
 
     function renderExercises() {
       const weight = parseFloat(localStorage.getItem('ff_weight') || '70');
@@ -510,10 +590,7 @@
 
       let powerFactor = 1.0;
       const savedTrap = parseFloat(user1RMs['trapbar']);
-      if (savedTrap > 0) {
-        powerFactor = savedTrap / (weight * 2);
-        powerFactor = Math.max(0.5, Math.min(powerFactor, 1.5));
-      }
+      if (savedTrap > 0) { powerFactor = Math.max(0.5, Math.min(savedTrap / (weight * 2), 1.5)); }
 
       container.innerHTML = list.map((ex, idx) => {
         const isCurrent = idx === activeExerciseIdx;
@@ -521,7 +598,6 @@
         const title = isVar && ex.var ? ex.var : ex.std;
         const altTitle = isVar && ex.var ? ex.std : ex.var;
         const infoText = isVar && ex.varInfo ? ex.varInfo : (ex.stdInfo || ex.info);
-        const svgImage = isVar && ex.varSvg ? ex.varSvg : (ex.stdSvg || ex.svgType);
         const lastLogDate = getLastDateFor(title);
 
         let targetVal = 0;
@@ -571,24 +647,29 @@
           `;
         }
 
+        const polarBtn = ex.polarType ? `<button onclick="event.stopPropagation(); openPolarFlowModal('${ex.polarType}', ${currentWeek}, '${title}')" class="text-red-400 hover:text-white bg-red-950/40 border border-red-900/50 rounded px-1.5 py-0.5 text-[10px] flex items-center gap-1 shrink-0"><span class="text-xs">⌚</span> Polar Flow</button>` : '';
+
         return `
           <div id="ex-card-${idx}" onclick="highlightCardOnly(${idx})" class="${isCurrent ? 'ff-card-active' : 'ff-panel'} p-4 space-y-3.5 relative transition">
             <span id="ex-dot-${idx}" class="${isCurrent ? '' : 'hidden'} w-3.5 h-3.5 rounded-full bg-orange-500/80 absolute -top-1.5 -right-1.5 border-2 border-[#0a0a0c]"></span>
 
             <div class="flex items-start justify-between gap-2">
               <div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-black uppercase tracking-wider text-[#f97316]">ÖVNING ${idx + 1}</span>
-                  <button onclick="event.stopPropagation(); showExerciseInfo('${title}', '${infoText}', '${svgImage}')" class="text-zinc-500 hover:text-white bg-zinc-800 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-xs font-black uppercase tracking-wider text-[#f97316] mr-1">ÖVNING ${idx + 1}</span>
+                  <button onclick="event.stopPropagation(); openExInfo(${idx})" class="text-zinc-400 hover:text-white bg-zinc-800/80 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
+                  ${polarBtn}
                 </div>
-                <div class="text-[10px] text-zinc-500 mt-0.5 font-mono">Senast loggad: ${lastLogDate}</div>
+                <div class="text-[10px] text-zinc-500 mt-1 font-mono">Senast loggad: ${lastLogDate}</div>
               </div>
-              ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id||idx}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1"><span>⇄</span><span>Byt: ${altTitle}</span></button>` : ''}
+              ${ex.var ? `<button onclick="event.stopPropagation(); swapVariant('${ex.id||idx}')" class="px-3 py-1.5 rounded-lg bg-[#1f1f27] hover:bg-zinc-700 border border-zinc-700 text-[#f97316] text-[11px] font-bold flex items-center gap-1 shrink-0"><span>⇄</span><span>Byt: ${altTitle}</span></button>` : ''}
             </div>
 
             <div>
               <h2 class="text-xl font-black text-white leading-snug">${title}</h2>
-              <div class="mt-1.5 pl-2.5 border-l-2 border-zinc-600 text-xs italic text-zinc-400">${goalLine} ${infoText}</div>
+              <div class="mt-1.5 pl-2.5 border-l-2 border-zinc-600 text-xs italic text-zinc-400">
+                ${goalLine} ${infoText}
+              </div>
             </div>
             <div class="space-y-2 pt-1">${setsHtml}</div>
           </div>
@@ -599,28 +680,20 @@
     function toggleSetComplete(setKey, exTitle, restSec, cardIdx, isExam, examType) {
       activeExerciseIdx = cardIdx;
       const inputEl = document.getElementById('input-' + setKey);
-      const rawText = inputEl ? String(inputEl.value).replace(',', '.') : '0';
-      const numericVal = parseFloat(rawText) || 0;
-
+      const numericVal = inputEl ? (parseFloat(String(inputEl.value).replace(',', '.')) || 0) : 0;
       if (inputEl) { customInputs[setKey] = inputEl.value; localStorage.setItem('ff_custom_inputs', JSON.stringify(customInputs)); }
+      
       checkedSets[setKey] = !checkedSets[setKey];
       localStorage.setItem('ff_checked_sets', JSON.stringify(checkedSets));
 
       if (checkedSets[setKey]) {
-        if (isExam && examType) {
-          user1RMs[examType] = numericVal;
-          localStorage.setItem('ff_1rms', JSON.stringify(user1RMs));
-          update1RMUI();
-        }
+        if (isExam && examType) { user1RMs[examType] = numericVal; localStorage.setItem('ff_1rms', JSON.stringify(user1RMs)); update1RMUI(); }
         if (!logs[exTitle]) logs[exTitle] = [];
         const today = new Date().toISOString().slice(5, 10);
         logs[exTitle].push({ date: today, kg: numericVal, ex: exTitle });
         localStorage.setItem('ff_logs', JSON.stringify(logs));
-
-        if (!chartSelected.includes(exTitle) && chartSelected.length < 5) {
-          chartSelected.push(exTitle); localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected));
-        }
-
+        if (!chartSelected.includes(exTitle) && chartSelected.length < 5) { chartSelected.push(exTitle); localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected)); }
+        
         updateExamDates(); renderHistoryLog(); playBeep(880, 0.14); openPolisfysRestTimer(restSec, 'VILA TILL NÄSTA SET');
       }
       renderExercises();
@@ -628,7 +701,7 @@
 
     function goToNextExercise() {
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
-      if (activeExerciseIdx < list.length - 1) activeExerciseIdx++; else activeExerciseIdx = 0;
+      activeExerciseIdx = (activeExerciseIdx < list.length - 1) ? activeExerciseIdx + 1 : 0;
       highlightCardOnly(activeExerciseIdx);
       const card = document.getElementById('ex-card-' + activeExerciseIdx);
       if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -636,66 +709,56 @@
     }
 
     function toggleWorkoutSession() {
-      const btnText = document.getElementById('startPassBtnText');
-      const icon = document.getElementById('startPassIcon');
-      const endBtn = document.getElementById('endPassBtn');
-      const nextBtn = document.getElementById('nextExBtn');
-
+      const btnText = document.getElementById('startPassBtnText'); const icon = document.getElementById('startPassIcon');
+      const endBtn = document.getElementById('endPassBtn'); const nextBtn = document.getElementById('nextExBtn');
       if (!passRunning) {
         passRunning = true; playBeep(880, 0.18); endBtn.classList.remove('hidden'); nextBtn.classList.remove('w-full'); nextBtn.classList.add('w-[68%]'); icon.textContent = '⏸';
-        passInterval = setInterval(() => {
-          passElapsedSec++;
-          const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0'); const s = String(passElapsedSec % 60).padStart(2, '0'); btnText.textContent = `PAUSA (${m}:${s})`;
-        }, 1000);
+        passInterval = setInterval(() => { passElapsedSec++; btnText.textContent = `PAUSA (${String(Math.floor(passElapsedSec/60)).padStart(2,'0')}:${String(passElapsedSec%60).padStart(2,'0')})`; }, 1000);
       } else {
-        passRunning = false; clearInterval(passInterval); icon.textContent = '▶';
-        const m = String(Math.floor(passElapsedSec / 60)).padStart(2, '0'); const s = String(passElapsedSec % 60).padStart(2, '0'); btnText.textContent = `ÅTERUPPTA (${m}:${s})`;
+        passRunning = false; clearInterval(passInterval); icon.textContent = '▶'; btnText.textContent = `ÅTERUPPTA (${String(Math.floor(passElapsedSec/60)).padStart(2,'0')}:${String(passElapsedSec%60).padStart(2,'0')})`;
       }
     }
 
     function endWorkoutSession() {
       passRunning = false; clearInterval(passInterval); passElapsedSec = 0;
       document.getElementById('startPassBtnText').textContent = 'STARTA PASSET'; document.getElementById('startPassIcon').textContent = '▶';
-      const endBtn = document.getElementById('endPassBtn'); const nextBtn = document.getElementById('nextExBtn');
-      endBtn.classList.add('hidden'); nextBtn.classList.remove('w-[68%]'); nextBtn.classList.add('w-full');
+      document.getElementById('endPassBtn').classList.add('hidden'); document.getElementById('nextExBtn').classList.remove('w-[68%]'); document.getElementById('nextExBtn').classList.add('w-full');
       playBeep(1046, 0.3);
     }
 
     function openPolisfysRestTimer(seconds, labelText) {
       clearInterval(restTimerInt); restTotalSec = seconds; restLeftSec = seconds;
       document.getElementById('restTimerHeaderLabel').textContent = labelText || 'VILA TILL NÄSTA SET';
-      document.getElementById('polisfysTimerOverlay').classList.remove('hidden');
-      updatePolisfysRingUI();
+      document.getElementById('polisfysTimerOverlay').classList.remove('hidden'); updatePolisfysRingUI();
       restTimerInt = setInterval(() => {
         restLeftSec--; updatePolisfysRingUI();
         if (restLeftSec <= 3 && restLeftSec > 0) playBeep(660, 0.08);
         if (restLeftSec <= 0) { playBeep(1046, 0.3); skipPolisfysRest(); }
       }, 1000);
     }
-
     function updatePolisfysRingUI() {
       const s = Math.max(0, restLeftSec);
       document.getElementById('polisfysTimerDigits').textContent = `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
       document.getElementById('polisfysRingProgress').style.strokeDashoffset = 477.5 - (restTotalSec > 0 ? s/restTotalSec : 0) * 477.5;
     }
-
     function adjustPolisfysRest(delta) { restLeftSec = Math.max(5, restLeftSec + delta); if (restLeftSec > restTotalSec) restTotalSec = restLeftSec; updatePolisfysRingUI(); }
     function skipPolisfysRest() { clearInterval(restTimerInt); document.getElementById('polisfysTimerOverlay').classList.add('hidden'); }
 
-    // ================= 7. LOGGBOK & EXAM DATUM =================
+    // ================= 7. LOGGBOK =================
     function getExamDates() {
       let allDates = [];
-      const examNames = ['Trap Bar Marklyft', 'Deadlifts', 'Sprint 100 m', 'Triple Broad Jumps', 'Boxhopp', 'Kneeling Jumps'];
-      examNames.forEach(name => { if (logs[name]) { logs[name].forEach(item => allDates.push(item.date)); } });
+      ['Trap Bar Marklyft', 'Deadlifts', 'Sprint 100 m', 'Triple Broad Jumps', 'Boxhopp', 'Kneeling Jumps'].forEach(name => {
+        if (logs[name]) { logs[name].forEach(item => allDates.push(item.date)); }
+      });
       if (allDates.length === 0) return { first: 'Aldrig', last: 'Aldrig' };
       allDates.sort(); return { first: allDates[0], last: allDates[allDates.length - 1] };
     }
     function updateExamDates() { const d = getExamDates(); document.getElementById('firstExamDate').textContent = d.first; document.getElementById('lastExamDate').textContent = d.last; }
+    
     function renderHistoryLog() {
       let flatLogs = []; Object.keys(logs).forEach(exName => { logs[exName].forEach(entry => flatLogs.push({...entry, ex: exName})); });
       flatLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
-      const recent = flatLogs.slice(0, 15);
-      const container = document.getElementById('historyLogList');
+      const recent = flatLogs.slice(0, 15); const container = document.getElementById('historyLogList');
       if (recent.length === 0) { container.innerHTML = '<div class="text-xs text-zinc-500 italic">Inga set loggade ännu.</div>'; return; }
       container.innerHTML = recent.map(r => `<div class="flex items-center justify-between p-2.5 bg-zinc-900 border border-zinc-800 rounded-lg"><div><div class="text-[10px] text-zinc-400 font-mono">${r.date}</div><div class="text-xs font-bold text-white mt-0.5">${r.ex}</div></div><div class="font-mono font-black text-orange-400">${r.kg}</div></div>`).join('');
     }
@@ -705,34 +768,29 @@
 
     function renderStandards() {
       let doneCount = 0;
-      const html = policeStandards.map((std, i) => {
+      document.getElementById('standardsChecklist').innerHTML = policeStandards.map((std, i) => {
         const isDone = !!userStandards[std.id]; if (isDone) doneCount++;
         return `<div onclick="toggleStandard('${std.id}')" class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition ${isDone ? 'bg-yellow-500/10 border-yellow-500/50' : 'bg-zinc-900 border-zinc-800'}"><div class="w-6 h-6 rounded flex items-center justify-center shrink-0 border ${isDone ? 'bg-yellow-500 border-yellow-500 text-zinc-950' : 'bg-zinc-950 border-zinc-700'}">${isDone ? '<span class="font-black text-sm">✓</span>' : ''}</div><div class="text-xs ${isDone ? 'text-yellow-400 font-bold' : 'text-zinc-300'}">${i+1}. ${std.text}</div></div>`;
       }).join('');
-      document.getElementById('standardsChecklist').innerHTML = html;
-      document.getElementById('stdProgressText').textContent = `${doneCount} / 10`;
-      document.getElementById('stdProgressBar').style.width = `${(doneCount/10)*100}%`;
+      document.getElementById('stdProgressText').textContent = `${doneCount} / 10`; document.getElementById('stdProgressBar').style.width = `${(doneCount/10)*100}%`;
     }
     function toggleStandard(id) { userStandards[id] = !userStandards[id]; localStorage.setItem('ff_standards', JSON.stringify(userStandards)); if(userStandards[id]) playBeep(880, 0.1); renderStandards(); }
 
     function openStatsModal() { openModal('statsModal'); renderChartFilter(); renderChartCanvas(); renderHistoryLog(); }
     function renderChartFilter() {
-      const all = ['Trap Bar Marklyft', 'Zercher Squat', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'];
-      document.getElementById('chartFilterContainer').innerHTML = all.map(name => {
+      document.getElementById('chartFilterContainer').innerHTML = ['Trap Bar Marklyft', 'Zercher Squat', 'Bänkpress', 'Push Press', 'Sprint 100 m', 'Boxhopp'].map(name => {
         const active = chartSelected.includes(name); return `<button onclick="toggleChartEx('${name}')" class="px-2.5 py-1 rounded-lg text-[11px] border transition ${active ? 'bg-orange-500 text-zinc-950 border-orange-400 font-black' : 'bg-zinc-900 text-zinc-300 border-zinc-700'}">${active ? '✓ ' : ''}${name}</button>`;
       }).join('');
     }
     function toggleChartEx(name) {
-      if (chartSelected.includes(name)) chartSelected = chartSelected.filter(n => n !== name);
-      else { if (chartSelected.length >= 5) return; chartSelected.push(name); }
+      if (chartSelected.includes(name)) chartSelected = chartSelected.filter(n => n !== name); else { if (chartSelected.length >= 5) return; chartSelected.push(name); }
       localStorage.setItem('ff_chart_sel', JSON.stringify(chartSelected)); renderChartFilter(); renderChartCanvas();
     }
     function renderChartCanvas() {
       const ctx = document.getElementById('strengthChart').getContext('2d'); if (chartInstance) chartInstance.destroy();
       const colors = ['#f97316', '#3b82f6', '#10b981', '#eab308', '#ec4899'];
       const datasets = chartSelected.map((name, i) => {
-        const arr = logs[name] || [];
-        return { label: name, data: arr.length ? arr.map((item, idx) => ({ x: idx + 1, y: item.kg })) : [{ x: 1, y: 0 }], borderColor: colors[i % colors.length], backgroundColor: colors[i % colors.length], borderWidth: 2.5, tension: 0.3 };
+        const arr = logs[name] || []; return { label: name, data: arr.length ? arr.map((item, idx) => ({ x: idx + 1, y: item.kg })) : [{ x: 1, y: 0 }], borderColor: colors[i % colors.length], backgroundColor: colors[i % colors.length], borderWidth: 2.5, tension: 0.3 };
       });
       chartInstance = new Chart(ctx, { type: 'line', data: { labels: ['Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5', 'Set 6', 'Set 7', 'Set 8'], datasets }, options: { responsive: true, plugins: { legend: { labels: { color: '#f4f4f5', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } }, y: { ticks: { color: '#a1a1aa' }, grid: { color: '#27272a' } } } } });
     }
@@ -745,23 +803,15 @@
     function toggleBoxBreath() {
       const circle = document.getElementById('breathCircle'); const btn = document.getElementById('breathBtn');
       if (breathInt) { clearInterval(breathInt); breathInt = null; circle.style.transform = 'scale(1)'; btn.textContent = 'Starta Andning'; document.getElementById('breathLabel').textContent = 'PAUSAD'; return; }
-      btn.textContent = 'Stoppa Andning';
-      const phases = [{ t: 'ANDAS IN (4s)', s: 'scale(1.28)' }, { t: 'HÅLL (4s)', s: 'scale(1.28)' }, { t: 'ANDAS UT (4s)', s: 'scale(0.85)' }, { t: 'HÅLL TOM (4s)', s: 'scale(0.85)' }];
-      let step = 0;
-      const run = () => { const p = phases[step % 4]; document.getElementById('breathLabel').textContent = p.t; circle.style.transform = p.s; playBeep(520, 0.08); step++; };
-      run(); breathInt = setInterval(run, 4000);
+      btn.textContent = 'Stoppa Andning'; const phases = [{ t: 'ANDAS IN (4s)', s: 'scale(1.28)' }, { t: 'HÅLL (4s)', s: 'scale(1.28)' }, { t: 'ANDAS UT (4s)', s: 'scale(0.85)' }, { t: 'HÅLL TOM (4s)', s: 'scale(0.85)' }];
+      let step = 0; const run = () => { const p = phases[step % 4]; document.getElementById('breathLabel').textContent = p.t; circle.style.transform = p.s; playBeep(520, 0.08); step++; }; run(); breathInt = setInterval(run, 4000);
     }
 
     function renderMobilityModal() {
       document.getElementById('mobilityList').innerHTML = mobilityDrills.map(m => `
         <div class="p-3.5 bg-zinc-950 rounded-xl border border-zinc-800 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-black text-white">${m.title}</span>
-            <button onclick="closeModal('mobilityModal'); openPolisfysRestTimer(45, '${m.title.toUpperCase()}')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[10px] font-black uppercase">⏱ 45s</button>
-          </div>
-          <div class="text-[11px] font-mono text-blue-400">${m.dose}</div>
-          ${m.svg}
-          <p class="text-xs text-zinc-300 leading-relaxed">${m.desc}</p>
+          <div class="flex items-center justify-between"><span class="text-xs font-black text-white">${m.title}</span><button onclick="closeModal('mobilityModal'); openPolisfysRestTimer(45, '${m.title.toUpperCase()}')" class="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[10px] font-black uppercase">⏱ 45s</button></div>
+          <div class="text-[11px] font-mono text-blue-400">${m.dose}</div>${m.svg}<p class="text-xs text-zinc-300 leading-relaxed">${m.desc}</p>
         </div>
       `).join('');
     }
@@ -782,27 +832,18 @@
       `;
     }
     function saveProfile() {
-      const age = parseInt(document.getElementById('profAgeInput').value) || 41;
-      const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70;
-      const h = parseFloat(String(document.getElementById('profHeightInput').value).replace(',', '.')) || 167;
-      
-      localStorage.setItem('ff_age', age);
-      localStorage.setItem('ff_weight', w);
-      localStorage.setItem('ff_height', h);
+      const age = parseInt(document.getElementById('profAgeInput').value) || 41; const w = parseFloat(String(document.getElementById('profWeightInput').value).replace(',', '.')) || 70; const h = parseFloat(String(document.getElementById('profHeightInput').value).replace(',', '.')) || 167;
+      localStorage.setItem('ff_age', age); localStorage.setItem('ff_weight', w); localStorage.setItem('ff_height', h);
       document.getElementById('headerWeightHeight').textContent = `${age} ÅR | ${w} KG | ${h} CM`;
 
-      const maxHr = Math.round(208 - (0.7 * age));
-      const z2Low = Math.round(maxHr * 0.6);
-      const z2High = Math.round(maxHr * 0.7);
+      const maxHr = Math.round(208 - (0.7 * age)); const z2Low = Math.round(maxHr * 0.6); const z2High = Math.round(maxHr * 0.7);
       document.getElementById('hrZonesContainer').innerHTML = `
         <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Maxpuls</div><div class="font-mono font-bold text-red-400">${maxHr} BPM</div></div>
         <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-center"><div class="text-[10px] text-zinc-400">Zon 2 (Uthållighet)</div><div class="font-mono font-bold text-red-400">${z2Low}-${z2High} BPM</div></div>
       `;
-
-      const restKcal = Math.round(w * 31); const trainKcal = Math.round(w * 38);
       document.getElementById('kcalSummaryBoxes').innerHTML = `
-        <div class="p-2.5 bg-zinc-950 rounded-xl border border-zinc-800"><div class="text-[10px] text-zinc-400 uppercase">Vilodag</div><div class="text-sm font-black text-white">${restKcal} kcal</div></div>
-        <div class="p-2.5 bg-zinc-950 rounded-xl border border-orange-500/40"><div class="text-[10px] text-orange-400 uppercase">Träningsdag</div><div class="text-sm font-black text-orange-400">${trainKcal} kcal</div></div>
+        <div class="p-2.5 bg-zinc-950 rounded-xl border border-zinc-800"><div class="text-[10px] text-zinc-400 uppercase">Vilodag</div><div class="text-sm font-black text-white">${Math.round(w * 31)} kcal</div></div>
+        <div class="p-2.5 bg-zinc-950 rounded-xl border border-orange-500/40"><div class="text-[10px] text-orange-400 uppercase">Träningsdag</div><div class="text-sm font-black text-orange-400">${Math.round(w * 38)} kcal</div></div>
         <div class="p-2.5 bg-zinc-950 rounded-xl border border-emerald-500/40"><div class="text-[10px] text-emerald-400 uppercase">Protein</div><div class="text-sm font-black text-emerald-400">${Math.round(w * 2.2)} g/dag</div></div>
       `;
       update1RMUI(); renderExercises();
@@ -816,8 +857,7 @@
     }
     function generateIconFile() {
       const c = document.createElement('canvas'); c.width = 1024; c.height = 1024; const ctx = c.getContext('2d');
-      const g = ctx.createLinearGradient(0, 0, 1024, 1024); g.addColorStop(0, '#0f172a'); g.addColorStop(1, '#09090b');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, 1024, 1024);
+      const g = ctx.createLinearGradient(0, 0, 1024, 1024); g.addColorStop(0, '#0f172a'); g.addColorStop(1, '#09090b'); ctx.fillStyle = g; ctx.fillRect(0, 0, 1024, 1024);
       ctx.beginPath(); ctx.moveTo(512, 110); ctx.lineTo(830, 215); ctx.lineTo(830, 525); ctx.bezierCurveTo(830, 750, 512, 890, 512, 920); ctx.bezierCurveTo(512, 890, 194, 750, 194, 525); ctx.lineTo(194, 215); ctx.closePath(); ctx.fillStyle = '#18181b'; ctx.fill(); ctx.lineWidth = 28; ctx.strokeStyle = '#f97316'; ctx.stroke();
       ctx.beginPath(); ctx.arc(512, 410, 110, Math.PI, 0, false); ctx.lineWidth = 44; ctx.strokeStyle = '#f4f4f5'; ctx.lineCap = 'round'; ctx.stroke();
       ctx.beginPath(); ctx.arc(512, 580, 165, 0, Math.PI * 2); ctx.fillStyle = '#27272a'; ctx.fill(); ctx.lineWidth = 20; ctx.strokeStyle = '#f97316'; ctx.stroke();
