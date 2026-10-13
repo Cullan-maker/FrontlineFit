@@ -348,7 +348,7 @@
       8: { hillSets: 4, hillRep: '30 SEK', hillKg: 0,  hillRest: 90, yassoSets: 4, yassoRep: '800 M', yassoRest: 90, cardioMin: '25 MIN', cardioKg: 0,  phaseNote: 'V8 Exam-vecka – Lätt' }
     };
 
-    // UPPDATERADE ÖVNINGSBESKRIVNINGAR
+    // UPPGRADERING: RÖD TRÅD - Helt unika inställningar för standard och var
     const workoutDays = [
       {
         id: 'day1',
@@ -536,15 +536,6 @@
     let completedDays = JSON.parse(localStorage.getItem('ff_completed_days') || '{}');
     let chartInstance = null;
 
-    let wakeLock = null;
-    async function requestWakeLock() {
-      if ('wakeLock' in navigator) {
-        try { wakeLock = await navigator.wakeLock.request('screen'); } catch (err) {}
-      }
-    }
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') requestWakeLock(); });
-    document.addEventListener('click', () => { if (!wakeLock) requestWakeLock(); }, { once: true });
-
     // ================= 3. INIT =================
     window.addEventListener('DOMContentLoaded', () => {
       generateIconFile(); loadProfile(); 
@@ -588,22 +579,24 @@
 
     function updateNextWorkoutBanner() {
       let nextW = 1, nextD = 'exam', found = false;
-      const dayOrder = ['day1', 'day2', 'day3', 'day4', 'exam'];
       for (let w = 1; w <= 8; w++) {
         const dKeys = (w === 1 || w === 8) ? ['day1', 'day2', 'day3', 'exam'] : ['day1', 'day2', 'day3', 'day4'];
         for (let d of dKeys) {
-          const compKey = `w${w}_${d}`;
-          if (!completedDays[compKey]) {
-            nextW = w; nextD = d; found = true; break;
-          }
+          if (!completedDays[`w${w}_${d}`]) { nextW = w; nextD = d; found = true; break; }
         }
         if (found) break;
       }
+      
+      const banner = document.getElementById('nextWorkoutBannerText');
+      if (!banner) return;
       if (!found) {
-        document.getElementById('nextWorkoutBannerText').textContent = "ALLA PASS SLUTFÖRDA! 🏆";
+        banner.textContent = "ALLA PASS SLUTFÖRDA! 🏆";
       } else {
-        const dName = nextD === 'day3' ? 'DAG 3: KONDITION' : workoutDays.find(wd => wd.id === nextD).name;
-        document.getElementById('nextWorkoutBannerText').textContent = `VECKA ${nextW} - ${dName}`;
+        let dName = '';
+        if (nextD === 'day3') dName = 'DAG 3: KONDITION';
+        else if (nextD === 'exam') dName = 'EXAM / TESTPASS';
+        else dName = workoutDays.find(wd => wd.id === nextD).name;
+        banner.textContent = `VECKA ${nextW} - ${dName}`;
       }
     }
 
@@ -616,7 +609,7 @@
         }
         if (found) break;
       }
-      if (found) { currentWeek = nextW; currentDayKey = nextD; activeExerciseIdx = 0; renderWeekPills(); renderDayPills(); renderExercises(); }
+      if (found) { currentWeek = nextW; currentDayKey = nextD; activeExerciseIdx = 0; renderWeekPills(); renderDayPills(); renderExercises(); updateNextWorkoutBanner(); }
     }
 
     function toggleNightMode() {
@@ -702,6 +695,7 @@
     function updateBottomBar() {
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       const btn = document.getElementById('nextExBtn');
+      if (!btn) return;
       if (activeExerciseIdx === list.length - 1) {
         btn.innerHTML = '<span>🏆</span><span>SLUTFÖR PASS</span>';
         btn.className = 'w-full bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-zinc-950 font-black text-sm uppercase tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 shadow-xl transition-all';
@@ -731,6 +725,7 @@
       container.innerHTML = list.map((ex, idx) => {
         const isCurrent = idx === activeExerciseIdx;
         const isVar = !!activeVariants[ex.id || idx];
+        
         const activeEx = isVar ? ex.var : ex.std;
         const altEx = isVar ? ex.std : ex.var;
 
@@ -795,7 +790,7 @@
               <div>
                 <div class="flex items-center gap-1.5 flex-wrap">
                   <span class="text-xs font-black uppercase tracking-wider text-[#f97316] mr-1">ÖVNING ${idx + 1}</span>
-                  <button onclick="event.stopPropagation(); openExInfo(${idx})" class="text-zinc-400 hover:text-white bg-zinc-800/80 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info & Teknik</button>
+                  <button onclick="event.stopPropagation(); openExInfo(${idx})" class="text-zinc-400 hover:text-white bg-zinc-800/80 rounded px-1.5 py-0.5 text-[10px]">ℹ️ Info</button>
                   ${polarBtn}
                 </div>
                 <div class="text-[10px] text-zinc-500 mt-1 font-mono">Senast loggad: ${lastLogDate}</div>
@@ -841,13 +836,11 @@
 
     function goToNextExercise() {
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
-      if (activeExerciseIdx < list.length - 1) {
-        activeExerciseIdx++;
-        highlightCardOnly(activeExerciseIdx);
-        const card = document.getElementById('ex-card-' + activeExerciseIdx);
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        playBeep(740, 0.12); openPolisfysRestTimer(90, 'VILA TILL NÄSTA ÖVNING');
-      }
+      if (activeExerciseIdx < list.length - 1) activeExerciseIdx++;
+      highlightCardOnly(activeExerciseIdx);
+      const card = document.getElementById('ex-card-' + activeExerciseIdx);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      playBeep(740, 0.12); openPolisfysRestTimer(90, 'VILA TILL NÄSTA ÖVNING');
     }
 
     function toggleWorkoutSession() {
@@ -876,7 +869,7 @@
     }
 
     function finishWorkoutAndShowSummary() {
-      endWorkoutSession(true); // Stop timer, save elapsed
+      endWorkoutSession(true);
       
       const list = currentDayKey === 'day3' ? getDay3Exercises(currentWeek) : workoutDays.find(d => d.id === currentDayKey).exercises;
       let summaryHtml = '';
@@ -899,7 +892,6 @@
       document.getElementById('sumTime').textContent = passElapsedSec > 0 ? formatTime(passElapsedSec) : '--:--';
       document.getElementById('sumDetails').innerHTML = summaryHtml;
       
-      // Save completion state
       completedDays[`w${currentWeek}_${currentDayKey}`] = true;
       localStorage.setItem('ff_completed_days', JSON.stringify(completedDays));
 
@@ -931,7 +923,7 @@
     function adjustPolisfysRest(delta) { restLeftSec = Math.max(5, restLeftSec + delta); if (restLeftSec > restTotalSec) restTotalSec = restLeftSec; updatePolisfysRingUI(); }
     function skipPolisfysRest() { clearInterval(restTimerInt); document.getElementById('polisfysTimerOverlay').classList.add('hidden'); }
 
-    // ================= 7. LOGGBOK & MODALER =================
+    // ================= 7. LOGGBOK, MODALER & DATA =================
     function getExamDates() {
       let allDates = [];
       ['Trap Bar Marklyft', 'Deadlifts', 'Sprint 100 m', 'Triple Broad Jumps', 'Boxhopp', 'Kneeling Jumps'].forEach(name => {
@@ -1039,7 +1031,7 @@
       if(confirm('Starta en ny 8-veckorscykel?\nDina avklarade set nollställs. Din ålder, kroppsvikt och senast loggade Exam-resultat sparas som baslinje.')) {
         localStorage.removeItem('ff_checked_sets'); localStorage.removeItem('ff_custom_inputs'); localStorage.removeItem('ff_completed_days');
         checkedSets = {}; customInputs = {}; completedDays = {}; selectWeek(1); closeModal('profileModal'); updateNextWorkoutBanner();
-        alert('Ny cykel startad!');
+        alert('Ny cykel startad! Din progression baseras nu på de styrkevärden du hade i slutet av förra cykeln.');
       }
     }
     function generateIconFile() {
